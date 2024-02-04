@@ -1,0 +1,41 @@
+/* FileUploadPage.css */
+
+/* Styles for the container */
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px;
+  color: white;
+}
+
+/* Styles for the upload section */
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Styles for the file input and upload button */
+#file-input {
+  margin-bottom: 20px;
+}
+
+.upload-button {
+  margin-left: 10px; /* Add margin to create space between input and button */
+  padding: 10px 20px;
+  border: 4px black;
+  border-radius: 5px;
+  background-color: rgb(159, 54, 173);
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+
+.upload-button:hover {
+  background-color: #581494;
+}
+
+/* Styles for the file info message */
+.file-info {
+  margin-top: 10px;
+}

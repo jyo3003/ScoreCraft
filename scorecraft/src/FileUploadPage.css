@@ -6,7 +6,7 @@
   flex-direction: column;
   align-items: center;
   margin: 50px;
-  color: white;
+  color: #333; /* Dark text color */
 }
 
 /* Styles for the upload section */
@@ -23,19 +23,21 @@
 
 .upload-button {
   margin-left: 10px; /* Add margin to create space between input and button */
-  padding: 10px 20px;
-  border: 4px black;
+  padding: 12px 24px; /* Adjusted padding for a larger button */
+  border: 2px solid #5e5e5e; /* Dark gray border */
   border-radius: 5px;
-  background-color: rgb(159, 54, 173);
-  color: rgb(255, 255, 255);
+  background-color: #6a9e65; /* Greenish background color */
+  color: #fff; /* White text color */
   cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
 }
 
 .upload-button:hover {
-  background-color: #581494;
+  background-color: #4a784d; /* Darker green on hover */
 }
 
 /* Styles for the file info message */
 .file-info {
   margin-top: 10px;
+  color: #ff5c5c; /* Red text color for error messages */
 }

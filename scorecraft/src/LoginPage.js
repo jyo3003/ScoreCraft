@@ -22,6 +22,20 @@ function LoginPage() {
     // Clear form fields after submission
     setEmail('');
     setPassword('');
+
+    // Display success popup (assuming successful login for demonstration)
+    showSuccessPopup();
+  };
+
+  const showSuccessPopup = () => {
+    // Display the success popup
+    const popup = document.getElementById("successPopup");
+    popup.style.display = "block";
+
+    // Close the popup after 3 seconds (adjust as needed)
+    setTimeout(() => {
+      popup.style.display = "none";
+    }, 3000);
   };
 
   return (
@@ -53,6 +67,11 @@ function LoginPage() {
           </div>
           <button type="submit" className="submit-button">Login</button>
         </form>
+      </div>
+
+      {/* Popup Container */}
+      <div className="popup" id="successPopup">
+        <span className="popup-message">Successfully Logged In!</span>
       </div>
     </div>
   );

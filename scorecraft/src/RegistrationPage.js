@@ -1,8 +1,11 @@
 // RegistrationPage.js
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import './RegistrationPage.css'; // Import CSS file for styling
 
 function RegistrationPage() {
+  const history = useHistory();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -54,6 +57,10 @@ function RegistrationPage() {
     setRegistrationSuccess(false);
   };
 
+  const goToLoginPage = () => {
+    history.push('/login');
+  };
+
   return (
     <div className="registration-container">
       <div className="registration-box">
@@ -99,6 +106,7 @@ function RegistrationPage() {
       {registrationSuccess && (
         <div className="success-popup">
           <p className='success-message'>Registration successful! Welcome to SER517_Team16.</p>
+          <button onClick={goToLoginPage}>Login</button>
           <button onClick={closeSuccessPopup}>Close</button>
         </div>
       )}

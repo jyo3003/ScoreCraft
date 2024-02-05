@@ -7,10 +7,13 @@ function RegistrationPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const handleEmailChange = (event) => {
     const enteredEmail = event.target.value;
     setEmail(enteredEmail);
+
+    // Email validation logic
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isValidEmail = emailRegex.test(enteredEmail);
 
@@ -31,14 +34,24 @@ function RegistrationPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     // Perform registration logic here
+
     console.log('Email:', email);
     console.log('Password:', password);
     console.log('Confirm Password:', confirmPassword);
+
+    // Simulate a successful registration
+    setRegistrationSuccess(true);
+
     // Clear form fields after submission
     setEmail('');
     setPassword('');
     setConfirmPassword('');
+  };
+
+  const closeSuccessPopup = () => {
+    setRegistrationSuccess(false);
   };
 
   return (
@@ -83,6 +96,12 @@ function RegistrationPage() {
           <button type="submit" className="register-button">Register</button>
         </form>
       </div>
+      {registrationSuccess && (
+        <div className="success-popup">
+          <p className='success-message'>Registration successful! Welcome to SER517_Team16.</p>
+          <button onClick={closeSuccessPopup}>Close</button>
+        </div>
+      )}
     </div>
   );
 }

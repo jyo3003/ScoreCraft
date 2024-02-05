@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url('/Users/viswas/Downloads/SER517_Team16/scorecraft/public/bg.jpg');
+  background-image: url('/Users/harshavardhanbodepudi/Desktop/SER517_Team16/scorecraft/public/bg2.jpg');
   background-size: cover;
   background-position: center;
 }
@@ -15,11 +15,11 @@
 .login-box {
   width: 400px;
   padding: 40px;
-  border: double 4px white;
-  border-radius: 20px;
-  background-image: url('/Users/viswas/Downloads/SER517_Team16/scorecraft/public/bg2.jpg');
-  background-size: cover;
-  background-position: center;
+  border: double 4px white; /* White border */
+  border-radius: 20px; /* Rounded corners */
+  background-image: url('/Users/harshavardhanbodepudi/Desktop/SER517_Team16/scorecraft/public/bg2.jpg'); /* Image path */
+  background-size: cover; /* Cover the entire box */
+  background-position: center; /* Center the image */
 }
 
 /* Styles for the main heading */

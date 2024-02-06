@@ -10,6 +10,7 @@ function RegistrationPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const handleEmailChange = (event) => {
@@ -37,6 +38,14 @@ function RegistrationPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Password and confirm password validation logic
+    if (password !== confirmPassword) {
+      setPasswordError("Passwords do not match. Please check and try again.");
+      return;
+    } else {
+      setPasswordError('');
+    }
 
     // Perform registration logic here
 
@@ -99,6 +108,7 @@ function RegistrationPage() {
               required
               className="input-field"
             />
+            {passwordError && <p className="error-message">{passwordError}</p>}
           </div>
           <button type="submit" className="register-button">Register</button>
         </form>

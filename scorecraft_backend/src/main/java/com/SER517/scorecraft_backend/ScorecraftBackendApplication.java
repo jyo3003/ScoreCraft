@@ -1,4 +1,4 @@
-package com.example.scorecraft_backend;
+package com.SER517.scorecraft_backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

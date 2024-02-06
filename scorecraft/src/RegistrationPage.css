@@ -6,7 +6,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url("/Users/harshavardhanbodepudi/Desktop/SER517_Team16/scorecraft/public/bg.jpg"); /* Replace 'your-image-url.jpg' with the URL of your image */
+    background-image: url("SER517_Team16/scorecraft/public/bg.jpg"); /* Replace 'your-image-url.jpg' with the URL of your image */
     background-size: cover; /* Cover the entire container with the background image */
     background-position: center; /* Center the background image */
   }
@@ -17,7 +17,7 @@
     padding: 40px;
     border: double 4px white; /* White border */
     border-radius: 20px; /* Rounded corners */
-    background-image: url('/Users/harshavardhanbodepudi/Desktop/SER517_Team16/scorecraft/public/bg2.jpg'); /* Image path */
+    background-image: url('SER517_Team16/scorecraft/public/bg2.jpg'); /* Image path */
     background-size: cover; /* Cover the entire box */
     background-position: center; /* Center the image */
   }

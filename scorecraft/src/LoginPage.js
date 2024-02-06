@@ -1,4 +1,3 @@
-// LoginPage.js
 import React, { useState } from 'react';
 import './LoginPage.css'; // Import CSS file for styling
 
@@ -38,6 +37,11 @@ function LoginPage() {
     }, 3000);
   };
 
+  const handleForgotPassword = () => {
+    // Add logic to handle forgot password functionality
+    alert("Forgot Password?"); // Example: Show an alert
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">
@@ -66,6 +70,7 @@ function LoginPage() {
             />
           </div>
           <button type="submit" className="submit-button">Login</button>
+          <button type="button" className="forgot-password-button" onClick={handleForgotPassword}>Forgot Password?</button>
         </form>
       </div>
 

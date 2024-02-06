@@ -1,10 +1,10 @@
 // RegistrationPage.js
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './RegistrationPage.css'; // Import CSS file for styling
 
 function RegistrationPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -67,7 +67,7 @@ function RegistrationPage() {
   };
 
   const goToLoginPage = () => {
-    history.push('/login');
+    navigate.push('/login');
   };
 
   return (

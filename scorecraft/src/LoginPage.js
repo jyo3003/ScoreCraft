@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LoginPage.css'; // Import CSS file for styling
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -22,24 +24,26 @@ function LoginPage() {
     setEmail('');
     setPassword('');
 
-    // Display success popup (assuming successful login for demonstration)
-    showSuccessPopup();
+    // Redirect to the dashboard upon successful login
+
+  };
+const goToFileUploadPage = () => {
+    navigate('/fileupload');
+  };
+  const handleForgotPassword = () => {
+
+    alert("Forgot Password?"); // Example: Show an alert
   };
 
   const showSuccessPopup = () => {
-    // Display the success popup
+
     const popup = document.getElementById("successPopup");
     popup.style.display = "block";
 
-    // Close the popup after 3 seconds (adjust as needed)
+
     setTimeout(() => {
       popup.style.display = "none";
     }, 3000);
-  };
-
-  const handleForgotPassword = () => {
-    // Add logic to handle forgot password functionality
-    alert("Forgot Password?"); // Example: Show an alert
   };
 
   return (
@@ -69,7 +73,7 @@ function LoginPage() {
               className="input-field"
             />
           </div>
-          <button type="submit" className="submit-button">Login</button>
+          <button type="submit" className="submit-button"onClick={goToFileUploadPage}>Login</button>
           <button type="button" className="forgot-password-button" onClick={handleForgotPassword}>Forgot Password?</button>
         </form>
       </div>

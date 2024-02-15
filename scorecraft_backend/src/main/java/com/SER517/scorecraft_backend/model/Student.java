@@ -18,6 +18,8 @@ public class Student {
 
     private String groupName;
     private String asurite;
+    private String finalComment;
+    private int finalscore;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GradingCriteria> gradingCriteria;
@@ -64,4 +66,20 @@ public class Student {
     public void setGradingCriteria(List<GradingCriteria> gradingCriteria) {
         this.gradingCriteria = gradingCriteria;
     }
+
+	public String getFinalComment() {
+		return finalComment;
+	}
+
+	public void setFinalComment(String finalComment) {
+		this.finalComment = finalComment;
+	}
+
+	public int getFinalscore() {
+		return finalscore;
+	}
+
+	public void setFinalscore(int finalscore) {
+		this.finalscore = finalscore;
+	}
 }

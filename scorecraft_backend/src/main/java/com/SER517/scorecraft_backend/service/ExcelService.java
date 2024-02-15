@@ -4,7 +4,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ExcelService {
 
-	public void parseAndStoreData(MultipartFile file) {
+
+	public void saveExcelData(MultipartFile file) {
 		// TODO Auto-generated method stub
 		
 	}

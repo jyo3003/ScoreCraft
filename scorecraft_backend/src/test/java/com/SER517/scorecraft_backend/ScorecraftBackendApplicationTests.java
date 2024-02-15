@@ -1,4 +1,4 @@
-package com.SER517.scorecraft_backend;
+package com.ser517.scorecraft_backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

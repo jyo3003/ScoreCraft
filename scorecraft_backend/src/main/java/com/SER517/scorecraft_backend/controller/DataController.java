@@ -1,4 +1,4 @@
-package com.SER517.scorecraft_backend.controller;
+package com.ser517.scorecraft_backend.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,3 +15,4 @@ public class DataController {
         return "Hello from Spring Boot!";
     }
 }
+

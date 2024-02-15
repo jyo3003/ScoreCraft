@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ser517.scorecraft_backend.service.ExcelService;
 
-
 @RestController
 @RequestMapping("/api/excel")
 public class ExcelController {
@@ -27,7 +26,8 @@ public class ExcelController {
             return new ResponseEntity<>("Please upload an Excel file.", HttpStatus.BAD_REQUEST);
         }
 
-        excelService.saveExcelData(file);
-		return new ResponseEntity<>("File data saved successfully.", HttpStatus.OK);
+        excelService.processExcelFile(file);
+        return new ResponseEntity<>("File data saved successfully.", HttpStatus.OK);
     }
+
 }

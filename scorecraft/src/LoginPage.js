@@ -1,6 +1,8 @@
+// LoginPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css'; // Import CSS file for styling
+import { login } from './api'; // Import the login function from api.js
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -15,31 +17,35 @@ function LoginPage() {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Perform login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Clear form fields after submission
-    setEmail('');
-    setPassword('');
-
-    // Redirect to the dashboard upon successful login
-
+    try {
+      // Call the login function from api.js
+      await login(email, password);
+      // Redirect to the dashboard upon successful login
+      console.log('Login successful');
+      showSuccessPopup();
+      setEmail('');
+      setPassword('');
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Login failed:', error);
+      // Handle login error
+      alert('Login failed. Please check your credentials and try again.');
+    }
   };
-const goToFileUploadPage = () => {
+
+  const goToFileUploadPage = () => {
     navigate('/fileupload');
   };
-  const handleForgotPassword = () => {
 
+  const handleForgotPassword = () => {
     alert("Forgot Password?"); // Example: Show an alert
   };
 
   const showSuccessPopup = () => {
-
     const popup = document.getElementById("successPopup");
     popup.style.display = "block";
-
 
     setTimeout(() => {
       popup.style.display = "none";
@@ -73,7 +79,7 @@ const goToFileUploadPage = () => {
               className="input-field"
             />
           </div>
-          <button type="submit" className="submit-button"onClick={goToFileUploadPage}>Login</button>
+          <button type="submit" className="submit-button" onClick={goToFileUploadPage}>Login</button>
           <button type="button" className="forgot-password-button" onClick={handleForgotPassword}>Forgot Password?</button>
         </form>
       </div>

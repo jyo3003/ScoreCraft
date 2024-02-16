@@ -19,3 +19,5 @@ export const register = (email, password) => {
       throw error.response.data;
     });
 };
+
+

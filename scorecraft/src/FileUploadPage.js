@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './FileUploadPage.css'; // Import CSS file for styling
 import { uploadFile } from './api'; // Ensure the path is correct based on your project structure
 
-
 function FileUploadPage() {
   const [file, setFile] = useState(null);
   const [fileInfo, setFileInfo] = useState('');
@@ -18,8 +17,13 @@ function FileUploadPage() {
       const fileExtension = fileName.split('.').pop().toLowerCase();
 
       if (fileExtension === 'xlsx') { // Only allow .xlsx files
-        setFileInfo(`File "${fileName}" uploaded successfully!`);
         // You can upload the file to the server or perform additional actions here
+        uploadFile(file).then(response => {
+          setFileInfo(`File "${fileName}" uploaded successfully!`);
+          // Additional logic after successful upload
+        }).catch(error => {
+          setFileInfo('Upload to backend failed');
+        });
       } else {
         setFileInfo('Invalid file format. Please upload an Excel file (.xlsx).');
       }
@@ -27,13 +31,6 @@ function FileUploadPage() {
       setFileInfo('Please select a file to upload.');
     }
   };
-
-  uploadFile(file).then(response => {
-    alert('Upload to backend successful');
-  }).catch(error => {
-    alert('Upload to backend failed');
-  });
-  
 
   return (
     <div className="upload-container">

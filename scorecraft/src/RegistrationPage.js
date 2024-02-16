@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './RegistrationPage.css'; // Import CSS file for styling
+import { register } from './api'; // Import the register function from api.js
 
 function RegistrationPage() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function RegistrationPage() {
     setConfirmPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Password and confirm password validation logic
@@ -46,20 +47,23 @@ function RegistrationPage() {
     } else {
       setPasswordError('');
     }
-
     // Perform registration logic here
 
     console.log('Email:', email);
     console.log('Password:', password);
     console.log('Confirm Password:', confirmPassword);
-
-    // Simulate a successful registration
-    setRegistrationSuccess(true);
-
-    // Clear form fields after submission
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
+    try {
+      // Call the register function from api.js
+      await register(email, password);
+      // Simulate a successful registration
+      setRegistrationSuccess(true);
+      // Clear form fields after submission
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+    } catch (error) {
+      console.error('Registration failed:', error);
+    }
   };
 
   const closeSuccessPopup = () => {

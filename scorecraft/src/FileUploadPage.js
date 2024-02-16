@@ -1,9 +1,8 @@
-// FileUploadPage.js
 import React, { useState } from 'react';
 import './FileUploadPage.css'; // Import CSS file for styling
 
 function FileUploadPage() {
-const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null);
   const [fileInfo, setFileInfo] = useState('');
 
   const handleFileChange = (event) => {
@@ -16,16 +15,15 @@ const [file, setFile] = useState(null);
       const fileName = file.name;
       const fileExtension = fileName.split('.').pop().toLowerCase();
 
-      if (['pdf', 'doc', 'docx', 'xls', 'xlsx'].includes(fileExtension)) {
+      if (fileExtension === 'xlsx') { // Only allow .xlsx files
         setFileInfo(`File "${fileName}" uploaded successfully!`);
         // You can upload the file to the server or perform additional actions here
       } else {
-        setFileInfo('Invalid file format. Please upload a PDF, Word, or Excel file.');
+        setFileInfo('Invalid file format. Please upload an Excel file (.xlsx).');
       }
     } else {
       setFileInfo('Please select a file to upload.');
     }
-
   };
 
   return (
@@ -35,7 +33,7 @@ const [file, setFile] = useState(null);
         <input
           type="file"
           id="file-input"
-          accept=".pdf, .doc, .docx, .xls, .xlsx"
+          accept=".xlsx"
           onChange={handleFileChange}
         />
         <button onClick={handleUpload} className="upload-button">Upload</button>
@@ -46,4 +44,3 @@ const [file, setFile] = useState(null);
 }
 
 export default FileUploadPage;
-

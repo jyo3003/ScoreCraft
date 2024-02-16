@@ -28,7 +28,7 @@ function FileUploadPage() {
     }
   };
 
-  uploadFile(selectedFile).then(response => {
+  uploadFile(file).then(response => {
     alert('Upload to backend successful');
   }).catch(error => {
     alert('Upload to backend failed');

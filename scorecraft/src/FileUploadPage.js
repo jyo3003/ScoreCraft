@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // Import Axios for making HTTP requests
 import './FileUploadPage.css'; // Import CSS file for styling
 import { uploadFile } from './api'; // Ensure the path is correct based on your project structure
 
@@ -17,7 +18,22 @@ function FileUploadPage() {
       const fileExtension = fileName.split('.').pop().toLowerCase();
 
       if (fileExtension === 'xlsx') { // Only allow .xlsx files
-        // You can upload the file to the server or perform additional actions here
+        // Upload using Axios
+        const formData = new FormData();
+        formData.append('file', file);
+
+        axios.post('http://localhost:8080/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(response => {
+          setFileInfo(`File "${fileName}" uploaded successfully!`);
+          // Additional logic after successful upload
+        }).catch(error => {
+          setFileInfo('Upload to backend failed');
+        });
+
+        // Upload using custom uploadFile function
         uploadFile(file).then(response => {
           setFileInfo(`File "${fileName}" uploaded successfully!`);
           // Additional logic after successful upload

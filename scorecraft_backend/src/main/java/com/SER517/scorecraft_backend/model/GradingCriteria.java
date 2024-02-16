@@ -51,19 +51,19 @@ public class GradingCriteria {
         this.score = score;
     }
 
-	public String getTypeOfCriteria() {
-		return typeOfCriteria;
-	}
+    public String getTypeOfCriteria() {
+        return typeOfCriteria;
+    }
 
-	public void setTypeOfCriteria(String typeOfCriteria) {
-		this.typeOfCriteria = typeOfCriteria;
-	}
+    public void setTypeOfCriteria(String typeOfCriteria) {
+        this.typeOfCriteria = typeOfCriteria;
+    }
 
-	public String getGradingCriteriaGroupName() {
-		return gradingCriteriaGroupName;
-	}
+    public String getGradingCriteriaGroupName() {
+        return gradingCriteriaGroupName;
+    }
 
-	public void setGradingCriteriaGroupName(String gradingCriteriaGroupName) {
-		this.gradingCriteriaGroupName = gradingCriteriaGroupName;
-	}
+    public void setGradingCriteriaGroupName(String gradingCriteriaGroupName) {
+        this.gradingCriteriaGroupName = gradingCriteriaGroupName;
+    }
 }

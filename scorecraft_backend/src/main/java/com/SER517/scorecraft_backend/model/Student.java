@@ -1,7 +1,6 @@
 package com.ser517.scorecraft_backend.model;
 
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +11,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Student {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -68,27 +67,27 @@ public class Student {
         this.gradingCriteria = gradingCriteria;
     }
 
-	public String getFinalComment() {
-		return finalComment;
-	}
+    public String getFinalComment() {
+        return finalComment;
+    }
 
-	public void setFinalComment(String finalComment) {
-		this.finalComment = finalComment;
-	}
+    public void setFinalComment(String finalComment) {
+        this.finalComment = finalComment;
+    }
 
-	public int getFinalscore() {
-		return finalscore;
-	}
+    public int getFinalscore() {
+        return finalscore;
+    }
 
-	public void setFinalscore(int finalscore) {
-		this.finalscore = finalscore;
-	}
+    public void setFinalscore(int finalscore) {
+        this.finalscore = finalscore;
+    }
 
-	public String getStudentName() {
-		return studentName;
-	}
+    public String getStudentName() {
+        return studentName;
+    }
 
-	public void setStudentName(String studentName) {
-		this.studentName = studentName;
-	}
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
 }

@@ -15,6 +15,7 @@ public class GradingCriteria {
     private String criteriaName;
     private int score;
     private String typeOfCriteria;
+    private String gradingCriteriaGroupName;
 
     // Constructors
     public GradingCriteria() {
@@ -56,5 +57,13 @@ public class GradingCriteria {
 
 	public void setTypeOfCriteria(String typeOfCriteria) {
 		this.typeOfCriteria = typeOfCriteria;
+	}
+
+	public String getGradingCriteriaGroupName() {
+		return gradingCriteriaGroupName;
+	}
+
+	public void setGradingCriteriaGroupName(String gradingCriteriaGroupName) {
+		this.gradingCriteriaGroupName = gradingCriteriaGroupName;
 	}
 }

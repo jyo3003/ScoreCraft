@@ -1,13 +1,9 @@
-// api.js
-
 import axios from 'axios';
 
-//const API_URL = 'http://localhost:3300/api/';
-
-const API_URL = 'http://localhost:8080/'; // Adjust the port based on your Spring Boot app's configuration
+const API_URL = 'http://localhost:8080'; // Your Spring Boot API URL
 
 export const login = (email, password) => {
-  return axios.post(API_URL + 'login', { email, password })
+  return axios.post(API_URL + '/login', { email, password })
     .then(response => response.data)
     .catch(error => {
       throw error.response.data;
@@ -15,21 +11,25 @@ export const login = (email, password) => {
 };
 
 export const register = (email, password) => {
-  return axios.post(API_URL + 'register', { email, password })
+  return axios.post(API_URL + '/register', { email, password })
     .then(response => response.data)
     .catch(error => {
       throw error.response.data;
     });
 };
 
-export const uploadFile = (file) => {
-  let formData = new FormData();
-  formData.append("file", file);
+export const uploadFile = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
 
-  return axios.post(API_URL + 'api/excel/upload', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+    const response = await axios.post(API_URL + '/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
 };
-

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './FileUploadPage.css'; // Import CSS file for styling
+import { uploadFile } from './api'; // Ensure the path is correct based on your project structure
+
 
 function FileUploadPage() {
   const [file, setFile] = useState(null);
@@ -25,6 +27,13 @@ function FileUploadPage() {
       setFileInfo('Please select a file to upload.');
     }
   };
+
+  uploadFile(selectedFile).then(response => {
+    alert('Upload to backend successful');
+  }).catch(error => {
+    alert('Upload to backend failed');
+  });
+  
 
   return (
     <div className="upload-container">

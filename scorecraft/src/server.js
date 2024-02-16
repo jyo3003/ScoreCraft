@@ -17,21 +17,37 @@ const db = new sqlite3.Database('./my-database.db', (err) => {
     console.log('Connected to the database.');
   }
 });
-
 db.run(`
-  CREATE TABLE IF NOT EXISTS student_table (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    column1 TEXT,
-    column2 INTEGER
+  CREATE TABLE IF NOT EXISTS students (
+    student_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT,
+    last_name TEXT,
+    -- Add other student information
   )
 `);
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-app.get('/api/data', (req, res) => {
-  db.all('SELECT * FROM student_table', (err, rows) => {
+db.run(`
+  CREATE TABLE IF NOT EXISTS courses (
+    course_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    course_name TEXT,
+    -- Add other course information
+  )
+`);
+
+db.run(`
+  CREATE TABLE IF NOT EXISTS grades (
+    grade_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER,
+    course_id INTEGER,
+    grade INTEGER,
+    -- Add other grade-related information
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+  )
+`);
+
+app.get('/api/students', (req, res) => {
+  db.all('SELECT * FROM students', (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;
@@ -40,20 +56,23 @@ app.get('/api/data', (req, res) => {
   });
 });
 
-// Example route for adding data to the database
-app.post('/api/data', (req, res) => {
-  const { column1, column2 } = req.body;
-  const sql = 'INSERT INTO student_table (column1, column2) VALUES (?, ?)';
-  const params = [column1, column2];
-
-  db.run(sql, params, function (err) {
+app.get('/api/courses', (req, res) => {
+  db.all('SELECT * FROM courses', (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;
     }
-    res.json({
-      message: 'Data added successfully',
-      data: { id: this.lastID, column1, column2 },
-    });
+    res.json({ data: rows });
   });
 });
+
+app.get('/api/grades', (req, res) => {
+  db.all('SELECT * FROM grades', (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({ data: rows });
+  });
+});
+

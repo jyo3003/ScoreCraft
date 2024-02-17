@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css'; // Import CSS file for styling
+import axios from 'axios';
 import { login } from './api'; // Import the login function from api.js
 
 function LoginPage() {

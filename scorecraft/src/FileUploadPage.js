@@ -24,18 +24,19 @@ function FileUploadPage() {
           }
         }).then(response => {
           setFileInfo(`File "${fileName}" uploaded successfully!`);
+          uploadFile(file).then(response => {
+            setFileInfo(`File "${fileName}" uploaded successfully!`);
+            // Additional logic after successful upload
+          }).catch(error => {
+            setFileInfo('Failed to save the file'); // File upload to backend unsucecssful
+          });
           // Additional logic after successful upload
         }).catch(error => {
-          setFileInfo('Upload to backend failed');
+          setFileInfo('File upload failed');
         });
 
         // Upload using custom uploadFile function
-        uploadFile(file).then(response => {
-          setFileInfo(`File "${fileName}" uploaded successfully!`);
-          // Additional logic after successful upload
-        }).catch(error => {
-          setFileInfo('Upload to backend failed');
-        });
+        
       } else {
         setFileInfo('Invalid file format. Please upload an Excel file (.xlsx).');
       }

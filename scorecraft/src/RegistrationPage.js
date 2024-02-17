@@ -1,6 +1,7 @@
 // RegistrationPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './RegistrationPage.css'; // Import CSS file for styling
 import { register } from './api'; // Import the register function from api.js
 
@@ -52,6 +53,7 @@ function RegistrationPage() {
     console.log('Email:', email);
     console.log('Password:', password);
     console.log('Confirm Password:', confirmPassword);
+
     try {
       // Call the register function from api.js
       await register(email, password);

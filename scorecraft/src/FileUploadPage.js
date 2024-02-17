@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios for making HTTP requests
+import { useDropzone } from 'react-dropzone'; // Import useDropzone hook from react-dropzone
 import './FileUploadPage.css'; // Import CSS file for styling
 import { uploadFile } from './api'; // Ensure the path is correct based on your project structure
 
 function FileUploadPage() {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null); // Define the file state
   const [fileInfo, setFileInfo] = useState('');
-
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setFile(selectedFile);
-  };
 
   const handleUpload = () => {
     if (file) {
@@ -48,18 +44,29 @@ function FileUploadPage() {
     }
   };
 
+  const onDrop = (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    const fileName = file.name;
+    const fileExtension = fileName.split('.').pop().toLowerCase();
+
+    if (fileExtension === 'xlsx') {
+      setFile(file); // Set the file state when a file is dropped or selected
+      setFileInfo('');
+    } else {
+      setFileInfo('Invalid file format. Please upload an Excel file (.xlsx).');
+    }
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
   return (
     <div className="upload-container">
       <h2>Upload Your Assignment Here</h2>
-      <div className="upload-section">
-        <input
-          type="file"
-          id="file-input"
-          accept=".xlsx"
-          onChange={handleFileChange}
-        />
-        <button onClick={handleUpload} className="upload-button">Upload</button>
+      <div {...getRootProps()} className="dropzone">
+        <input {...getInputProps()} accept=".xlsx" />
+        <p>Drag 'n' drop an Excel file here, or click to select a file</p>
       </div>
+      <button onClick={handleUpload} className="upload-button">Upload</button>
       <div className="file-info">{fileInfo}</div>
     </div>
   );

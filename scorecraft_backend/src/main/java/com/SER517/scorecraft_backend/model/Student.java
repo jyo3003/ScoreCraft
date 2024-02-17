@@ -1,4 +1,4 @@
-package com.ser517.scorecraft_backend.model;
+package com.SER517.scorecraft_backend.model;
 
 import java.util.List;
 import javax.persistence.CascadeType;

@@ -1,14 +1,14 @@
-package com.ser517.scorecraft_backend.service;
+package com.SER517.scorecraft_backend.service;
 
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ser517.scorecraft_backend.model.Student;
-import com.ser517.scorecraft_backend.model.GradingCriteria;
-import com.ser517.scorecraft_backend.repository.GradingRepository;
-import com.ser517.scorecraft_backend.repository.StudentRepository;
+import com.SER517.scorecraft_backend.model.Student;
+import com.SER517.scorecraft_backend.model.GradingCriteria;
+import com.SER517.scorecraft_backend.repository.GradingRepository;
+import com.SER517.scorecraft_backend.repository.StudentRepository;
 
 import java.io.*;
 import java.util.*;

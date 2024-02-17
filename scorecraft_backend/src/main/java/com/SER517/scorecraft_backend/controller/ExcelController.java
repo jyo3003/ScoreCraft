@@ -1,4 +1,4 @@
-package com.ser517.scorecraft_backend.controller;
+package com.SER517.scorecraft_backend.controller;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ser517.scorecraft_backend.service.ExcelService;
+import com.SER517.scorecraft_backend.service.ExcelService;
 
 @RestController
 @RequestMapping("/api/excel")

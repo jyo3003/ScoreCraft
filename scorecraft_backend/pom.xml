@@ -8,7 +8,7 @@
 		<version>3.2.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.ser517</groupId>
+	<groupId>com.SER517</groupId>
 	<artifactId>scorecraft_backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>scorecraft_backend</name>

@@ -1,4 +1,4 @@
-package com.ser517.scorecraft_backend.model;
+package com.SER517.scorecraft_backend.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

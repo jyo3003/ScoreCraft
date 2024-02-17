@@ -41,7 +41,7 @@ function LoginPage() {
   };
 
   const handleForgotPassword = () => {
-    alert("Forgot Password?"); // Example: Show an alert
+    alert("Forgot Password?"); 
   };
 
   const showSuccessPopup = () => {
@@ -85,7 +85,7 @@ function LoginPage() {
         </form>
       </div>
 
-      {/* Popup Container */}
+      
       <div className="popup" id="successPopup">
         <span className="popup-message">Successfully Logged In!</span>
       </div>

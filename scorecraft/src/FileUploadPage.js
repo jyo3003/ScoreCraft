@@ -26,16 +26,16 @@ function FileUploadPage() {
           setFileInfo(`File "${fileName}" uploaded successfully!`);
           uploadFile(file).then(response => {
             setFileInfo(`File "${fileName}" uploaded successfully!`);
-            // Additional logic after successful upload
+            
           }).catch(error => {
             setFileInfo('Failed to save the file'); // File upload to backend unsucecssful
           });
           // Additional logic after successful upload
         }).catch(error => {
-          setFileInfo('File upload failed');
+          setFileInfo('Failed to upload the file');
         });
 
-        // Upload using custom uploadFile function
+        
         
       } else {
         setFileInfo('Invalid file format. Please upload an Excel file (.xlsx).');
@@ -54,7 +54,7 @@ function FileUploadPage() {
       setFile(file); // Set the file state when a file is dropped or selected
       setFileInfo('');
     } else {
-      setFileInfo('Invalid file format. Please upload an Excel file (.xlsx).');
+      setFileInfo('Invalid file format. Please upload a valid file (.xlsx).');
     }
   };
 

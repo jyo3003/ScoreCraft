@@ -1,6 +1,7 @@
 import LoginPage from './LoginPage';
 import FileUploadPage from './FileUploadPage';
-import RegistrationPage from './RegistrationPage'
+import RegistrationPage from './RegistrationPage';
+import MainPage from './MainPage';
 import './App.css';
 import React from 'react';
 import { useEffect } from 'react';
@@ -28,8 +29,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path='/fileupload' element = {<FileUploadPage />} />
           <Route path='/registration' element = {<RegistrationPage />} />
+          <Route path='/mainpage' element = {<MainPage />} />
         </Routes>
-        <h1>Score Craft</h1> {/* Move "Score Craft" heading outside LoginPage */}
       </div>
     </Router>
   );

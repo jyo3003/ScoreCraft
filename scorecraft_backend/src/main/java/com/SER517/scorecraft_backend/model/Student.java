@@ -1,24 +1,29 @@
 package com.SER517.scorecraft_backend.model;
 
+import javax.persistence.*;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
+@Table(name = "student") // Specify the table name if different from class name
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "group_name") // Specify the column name if different from the field name
     private String groupName;
+
+    @Column(name = "asurite")
     private String asurite;
+
+    @Column(name = "final_comment")
     private String finalComment;
+
+    @Column(name = "final_score")
     private int finalscore;
+
+    @Column(name = "student_name")
     private String studentName;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)

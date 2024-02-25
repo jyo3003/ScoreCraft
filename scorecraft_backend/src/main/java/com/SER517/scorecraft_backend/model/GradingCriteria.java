@@ -1,30 +1,27 @@
 package com.SER517.scorecraft_backend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "grading_criteria")
 public class GradingCriteria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
+    @Column(name = "criteria_name", nullable = false, length = 100)
     private String criteriaName;
+
+    @Column(name = "score")
     private int score;
+
+    @Column(name = "type_of_criteria", length = 50)
     private String typeOfCriteria;
+
+    @Column(name = "grading_criteria_group_name", length = 100)
     private String gradingCriteriaGroupName;
-
-    // Constructors
-    public GradingCriteria() {
-    }
-
-    public GradingCriteria(String criteriaName, int score) {
-        this.criteriaName = criteriaName;
-        this.score = score;
-    }
 
     // Getters and setters
     public Long getId() {

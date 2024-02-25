@@ -1,0 +1,55 @@
+/* Reset default browser styles */
+body, h1, ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+/* Style the header */
+.header {
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+/* Style the image */
+.header img {
+    max-width: 100px;
+    margin-right: 10px;
+}
+
+/* Style the header text */
+.header h1 {
+    margin: 0;
+}
+
+/* Style the columns container */
+.columns {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+/* Style the column headings */
+.columns h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Style the column items */
+.column {
+    width: calc(100% / 8); /* Divide the width equally among 8 columns */
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    text-align: center;
+}

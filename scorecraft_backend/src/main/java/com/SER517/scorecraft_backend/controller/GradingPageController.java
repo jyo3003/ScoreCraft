@@ -29,4 +29,26 @@ public class GradingPageController {
         List<GradingCriteria> criteria = gradingPageService.getAllGradingCriteria();
         return ResponseEntity.ok().body(criteria);
     }
+    
+    @PostMapping("/updateStudent")
+    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
+        return ResponseEntity.ok(gradingPageService.updateStudent(student));
+    }
+
+    @PostMapping("/updateGradingCriteria")
+    public ResponseEntity<GradingCriteria> updateGradingCriteria(@RequestBody GradingCriteria gradingCriteria) {
+        return ResponseEntity.ok(gradingPageService.updateGradingCriteria(gradingCriteria));
+    }
+
+    @DeleteMapping("/deleteStudent/{id}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+        gradingPageService.deleteStudent(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/deleteGradingCriteria/{id}")
+    public ResponseEntity<Void> deleteGradingCriteria(@PathVariable Long id) {
+        gradingPageService.deleteGradingCriteria(id);
+        return ResponseEntity.ok().build();
+    }
 }

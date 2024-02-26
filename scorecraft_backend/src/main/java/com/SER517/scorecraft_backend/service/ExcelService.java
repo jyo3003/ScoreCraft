@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.SER517.scorecraft_backend.model.Student;
 import com.SER517.scorecraft_backend.model.GradingCriteria;
-import com.SER517.scorecraft_backend.repository.GradingRepository;
+import com.SER517.scorecraft_backend.repository.GradingCriteriaRepository;
 import com.SER517.scorecraft_backend.repository.StudentRepository;
 
 import java.io.*;
@@ -21,7 +21,7 @@ public class ExcelService {
 	@Autowired
 	private StudentRepository studentRepository;
 	@Autowired
-	private GradingRepository gradingRepository;
+	private GradingCriteriaRepository gradingRepository;
 
 	public String processExcelFile(MultipartFile file) {
 		try (Workbook workbook = WorkbookFactory.create(convertMultipartFileToFile(file))) {

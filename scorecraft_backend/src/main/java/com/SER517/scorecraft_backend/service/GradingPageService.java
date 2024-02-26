@@ -25,4 +25,20 @@ public class GradingPageService {
     public List<GradingCriteria> getAllGradingCriteria() {
         return gradingCriteriaRepository.findAll();
     }
+    
+    public Student updateStudent(Student student) {
+        return studentRepository.save(student);
+    }
+
+    public GradingCriteria updateGradingCriteria(GradingCriteria gradingCriteria) {
+        return gradingCriteriaRepository.save(gradingCriteria);
+    }
+
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
+    }
+
+    public void deleteGradingCriteria(Long id) {
+        gradingCriteriaRepository.deleteById(id);
+    }
 }

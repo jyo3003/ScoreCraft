@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MainPage.css';
-import pencilImage from './Pencil.png'; 
+import pencilImage from './Pencil.png';
 
 const MainPage = () => {
   const [groupFilter, setGroupFilter] = useState('');
+  const [individualScoreInput, setIndividualScoreInput] = useState('');
+  const [groupScoreInput, setGroupScoreInput] = useState('');
+  const [totalScore, setTotalScore] = useState('');
 
-  // This is where your data would come from, likely from state or props.
-  // For demonstration purposes, I'll use an array of objects.
-  const data = [
-    // ... your data objects with name and groupNumber properties
-  ];
+  // Initialize data array as empty
+  const data = [];
+
+  useEffect(() => {
+    // Calculate and set the total score whenever individualScoreInput or groupScoreInput changes
+    const individualScore = Number(individualScoreInput) || 0;
+    const groupScore = Number(groupScoreInput) || 0;
+    const total = individualScore + groupScore;
+    setTotalScore(total.toString());
+  }, [individualScoreInput, groupScoreInput]);
 
   // This function filters the data based on the group number.
   const filteredData = groupFilter
-    ? data.filter(item => item.groupNumber === groupFilter)
+    ? data.filter(item => item.groupNumber.toString() === groupFilter)
     : data;
 
   return (
@@ -27,14 +35,12 @@ const MainPage = () => {
           <thead>
             <tr>
               <th><input type="checkbox" /></th>
-              <th>
-                Name
-                {/* Input for filtering by group number */}
-                <input 
-                  type="text" 
-                  placeholder="Filter by Group Number" 
-                  value={groupFilter} 
-                  onChange={(e) => setGroupFilter(e.target.value)} 
+              <th>Name
+                <input
+                  type="text"
+                  placeholder="Filter by Group Number"
+                  value={groupFilter}
+                  onChange={(e) => setGroupFilter(e.target.value)}
                   className="group-filter-input"
                 />
               </th>
@@ -48,19 +54,42 @@ const MainPage = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((item, index) => (
-              <tr key={index}>
-                <td><input type="checkbox" /></td>
-                <td>{item.name}</td>
-                <td>{item.asuriteId}</td>
-                <td>{item.groupNumber}</td>
-                <td>{item.assignedTasks}</td>
-                <td>{item.individualPoints}</td>
-                <td>{item.groupPoints}</td>
-                <td>{item.comments}</td>
-                <td>{item.totalPoints}</td>
-              </tr>
-            ))}
+            {/* Static row for score inputs directly below the headers */}
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <input
+                  type="number"
+                  placeholder="Enter Score"
+                  className="score-input"
+                  value={individualScoreInput}
+                  onChange={(e) => setIndividualScoreInput(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  placeholder="Enter Score"
+                  className="score-input"
+                  value={groupScoreInput}
+                  onChange={(e) => setGroupScoreInput(e.target.value)}
+                />
+              </td>
+              <td></td>
+              <td>
+                <input
+                  type="text"
+                  className="score-input total-score"
+                  value={totalScore}
+                  readOnly
+                />
+              </td>
+            </tr>
+            {/* Data rows would be mapped here if data were available */}
           </tbody>
         </table>
       </div>

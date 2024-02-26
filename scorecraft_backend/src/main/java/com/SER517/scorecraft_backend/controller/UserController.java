@@ -1,74 +1,44 @@
 package com.SER517.scorecraft_backend.controller;
 
+import com.SER517.scorecraft_backend.model.User;
+import com.SER517.scorecraft_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.SER517.scorecraft_backend.model.User;
-import com.SER517.scorecraft_backend.repository.UserRepository;
 
 @RestController
 public class UserController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserService userService;
 
     // User registration
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User newUser) {
-        if (userRepository.existsByEmail(newUser.getUsername())) {
+        if (userService.existsByEmail(newUser.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body("Error: Username is already taken!");
+                    .body("Error: Email is already in use!");
         }
 
-        // Create new user's account
-        User user = new User(newUser.getUsername(), 
-                             passwordEncoder.encode(newUser.getPassword()), null, null);
-
-        userRepository.save(user);
+        userService.saveUser(newUser);
 
         return ResponseEntity.ok("User registered successfully!");
     }
 
     // User login
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+    public ResponseEntity<?> authenticateUser(@RequestBody User loginRequest) {
+        boolean isAuthenticated = userService.authenticateUser(loginRequest.getEmail(), loginRequest.getPassword());
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (!isAuthenticated) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: Authentication failed!");
+        }
 
-        // You can add token generation and return it here if you're using JWT or similar
-        
         return ResponseEntity.ok("User authenticated successfully");
-    }
-
-    static class LoginRequest {
-        private String username;
-        private String password;
-        public Object getUsername() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
-        }
-        public Object getPassword() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
-        }
-
-        // Getters and Setters
     }
 }

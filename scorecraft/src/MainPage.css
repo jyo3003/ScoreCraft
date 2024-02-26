@@ -1,55 +1,47 @@
-/* Reset default browser styles */
-body, h1, ul {
+/* MainPage.css */
+.scorecraft-container {
+    font-family: 'Arial', sans-serif;
     margin: 0;
-    padding: 0;
-}
-
-/* Style the body */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-}
-
-/* Style the header */
-.header {
     padding: 20px;
-    background-color: #333;
-    color: #fff;
+    background-color: #f5f5f5; /* Example background color */
+  }
+  
+  .header {
     display: flex;
     align-items: center;
-}
-
-/* Style the image */
-.header img {
-    max-width: 100px;
-    margin-right: 10px;
-}
-
-/* Style the header text */
-.header h1 {
+    padding-bottom: 20px; /* Spacing below the header */
+  }
+  
+  .pencil-logo {
+    width: 50px; /* Adjust the size of the pencil image */
+    margin-right: 20px; /* Spacing between the pencil image and the title */
+  }
+  
+  .title {
+    font-size: 24px;
     margin: 0;
-}
-
-/* Style the columns container */
-.columns {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 0 20px;
-}
-
-/* Style the column headings */
-.columns h2 {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-/* Style the column items */
-.column {
-    width: calc(100% / 8); /* Divide the width equally among 8 columns */
-    display: inline-block;
-    vertical-align: top;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    text-align: center;
-}
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .score-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white; /* Example background color for the table */
+  }
+  
+  .score-table th,
+  .score-table td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .score-table th {
+    background-color: #eee; /* Example background color for table headers */
+  }
+  
+  
+  

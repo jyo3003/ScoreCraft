@@ -25,7 +25,7 @@ public class GradingPageService {
     public List<GradingCriteria> getAllGradingCriteria() {
         return gradingCriteriaRepository.findAll();
     }
-    
+
     public Student updateStudent(Student student) {
         return studentRepository.save(student);
     }
@@ -41,4 +41,6 @@ public class GradingPageService {
     public void deleteGradingCriteria(Long id) {
         gradingCriteriaRepository.deleteById(id);
     }
+
+
 }

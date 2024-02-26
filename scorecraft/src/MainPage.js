@@ -1,9 +1,21 @@
-// MainPage.js
-import React from 'react';
+import React, { useState } from 'react';
 import './MainPage.css';
-import pencilImage from './Pencil.png'; // Make sure the image is in your project directory
+import pencilImage from './Pencil.png'; 
 
 const MainPage = () => {
+  const [groupFilter, setGroupFilter] = useState('');
+
+  // This is where your data would come from, likely from state or props.
+  // For demonstration purposes, I'll use an array of objects.
+  const data = [
+    // ... your data objects with name and groupNumber properties
+  ];
+
+  // This function filters the data based on the group number.
+  const filteredData = groupFilter
+    ? data.filter(item => item.groupNumber === groupFilter)
+    : data;
+
   return (
     <div className="scorecraft-container">
       <div className="header">
@@ -15,7 +27,17 @@ const MainPage = () => {
           <thead>
             <tr>
               <th><input type="checkbox" /></th>
-              <th>Name</th>
+              <th>
+                Name
+                {/* Input for filtering by group number */}
+                <input 
+                  type="text" 
+                  placeholder="Filter by Group Number" 
+                  value={groupFilter} 
+                  onChange={(e) => setGroupFilter(e.target.value)} 
+                  className="group-filter-input"
+                />
+              </th>
               <th>Asurite ID</th>
               <th>Group Number</th>
               <th>Assigned tasks</th>
@@ -26,7 +48,19 @@ const MainPage = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Table rows will be dynamically inserted here */}
+            {filteredData.map((item, index) => (
+              <tr key={index}>
+                <td><input type="checkbox" /></td>
+                <td>{item.name}</td>
+                <td>{item.asuriteId}</td>
+                <td>{item.groupNumber}</td>
+                <td>{item.assignedTasks}</td>
+                <td>{item.individualPoints}</td>
+                <td>{item.groupPoints}</td>
+                <td>{item.comments}</td>
+                <td>{item.totalPoints}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

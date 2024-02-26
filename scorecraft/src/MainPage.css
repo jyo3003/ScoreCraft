@@ -3,18 +3,18 @@
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #f5f5f5; /* Example background color */
+    background-color: #f5f5f5; 
   }
   
   .header {
     display: flex;
     align-items: center;
-    padding-bottom: 20px; /* Spacing below the header */
+    padding-bottom: 20px; 
   }
   
   .pencil-logo {
-    width: 50px; /* Adjust the size of the pencil image */
-    margin-right: 20px; /* Spacing between the pencil image and the title */
+    width: 50px; 
+    margin-right: 20px; 
   }
   
   .title {
@@ -29,7 +29,7 @@
   .score-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white; /* Example background color for the table */
+    background-color: white; 
   }
   
   .score-table th,
@@ -40,8 +40,10 @@
   }
   
   .score-table th {
-    background-color: #eee; /* Example background color for table headers */
+    background-color: #eee; 
   }
   
-  
-  
+  .filter-input {
+    margin-left: 8px;
+    padding: 2px;
+  }

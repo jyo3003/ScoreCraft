@@ -1,13 +1,11 @@
 package com.SER517.scorecraft_backend.service;
 
 import com.SER517.scorecraft_backend.model.GradingCriteria;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public class GradingRepository {
-    public List<GradingCriteria> findAll() {
-    }
-
-    public GradingCriteria save(GradingCriteria gradingCriteria) {
-    }
+@Repository
+public interface GradingRepository extends JpaRepository<GradingCriteria, Long> {
+    // Additional methods if needed
 }
+

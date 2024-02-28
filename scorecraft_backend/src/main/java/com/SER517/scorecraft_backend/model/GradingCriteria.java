@@ -1,6 +1,6 @@
 package com.SER517.scorecraft_backend.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "grading_criteria")

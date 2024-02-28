@@ -1,6 +1,6 @@
 package com.SER517.scorecraft_backend.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
@@ -26,17 +26,16 @@ public class Student {
     @Column(name = "student_name")
     private String studentName;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GradingCriteria> gradingCriteria;
+//    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<GradingCriteria> gradingCriteria;
 
     // Constructors
     public Student() {
     }
 
-    public Student(String groupName, String asurite, List<GradingCriteria> gradingCriteria) {
+    public Student(String groupName, String asurite) {
         this.groupName = groupName;
         this.asurite = asurite;
-        this.gradingCriteria = gradingCriteria;
     }
 
     // Getters and setters
@@ -64,13 +63,13 @@ public class Student {
         this.asurite = asurite;
     }
 
-    public List<GradingCriteria> getGradingCriteria() {
-        return gradingCriteria;
-    }
-
-    public void setGradingCriteria(List<GradingCriteria> gradingCriteria) {
-        this.gradingCriteria = gradingCriteria;
-    }
+//    public List<GradingCriteria> getGradingCriteria() {
+//        return gradingCriteria;
+//    }
+//
+//    public void setGradingCriteria(List<GradingCriteria> gradingCriteria) {
+//        this.gradingCriteria = gradingCriteria;
+//    }
 
     public String getFinalComment() {
         return finalComment;

@@ -77,3 +77,8 @@ bash
 - ScoreCraft is developed by Team 16 for SER517 Capstone Project
 
 We believe that ScoreCraft will significantly improve the efficiency and transparency of the project evaluation process.
+
+
+## Prototype
+
+- https://www.figma.com/file/THuFk9HsZGFhTHQ2w0UbT0/cap?type=design&node-id=2%3A2&mode=design&t=7Ec30qI9ccHIFX3S-1

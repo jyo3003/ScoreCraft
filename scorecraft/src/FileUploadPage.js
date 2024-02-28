@@ -1,76 +1,54 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Import Axios for making HTTP requests
-import { useDropzone } from 'react-dropzone'; // Import useDropzone hook from react-dropzone
-import './FileUploadPage.css'; // Import CSS file for styling
-import { uploadFile } from './api'; // Ensure the path is correct based on your project structure
+import { useNavigate } from 'react-router-dom';
+import './FileUploadPage.css';
+import { uploadFile } from './api'; // Import the uploadFile function
 
 function FileUploadPage() {
-  const [file, setFile] = useState(null); // Define the file state
-  const [fileInfo, setFileInfo] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState('');
+  const navigate = useNavigate();
 
-  const handleUpload = () => {
-    if (file) {
-      const fileName = file.name;
-      const fileExtension = fileName.split('.').pop().toLowerCase();
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
-      if (fileExtension === 'xlsx') { // Only allow .xlsx files
-        // Upload using Axios
-        const formData = new FormData();
-        formData.append('file', file);
-
-        axios.post('http://localhost:3000/FileUpload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }).then(response => {
-          setFileInfo(`File "${fileName}" uploaded successfully!`);
-          uploadFile(file).then(response => {
-            setFileInfo(`File "${fileName}" uploaded successfully!`);
-            
-          }).catch(error => {
-            setFileInfo('Failed to save the file'); // File upload to backend unsucecssful
-          });
-          // Additional logic after successful upload
-        }).catch(error => {
-          setFileInfo('Failed to upload the file');
-        });
-
-        
-        
-      } else {
-        setFileInfo('Invalid file format. Please upload an Excel file (.xlsx).');
+  const handleUpload = async () => {
+    try {
+      if (!selectedFile) {
+        throw new Error('Please select a file.');
       }
-    } else {
-      setFileInfo('Please select a file to upload.');
+
+      const data = await uploadFile(selectedFile);
+      console.log('File upload success:', data);
+      setUploadStatus('File Upload Successful');
+      setSelectedFile(null);
+      document.getElementById('file-upload-form').reset(); // reset page
+      // navigate('/path-to-success-page'); 
+    } catch (error) {
+      console.error('Error:', error);
+      setUploadStatus('Error uploading file');
     }
   };
 
-  const onDrop = (acceptedFiles) => {
-    const file = acceptedFiles[0];
-    const fileName = file.name;
-    const fileExtension = fileName.split('.').pop().toLowerCase();
-
-    if (fileExtension === 'xlsx') {
-      setFile(file); // Set the file state when a file is dropped or selected
-      setFileInfo('');
-    } else {
-      setFileInfo('Invalid file format. Please upload a valid file (.xlsx).');
-    }
+  const navigateToPage = (page) => {
+    navigate(`/${page}`); // Make sure the page paths are correctly defined in your router
   };
-
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <div className="upload-container">
-      <h2>Upload Your Assignment Here</h2>
-      <div {...getRootProps()} className="dropzone">
-        <input {...getInputProps()} accept=".xlsx" />
-        <p>Drag 'n' drop an Excel file here, or click to select a file</p>
+    <div className="file-upload-container">
+      <div className="file-upload-header">
+        <h1>ScoreCraft</h1>
+        <input type="file" onChange={handleFileChange} accept=".xls,.xlsx" />
+        <button onClick={handleUpload} className="upload-button">Upload File</button>
+        {uploadStatus && <p>{uploadStatus}</p>} {/* Display upload status */}
       </div>
-      <button onClick={handleUpload} className="upload-button">Upload</button>
-      <div className="file-info">{fileInfo}</div>
+      <div className="grading-criteria">
+        <p>Is this grading criteria for a group or an individual assessment?</p>
+        <button onClick={() => navigateToPage('MainPageGroup')}>Group</button>
+        <button onClick={() => navigateToPage('MainPageIndividual')}>Individual</button>
+      </div>
     </div>
   );
-}
+};
 
 export default FileUploadPage;

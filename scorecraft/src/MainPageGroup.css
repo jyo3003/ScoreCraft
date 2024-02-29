@@ -25,7 +25,7 @@ body {
 
 .header .title {
     font-size: 24px; /* Large font size for the title */
-    color: #333; /* Dark grey color for the text */
+    color: #020409; /* Dark grey color for the text */
     margin: 0; /* Reset margin */
 }
 
@@ -52,13 +52,13 @@ body {
 }
 
 .pencil-logo {
-    width: 50px; /* Set the size of the logo */
+    width: 100px; /* Set the size of the logo */
     height: auto; /* Maintain aspect ratio */
     margin-right: 10px; /* Space between logo and title */
 }
 
 .header-title {
-    font-size: 24px; /* Large font size for the title */
+    font-size: 34px; /* Large font size for the title */
     color: #333; /* Dark grey color for the text */
     /* Add other styling such as font-weight, etc., as per your design */
 }
@@ -104,7 +104,7 @@ body {
 
 .home-button {
     display: block;
-    margin: 20px auto;
+    margin: 20px 0 20px auto; /* Move the button to the far right */
     padding: 10px 20px;
     background-color: #000000; /* Black color for the button */
     color: white;

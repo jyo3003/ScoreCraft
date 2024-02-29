@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import FileUploadPage from './FileUploadPage';
-import MainPage from './MainPage';
+import MainPageIndividual from './MainPageIndividual';
+import MainPageGroup from './MainPageGroup';
 import './App.css';
 
 
@@ -10,7 +11,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/FileUploadPage" element={<FileUploadPage />} />
-        <Route path="/MainPage" element={<MainPage />} />
+        <Route path="/MainPageIndividual" element={<MainPageIndividual />} />
+        <Route path="/MainPageGroup" element={<MainPageGroup />} />
       </Routes>
     </Router>
   );

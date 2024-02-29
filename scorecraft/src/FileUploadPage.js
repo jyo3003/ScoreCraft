@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './FileUploadPage.css';
-import { uploadFile } from './api'; // Import the uploadFile function
+import grade from './Grade.png';
 
 function FileUploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -37,6 +37,7 @@ function FileUploadPage() {
   return (
     <div className="file-upload-container">
       <div className="file-upload-header">
+           <img src={grade} alt="Img" className="pencil-logo"/>
         <h1>ScoreCraft</h1>
         <input type="file" onChange={handleFileChange} accept=".xls,.xlsx" />
         <button onClick={handleUpload} className="upload-button">Upload File</button>

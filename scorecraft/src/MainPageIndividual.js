@@ -23,8 +23,11 @@ const MainPageIndividual = () => {
 
   return (
     <div className="main-page-individual">
-      <img src={grade} alt="Img" className="pencil-logo"/>
-      <button onClick={goToHome} className="home-button">Home</button>
+    <div className="header-container">      
+    <img src={grade} alt="Img" className="pencil-logo"/>
+    <span className="header-title">ScoreCraft</span>
+   </div>
+    <button onClick={goToHome} className="home-button">Home</button>
       <div className="search-bar">
         <input
           type="text"

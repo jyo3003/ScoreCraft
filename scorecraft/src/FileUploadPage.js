@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './FileUploadPage.css';
 import grade from './Grade.png';
+import { uploadFile } from './api';
 
 function FileUploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);

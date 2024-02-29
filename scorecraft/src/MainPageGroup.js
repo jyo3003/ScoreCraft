@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './MainPageGroup.css';
-//import pencilImage from './Pencil.png';
+//import './MainPageGroup.css';
+import pencilImage from './Pencil.png';
 //import backgroundImage from './Background.jpg';
 
 const MainPageGroup = () => {

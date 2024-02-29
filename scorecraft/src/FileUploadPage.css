@@ -1,75 +1,79 @@
-/* FileUploadPage.css */
-
-/* Styles for the overall page layout */
-.page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh; /* Use full viewport height to center content */
+.file-upload-container {
+  font-family: Arial, sans-serif; /* Use a standard font */
+  max-width: 800px; /* Maximum width of the upload container */
+  margin: auto; /* Center the container */
+  padding: 20px;
+  background-color: #f4f4f4; /* Light grey background */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
-/* Styles for the page header */
-.page-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #a1a1a1; /* Grey background for header */
-  width: 100%; /* Full width header */
-  padding: 20px 0;
+.file-upload-header {
+  text-align: center; /* Center header content */
 }
 
-/* Styles for the logo */
-.logo img{
-  margin-right: 15px;
-  height: 1px; /* Adjust size as needed */
-  width: 1px;
+.pencil-logo {
+  width: 50px; /* Adjust the size of the logo */
+  margin-bottom: 20px; /* Space below the logo */
 }
 
-/* Styles for the upload container */
-.upload-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #2881b2; /* Blue background color */
+h1 {
+  color: #333; /* Dark grey color for the heading */
+  margin-bottom: 30px; /* Space below the heading */
+}
+
+input[type="file"] {
+  border: 1px solid #ccc; /* Grey border */
+  display: block;
+  margin: 0 auto 20px; /* Center the file input and add space below */
   padding: 10px;
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for some depth */
-  margin-top: 90px; /* Distance from header */
-  width: 40%; /* Custom width for the upload container */
-  max-width: 600px; /* Maximum width to ensure responsiveness */
-  margin-left: auto; /* Center horizontally */
-  margin-right: auto; /* Center horizontally */
-
-
 }
 
-/* Styles for the upload button */
 .upload-button {
-  padding: 12px 24px;
-  border: none; /* Remove border */
-  border-radius: 5px;
-  background-color: #000000; /* Adjust color as needed */
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  background-color: #5cb85c; /* Green background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding around the text */
+  border: none;
+  border-radius: 5px; /* Rounded button edges */
+  cursor: pointer; /* Pointer cursor on hover */
+  display: block;
+  margin: auto; /* Center button */
 }
 
 .upload-button:hover {
-  background-color: #3a5d77; /* Darker shade for hover effect */
+  background-color: #4cae4c; /* Slightly darker green on hover */
 }
 
-/* Styles for the file info message */
-.file-info {
-  margin-top: 10px;
-  color: #e74c3c;
-}
-
-/* Styles for the grading criteria */
 .grading-criteria {
-  text-align: center;
-  padding: 20px; /* Adjust padding as needed */
+  text-align: center; /* Center grading criteria content */
+  margin-top: 30px; /* Space above the grading criteria */
 }
 
-/* Add additional custom styles below as needed */
+.grading-criteria p {
+  margin-bottom: 20px; /* Space below the paragraph */
+}
+
+.grading-criteria button {
+  background-color: #337ab7; /* Blue background for buttons */
+  color: white;
+  padding: 10px 20px;
+  margin: 0 10px; /* Space between buttons */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.grading-criteria button:hover {
+  background-color: #286090; /* Darker blue on hover */
+}
+
+p {
+  color: #5cb85c; /* Green text for status messages */
+}
+
+/* Add responsiveness to the layout */
+@media (max-width: 768px) {
+  .file-upload-container {
+    width: 90%; /* Make the container take up more width on smaller screens */
+  }
+}

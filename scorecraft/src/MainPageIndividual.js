@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './MainPageIndividual.css';
-//import pencilImage from './Pencil.png';
+//import './MainPageIndividual.css';
+import pencilImage from './Pencil.png';
 //import backgroundImage from './Background.jpg';
 
 const MainPageIndividual = () => {
@@ -23,7 +23,7 @@ const MainPageIndividual = () => {
 
   return (
     <div className="main-page-individual">
-    //<img src={pencilImage} alt="Pencil" className="pencil-logo" />
+    <img src={pencilImage} alt="Pencil" className="pencil-logo" />
       <button onClick={goToHome} className="home-button">Home</button>
       <div className="search-bar">
         <input

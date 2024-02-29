@@ -1,0 +1,114 @@
+/* Base styling for the page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('Background.jpg'); /* Background image */
+    background-color: #d5bcbc; /* Fallback background color */
+    background-size: cover; /* Cover the entire background */
+}
+
+/* Header styling */
+.header {
+    background-color: #dcdcdc; /* Grey background for the header */
+    padding: 10px 20px; /* Space inside the header */
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Center items vertically */
+    justify-content: start; /* Align items to the start */
+}
+
+.header img {
+    width: 50px; /* Set the size of the image */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Add space between the image and the title */
+}
+
+.header .title {
+    font-size: 24px; /* Large font size for the title */
+    color: #333; /* Dark grey color for the text */
+    margin: 0; /* Reset margin */
+}
+
+/* MainPageGroup specific styling */
+.main-page-group {
+    background-color: #2881b2;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    max-width: 600px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin-bottom: 20px; /* Add some margin to separate from the content */
+}
+
+.content-container {
+    margin-top: 20px; /* Add margin to separate from the header */
+}
+
+.pencil-logo {
+    width: 50px; /* Set the size of the logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Space between logo and title */
+}
+
+.header-title {
+    font-size: 24px; /* Large font size for the title */
+    color: #333; /* Dark grey color for the text */
+    /* Add other styling such as font-weight, etc., as per your design */
+}
+
+.search-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.export-button {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.groups-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.groups-table th,
+.groups-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.groups-table th {
+    background-color: #f8f8f8;
+}
+
+.home-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #000000; /* Black color for the button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

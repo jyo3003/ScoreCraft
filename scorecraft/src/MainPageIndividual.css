@@ -26,8 +26,8 @@ body {
 }
 
 .header .title {
-    font-size: 24px; /* Large font size for the title */
-    color: #333; /* Dark grey color for the text */
+    font-size: 29px; /* Large font size for the title */
+    color: #000000; 
     margin: 0; /* Reset margin */
 }
 
@@ -82,9 +82,9 @@ body {
 
 .home-button {
     display: block;
-    margin: 20px auto;
+    margin: 20px 0 20px auto; /* Move the button to the far right */
     padding: 10px 20px;
-    background-color: #007bff; /* Bootstrap primary color */
+    background-color: #000000; /* Black color for the button */    
     color: white;
     border: none;
     border-radius: 4px;

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 import './MainPageGroup.css';
 import grade from './Grade.png';
 import backgroundImage from './Background.jpg';
@@ -16,13 +18,24 @@ const MainPageGroup = () => {
     );
 
     const handleExport = () => {
-        // Implement export functionality here
-        console.log('Exporting data...');
+        exportToCSV(filteredGroups, 'groups_export');
     };
 
     // Function to navigate to the home page (FileUploadPage)
     const goToHome = () => {
         navigate('/FileUploadPage');
+    };
+
+    // Function to export filtered groups to Excel
+    const exportToCSV = (csvData, fileName) => {
+        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const fileExtension = '.xlsx';
+
+        const ws = XLSX.utils.json_to_sheet(csvData);
+        const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], {type: fileType});
+        FileSaver.saveAs(data, fileName + fileExtension);
     };
 
     return (
@@ -44,19 +57,20 @@ const MainPageGroup = () => {
                 </div>
                 <table className="groups-table">
                     <thead>
-                    <tr>
-                        <th>Group Name</th>
-                        <th>Graded</th>
-                    </tr>
+                        <tr>
+                            <th>Group Name</th>
+                            <th>Student Count</th>
+                            <th>Graded</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {filteredGroups.map((group, index) => (
-                        <tr key={index}>
-                            <td>{group.groupName}</td>
-                            <td>{group.studentCount} Students</td>
-                            <td>{group.graded ? '✔️' : ''}</td>
-                        </tr>
-                    ))}
+                        {filteredGroups.map((group, index) => (
+                            <tr key={index}>
+                                <td>{group.groupName}</td>
+                                <td>{group.studentCount} Students</td>
+                                <td>{group.graded ? '✔️' : ''}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

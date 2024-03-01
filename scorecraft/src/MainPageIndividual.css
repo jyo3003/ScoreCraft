@@ -27,7 +27,7 @@ body {
 
 .header .title {
     font-size: 29px; /* Large font size for the title */
-    color: #000000; 
+    color: #000000;
     margin: 0; /* Reset margin */
 }
 
@@ -84,7 +84,7 @@ body {
     display: block;
     margin: 20px 0 20px auto; /* Move the button to the far right */
     padding: 10px 20px;
-    background-color: #000000; /* Black color for the button */    
+    background-color: #000000; /* Black color for the button */
     color: white;
     border: none;
     border-radius: 4px;

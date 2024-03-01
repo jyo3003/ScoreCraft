@@ -24,7 +24,7 @@ function FileUploadPage() {
       setUploadStatus('File Upload Successful');
       setSelectedFile(null);
       document.getElementById('file-upload-form').reset(); // reset page
-      // navigate('/path-to-success-page'); 
+      // navigate('/path-to-success-page');
     } catch (error) {
       console.error('Error:', error);
       setUploadStatus('Error uploading file');

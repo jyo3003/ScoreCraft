@@ -31,15 +31,23 @@ body {
 
 /* MainPageGroup specific styling */
 .main-page-group {
-    background-color: #2881b2;
-    padding: 20px;
+    background-image: url('Container.jpg'); /* Add your image path here */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    padding: 200px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     max-width: 600px;
-    margin: 40px auto;
-    position: relative;
-}
+    margin: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 8px solid #d8c464;
 
+  }
+  
 .header-container {
     display: flex;
     align-items: center;

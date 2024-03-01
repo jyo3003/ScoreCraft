@@ -9,48 +9,60 @@ function FileUploadPage() {
   const [uploadStatus, setUploadStatus] = useState('');
   const navigate = useNavigate();
 
+  // Example: Adjust this to obtain the resourceId dynamically if needed
+  const resourceId = 'exampleResourceId'; // Placeholder, replace with actual logic to get resourceId
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
   const handleUpload = async () => {
-    try {
-      if (!selectedFile) {
-        throw new Error('Please select a file.');
-      }
+    if (!selectedFile) {
+      setUploadStatus('Please select a file.');
+      return;
+    }
 
-      const data = await uploadFile(selectedFile);
-      console.log('File upload success:', data);
-      setUploadStatus('File Upload Successful');
+    try {
+      // Ensure you pass all required parameters to the uploadFile function
+      await uploadFile(selectedFile, resourceId);
+      console.log('File upload success');
+      setUploadStatus('File Upload Successful'); // Display success message
       setSelectedFile(null);
-      document.getElementById('file-upload-form').reset(); // reset page
+
+      // Resetting the form to clear the file input after successful upload
+      document.getElementById('file-upload-form')?.reset();
+
+      // Optional: Navigate to another page if needed
       // navigate('/path-to-success-page');
     } catch (error) {
-      console.error('Error:', error);
-      setUploadStatus('Error uploading file');
+      console.error('Error uploading file:', error);
+      setUploadStatus(error.message || 'Error uploading file'); // Display error message
     }
   };
 
+  // Navigation function, adjust or remove according to your app's needs
   const navigateToPage = (page) => {
-    navigate(`/${page}`); // Make sure the page paths are correctly defined in your router
+    navigate(`/${page}`);
   };
 
   return (
     <div className="file-upload-container">
-      <div className="file-upload-header">
-           <img src={grade} alt="Img" className="pencil-logo"/>
-        <h1>ScoreCraft</h1>
-        <input type="file" onChange={handleFileChange} accept=".xls,.xlsx" />
-        <button onClick={handleUpload} className="upload-button">Upload File</button>
-        {uploadStatus && <p>{uploadStatus}</p>} {/* Display upload status */}
-      </div>
+      <form id="file-upload-form">
+        <div className="file-upload-header">
+          <img src={grade} alt="Img" className="pencil-logo"/>
+          <h1>ScoreCraft</h1>
+          <input type="file" onChange={handleFileChange} accept=".xls,.xlsx" />
+          <button type="button" onClick={handleUpload} className="upload-button">Upload File</button>
+          {uploadStatus && <p>{uploadStatus}</p>}
+        </div>
+      </form>
       <div className="grading-criteria">
         <p>Is this grading criteria for a group or an individual assessment?</p>
-        <button onClick={() => navigateToPage('MainPageGroup')}>Group</button>
-        <button onClick={() => navigateToPage('MainPageIndividual')}>Individual</button>
+        <button type="button" onClick={() => navigateToPage('MainPageGroup')}>Group</button>
+        <button type="button" onClick={() => navigateToPage('MainPageIndividual')}>Individual</button>
       </div>
     </div>
   );
-};
+}
 
 export default FileUploadPage;

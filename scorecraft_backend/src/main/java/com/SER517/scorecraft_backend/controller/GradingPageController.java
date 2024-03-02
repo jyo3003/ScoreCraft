@@ -1,17 +1,11 @@
 package com.SER517.scorecraft_backend.controller;
 
-import com.SER517.scorecraft_backend.model.Student;
-import com.SER517.scorecraft_backend.model.GradingCriteria;
+import com.SER517.scorecraft_backend.dto.StudentDTO;
+import com.SER517.scorecraft_backend.dto.GradingCriteriaDTO;
 import com.SER517.scorecraft_backend.service.GradingPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,27 +16,27 @@ public class GradingPageController {
     @Autowired
     private GradingPageService gradingPageService;
 
-//    @GetMapping("/students")
-//    public ResponseEntity<List<Student>> getAllStudents() {
-//        List<Student> students = gradingPageService.getAllStudents();
-//        return ResponseEntity.ok().body(students);
-//    }
-//
-//    @GetMapping("/criteria")
-//    public ResponseEntity<List<GradingCriteria>> getAllGradingCriteria() {
-//        List<GradingCriteria> criteria = gradingPageService.getAllGradingCriteria();
-//        return ResponseEntity.ok().body(criteria);
-//    }
-//    
-//    @PostMapping("/updateStudent")
-//    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
-//        return ResponseEntity.ok(gradingPageService.updateStudent(student));
-//    }
-//
-//    @PostMapping("/updateGradingCriteria")
-//    public ResponseEntity<GradingCriteria> updateGradingCriteria(@RequestBody GradingCriteria gradingCriteria) {
-//        return ResponseEntity.ok(gradingPageService.updateGradingCriteria(gradingCriteria));
-//    }
+    @GetMapping("/students")
+    public ResponseEntity<List<StudentDTO>> getAllStudents() {
+        List<StudentDTO> students = gradingPageService.getAllStudents();
+        return ResponseEntity.ok().body(students);
+    }
+
+    @GetMapping("/criteria")
+    public ResponseEntity<List<GradingCriteriaDTO>> getAllGradingCriteria() {
+        List<GradingCriteriaDTO> criteria = gradingPageService.getAllGradingCriteria();
+        return ResponseEntity.ok().body(criteria);
+    }
+
+    @PostMapping("/updateStudent")
+    public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO) {
+        return ResponseEntity.ok(gradingPageService.updateStudent(studentDTO));
+    }
+
+    @PostMapping("/updateGradingCriteria")
+    public ResponseEntity<GradingCriteriaDTO> updateGradingCriteria(@RequestBody GradingCriteriaDTO gradingCriteriaDTO) {
+        return ResponseEntity.ok(gradingPageService.updateGradingCriteria(gradingCriteriaDTO));
+    }
 
     @DeleteMapping("/deleteStudent/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {

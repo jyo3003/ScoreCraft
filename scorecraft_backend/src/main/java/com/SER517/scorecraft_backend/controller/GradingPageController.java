@@ -22,27 +22,27 @@ public class GradingPageController {
     @Autowired
     private GradingPageService gradingPageService;
 
-    @GetMapping("/students")
-    public ResponseEntity<List<Student>> getAllStudents() {
-        List<Student> students = gradingPageService.getAllStudents();
-        return ResponseEntity.ok().body(students);
-    }
-
-    @GetMapping("/criteria")
-    public ResponseEntity<List<GradingCriteria>> getAllGradingCriteria() {
-        List<GradingCriteria> criteria = gradingPageService.getAllGradingCriteria();
-        return ResponseEntity.ok().body(criteria);
-    }
-    
-    @PostMapping("/updateStudent")
-    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
-        return ResponseEntity.ok(gradingPageService.updateStudent(student));
-    }
-
-    @PostMapping("/updateGradingCriteria")
-    public ResponseEntity<GradingCriteria> updateGradingCriteria(@RequestBody GradingCriteria gradingCriteria) {
-        return ResponseEntity.ok(gradingPageService.updateGradingCriteria(gradingCriteria));
-    }
+//    @GetMapping("/students")
+//    public ResponseEntity<List<Student>> getAllStudents() {
+//        List<Student> students = gradingPageService.getAllStudents();
+//        return ResponseEntity.ok().body(students);
+//    }
+//
+//    @GetMapping("/criteria")
+//    public ResponseEntity<List<GradingCriteria>> getAllGradingCriteria() {
+//        List<GradingCriteria> criteria = gradingPageService.getAllGradingCriteria();
+//        return ResponseEntity.ok().body(criteria);
+//    }
+//    
+//    @PostMapping("/updateStudent")
+//    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
+//        return ResponseEntity.ok(gradingPageService.updateStudent(student));
+//    }
+//
+//    @PostMapping("/updateGradingCriteria")
+//    public ResponseEntity<GradingCriteria> updateGradingCriteria(@RequestBody GradingCriteria gradingCriteria) {
+//        return ResponseEntity.ok(gradingPageService.updateGradingCriteria(gradingCriteria));
+//    }
 
     @DeleteMapping("/deleteStudent/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {

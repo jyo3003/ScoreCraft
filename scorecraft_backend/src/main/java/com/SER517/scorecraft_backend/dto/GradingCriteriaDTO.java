@@ -1,6 +1,7 @@
 package com.SER517.scorecraft_backend.dto;
 
 public class GradingCriteriaDTO {
+    private Long id;  // New field
     private String criteriaName;
     private int score;
     private String typeOfCriteria;
@@ -11,7 +12,8 @@ public class GradingCriteriaDTO {
     public GradingCriteriaDTO() {
     }
 
-    public GradingCriteriaDTO(String criteriaName, int score, String typeOfCriteria, String gradingCriteriaGroupName) {
+    public GradingCriteriaDTO(Long id, String criteriaName, int score, String typeOfCriteria, String gradingCriteriaGroupName) {
+        this.id = id;
         this.criteriaName = criteriaName;
         this.score = score;
         this.typeOfCriteria = typeOfCriteria;
@@ -19,6 +21,14 @@ public class GradingCriteriaDTO {
     }
 
     // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCriteriaName() {
         return criteriaName;
@@ -52,4 +62,3 @@ public class GradingCriteriaDTO {
         this.gradingCriteriaGroupName = gradingCriteriaGroupName;
     }
 }
-

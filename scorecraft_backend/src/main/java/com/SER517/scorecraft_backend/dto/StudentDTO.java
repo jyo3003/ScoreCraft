@@ -1,6 +1,9 @@
 package com.SER517.scorecraft_backend.dto;
 
 public class StudentDTO {
+
+    private Long id; // Added id field
+
     private String groupName;
     private String asurite;
     private String finalComment;
@@ -12,7 +15,8 @@ public class StudentDTO {
     public StudentDTO() {
     }
 
-    public StudentDTO(String groupName, String asurite, String finalComment, int finalScore, String studentName) {
+    public StudentDTO(Long id, String groupName, String asurite, String finalComment, int finalScore, String studentName) {
+        this.id = id;
         this.groupName = groupName;
         this.asurite = asurite;
         this.finalComment = finalComment;
@@ -21,6 +25,14 @@ public class StudentDTO {
     }
 
     // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getGroupName() {
         return groupName;

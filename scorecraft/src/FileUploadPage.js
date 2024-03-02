@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './FileUploadPage.css';
 import grade from './Grade.png';
 import { uploadFile } from './api';
+import { fetchData as fetchDataAPI} from './api';
 
 function FileUploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -15,6 +16,10 @@ function FileUploadPage() {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
+  const fetchData = async (event) => {
+    await fetchDataAPI();
+  }
 
   const handleUpload = async () => {
     if (!selectedFile) {

@@ -11,11 +11,11 @@ export const uploadFile = async (file, resourceId) => {
 
     // Include the resource ID in the URL if your backend requires it
     const url = `${API_URL}/excel/upload`;
-    const username = 'user';
-    const password = '6e1b4648-724d-4a03-9ad8-0ac9fd6baf17';
+    // const username = 'user';
+    // const password = '6e1b4648-724d-4a03-9ad8-0ac9fd6baf17';
 
-    // Encode the username and password
-    const credentials = Buffer.from(`${username}:${password}`).toString('base64');
+    // // Encode the username and password
+    // const credentials = Buffer.from(`${username}:${password}`).toString('base64');
 
     const response = await axios.put(url, formData, {
       headers: {
@@ -48,19 +48,19 @@ export const fetchData = async () => {
     );
 
     // Define the username and password
-    const username = 'user';
-    const password = 'd2c9d3a0-7c37-4d97-9ca5-de72a5756196';
+    // const username = 'user';
+    // const password = 'd2c9d3a0-7c37-4d97-9ca5-de72a5756196';
 
-    // Encode the username and password
-    const credentials = Buffer.from(`${username}:${password}`).toString('base64');
+    // // Encode the username and password
+    // const credentials = Buffer.from(`${username}:${password}`).toString('base64');
 
-    // Configure the Axios request with the Authorization header
-    const config = {
-      headers: {
-        Authorization: `Basic ${credentials}`,
-        // You can add other headers here if needed
-      },
-    };
+    // // Configure the Axios request with the Authorization header
+    // const config = {
+    //   headers: {
+    //     Authorization: `Basic ${credentials}`,
+    //     // You can add other headers here if needed
+    //   },
+    // };
 
     // Send the GET request with the configured headers
     const response = await axios.post(url, {

@@ -19,7 +19,7 @@ export const uploadFile = async (file, resourceId) => {
 
     const response = await axios.put(url, formData, {
       headers: {
-        Authorization: `Basic ${credentials}`,
+        // Authorization: `Basic ${credentials}`,
         'Content-Type': 'multipart/form-data',
       },
     });

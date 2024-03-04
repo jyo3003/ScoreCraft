@@ -12,7 +12,7 @@ export const uploadFile = async (file, resourceId) => {
     // Include the resource ID in the URL if your backend requires it
     const url = `${API_URL}/excel/upload`;
     const username = 'user';
-    const password = '92b82b80-83b6-4be6-9567-84975e78f1e7';
+    const password = '6e1b4648-724d-4a03-9ad8-0ac9fd6baf17';
 
     // Encode the username and password
     const credentials = Buffer.from(`${username}:${password}`).toString('base64');
@@ -37,11 +37,19 @@ export const uploadFile = async (file, resourceId) => {
 export const fetchData = async () => {
   try {
     // Define the URL with parameters
-    const url = 'http://localhost:8080/api/excel/test?param=Harsha';
+    const url = 'http://localhost:8080/api/excel/test2';
+
+    const formData = new FormData();
+    formData.append('data',{
+      id: 1,
+      name: "John Doe",
+      email: "john.doe@example.com"
+    }
+    );
 
     // Define the username and password
     const username = 'user';
-    const password = '92b82b80-83b6-4be6-9567-84975e78f1e7';
+    const password = 'd2c9d3a0-7c37-4d97-9ca5-de72a5756196';
 
     // Encode the username and password
     const credentials = Buffer.from(`${username}:${password}`).toString('base64');
@@ -55,7 +63,10 @@ export const fetchData = async () => {
     };
 
     // Send the GET request with the configured headers
-    const response = await axios.get(url, config);
+    const response = await axios.post(url, {
+      name: 'user',
+      password: '<PASSWORD>',
+    });
 
     // Handle the response
     console.log('Response:', response.data);

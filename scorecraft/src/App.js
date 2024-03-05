@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import FileUploadPage from './components/FileUploadPage';
 import MainPageIndividual from './components/MainPageIndividual';
 import MainPageGroup from './components/MainPageGroup';
-import './App.css';
 
 function App() {
   return (

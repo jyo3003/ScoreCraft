@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
-import './MainPageIndividual.css';
-import grade from './Grade.png';
-import backgroundImage from './Background.jpg';
+import '../css/MainPageIndividual.css';
+import grade from '../images/Grade.png';
 
 const MainPageIndividual = () => {
   const [searchTerm, setSearchTerm] = useState('');

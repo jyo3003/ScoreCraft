@@ -1,12 +1,10 @@
-/* MainPageIndividual.css */
-
 /* Base styling for the page */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('Background.jpg'); /* Background image */
-    background-color: #f0f0f0; /* Fallback background color */
+    background-image: url('../images/Background.jpg'); /* Background image */
+    background-color: #d5bcbc; /* Fallback background color */
     background-size: cover; /* Cover the entire background */
 }
 
@@ -16,7 +14,7 @@ body {
     padding: 10px 20px; /* Space inside the header */
     display: flex; /* Use flexbox for layout */
     align-items: center; /* Center items vertically */
-    justify-content: start; /* Align items to the start of the flex container */
+    justify-content: start; /* Align items to the start */
 }
 
 .header img {
@@ -26,29 +24,51 @@ body {
 }
 
 .header .title {
-    font-size: 29px; /* Large font size for the title */
-    color: #000000;
+    font-size: 24px; /* Large font size for the title */
+    color: #020409; /* Dark grey color for the text */
     margin: 0; /* Reset margin */
 }
 
-/* MainPageIndividual specific styling */
-.main-page-individual {
-    font-family: 'Arial', sans-serif;
-    background-image: url('Container.jpg');
-    background-size: cover; 
-    background-position: center; 
-    background-repeat: no-repeat;
+/* MainPageGroup specific styling */
+.main-page-group {
+    background-image: url('../images/Container.jpg'); /* Add your image path here */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the image */
     padding: 200px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     max-width: 600px;
-    margin: 40px auto;
+    margin: auto;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border: 8px solid #d8c464;
 
+  }
+  
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin-bottom: 20px; /* Add some margin to separate from the content */
+}
+
+.content-container {
+    margin-top: 20px; /* Add margin to separate from the header */
+}
+
+.pencil-logo {
+    width: 100px; /* Set the size of the logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Space between logo and title */
+}
+
+.header-title {
+    font-size: 34px; /* Large font size for the title */
+    color: #333; /* Dark grey color for the text */
+    /* Add other styling such as font-weight, etc., as per your design */
 }
 
 .search-bar {
@@ -74,18 +94,19 @@ body {
     cursor: pointer;
 }
 
-.students-table table {
+.groups-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-.students-table th, .students-table td {
+.groups-table th,
+.groups-table td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
 }
 
-.students-table th {
+.groups-table th {
     background-color: #f8f8f8;
 }
 

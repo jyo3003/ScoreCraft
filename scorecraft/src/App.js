@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import FileUploadPage from './FileUploadPage';
-import MainPageIndividual from './MainPageIndividual';
-import MainPageGroup from './MainPageGroup';
+import FileUploadPage from './components/FileUploadPage';
+import MainPageIndividual from './components/MainPageIndividual';
+import MainPageGroup from './components/MainPageGroup';
 import './App.css';
 
 function App() {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './FileUploadPage.css';
-import grade from './Grade.png';
-import { uploadFile } from './api';
-import { fetchData as fetchDataAPI} from './api';
+import '../css/FileUploadPage.css'
+import grade from '../images/Grade.png';
+import { uploadFile } from '../api';
+import { fetchData as fetchDataAPI} from '../api';
 
 function FileUploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);

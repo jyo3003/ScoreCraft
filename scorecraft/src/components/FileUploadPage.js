@@ -64,6 +64,7 @@ function FileUploadPage() {
           <img src={home} alt="Home Icon" />
         </button>
       </header>
+
       <div className="container">
         {!assessmentType ? (
           <div className="grading-criteria">
@@ -71,7 +72,9 @@ function FileUploadPage() {
             <button type="button" onClick={() => handleAssessmentTypeSelection('MainPageGroup')}>Group</button>
             <button type="button" onClick={() => handleAssessmentTypeSelection('MainPageIndividual')}>Individual</button>
           </div>
+    
         ) : null}
+        
         <div ref={uploadSectionRef} className={`file-upload-section ${assessmentType ? 'active' : ''}`}>
           <h2>File Upload</h2>
           <input type="file" onChange={handleFileChange} accept=".xls,.xlsx" />
@@ -80,6 +83,7 @@ function FileUploadPage() {
         </div>
       </div>
     </div>
+    
   );
 }
 

@@ -9,18 +9,19 @@ body {
   min-height: 100vh;
 }
 .header h1 {
-  font-family: 'book antiqua', sans-serif; /* Replace 'YourFont' with your desired font name */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Replace 'YourFont' with your desired font name */
   font-size: 35px;
 }
 
 .file-upload-section h2 {
   color: #ffffff; /* Change to the desired color */
-  font-size: 45px; /* Adjust the font size as needed */
+  font-size: 55px; /* Adjust the font size as needed */
   font-family: 'Calibri bold', sans-serif; /* Replace 'YourFont' with your desired font name */
+  width: 350px;
 }
 
 .header {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1.5)); /* Black to transparent gradient */
+  background: linear-gradient(rgba(58, 106, 67, 0.744), rgba(0, 0, 0, 1.5)); /* Black to transparent gradient */
   color: white;
   padding: 10px 20px;
   display: flex;
@@ -29,10 +30,11 @@ body {
   position: fixed;
   width: 100%;
   height: 80px;
-  z-index: 1; /* Ensure the header is above other content */
-  .home-button {
+  z-index: 1; 
+   .home-button {
     background: none;
-    border: none;
+    border-color: #000000;
+    border-radius: 20px;
     color: white;
     font-size: 16px;
     cursor: pointer;
@@ -54,21 +56,22 @@ body {
 .container {
   max-width: 500px;
   margin: auto;
-  padding: 20px;
-  position: fixed; /* Make sure the position is relative */
-  top: 50%; /* Move the container down by half of its height */
-  left: 10px;
-  transform: translateY(-50%); /* Correct the position to be in the middle */
-  z-index: 0; /* Ensure the container is behind the header */
+  padding: 210px;
+  position: relative; /* Change position to relative */
+  z-index: 30; 
+  overflow-y: auto; /* Add overflow-y to allow vertical scrolling */
+  height: calc(100vh - 120px);/* Subtract header height from viewport height */
 }
+
 .container .grading-question {
-  color: #ffffff; /* Change the text color to dark gray */
-  font-family: 'book antiqua', sans-serif; /* Replace 'YourFont' with your desired font name */
+  color: #4F4F4F; /* Change the text color to dark gray */
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* Replace 'YourFont' with your desired font name */
   font-weight: bold;
 
 }
 
 .file-upload-section {
+  padding: 150px;
   display: none;
 }
 
@@ -97,7 +100,7 @@ body {
 
 /* Apply the font change to the grading question */
 .grading-criteria .grading-question {
-  font-family: 'Calibri', sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: 45px;
   color: #e9eef3;
 }
@@ -148,3 +151,4 @@ input[type="file"] {
     width: 60%;
   }
 }
+

@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('../images/Background.jpg'); /* Background image */
+    background-image: url('../images/pexels.jpeg'); /* Background image */
     background-color: #d5bcbc; /* Fallback background color */
     background-size: cover; /* Cover the entire background */
 }

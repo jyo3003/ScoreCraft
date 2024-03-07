@@ -1,91 +1,150 @@
-.file-upload-container {
-  font-family: Arial, sans-serif; 
-  max-width: 500px; 
-  margin: auto; 
-  padding: 20px;
-  background-image: url('../images/Container.jpg');
-  background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  
-  /* Center vertically */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('../images/pexels.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+.header h1 {
+  font-family: 'book antiqua', sans-serif; /* Replace 'YourFont' with your desired font name */
+  font-size: 35px;
+}
+
+.file-upload-section h2 {
+  color: #ffffff; /* Change to the desired color */
+  font-size: 45px; /* Adjust the font size as needed */
+  font-family: 'Calibri bold', sans-serif; /* Replace 'YourFont' with your desired font name */
+}
+
+.header {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1.5)); /* Black to transparent gradient */
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  border: 8px solid #d8c464;
+  width: 100%;
+  height: 80px;
+  z-index: 1; /* Ensure the header is above other content */
+  .home-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: auto;
+    padding-right: 50px;
+    font-family: 'book antiqua', sans-serif;
+  }
 }
 
-
-.file-upload-header {
-  text-align: center; /* Center header content */
+.logo {
+  width: 50px;
+  margin-right: 10px;
 }
 
-.pencil-logo {
-  width: 50px; /* Adjust the size of the logo */
-  margin-bottom: 10px; /* Space below the logo */
+.title {
+  margin: 0;
 }
 
-h1 {
-  color: #020409;
-  margin-bottom: 30px; /* Space below the heading */
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  position: fixed; /* Make sure the position is relative */
+  top: 50%; /* Move the container down by half of its height */
+  left: 10px;
+  transform: translateY(-50%); /* Correct the position to be in the middle */
+  z-index: 0; /* Ensure the container is behind the header */
+}
+.container .grading-question {
+  color: #ffffff; /* Change the text color to dark gray */
+  font-family: 'book antiqua', sans-serif; /* Replace 'YourFont' with your desired font name */
+  font-weight: bold;
+
+}
+
+.file-upload-section {
+  display: none;
+}
+
+.grading-criteria {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.grading-criteria p {
+  margin-bottom: 20px;
+}
+
+.grading-criteria button {
+  background: linear-gradient(to right, #d5d5d5 50%, #e9eef3 50%);
+  background-size: 200% 100%;
+  color: black;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: 10px solid transparent; /* Add a transparent border */
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.5s;
+  font-family: 'arial bold', sans-serif;
+  font-size: 18px;
+}
+
+/* Apply the font change to the grading question */
+.grading-criteria .grading-question {
+  font-family: 'Calibri', sans-serif;
+  font-size: 45px;
+  color: #e9eef3;
+}
+
+.grading-criteria button {
+  border-top: 3px solid #cea13c; /* Top border */
+  border-bottom: 3px solid #cea13c; /* Bottom border */
+  border-left: 3px solid #cea13c; /* Left border */
+  border-right: 3px solid #cea13c; /* Right border */
+}
+.grading-criteria button:hover {
+  background-position: right;
+  color: #007300;
+}
+
+.file-upload-section.active {
+  display: block;
 }
 
 input[type="file"] {
-  border: 1px solid #ccc; /* Grey border */
+  border: 1px solid #ccc;
   display: block;
-  margin: 0 auto 20px; /* Center the file input and add space below */
+  margin: 0 auto 20px;
   padding: 10px;
 }
 
 .upload-button {
-  background-color: #5cb85c; /* Green background */
-  color: white; /* White text */
-  padding: 10px 20px; /* Padding around the text */
-  border: none;
-  border-radius: 5px; /* Rounded button edges */
-  cursor: pointer; /* Pointer cursor on hover */
-  display: block;
-  margin: auto; /* Center button */
-}
-
-.upload-button:hover {
-  background-color: #4cae4c; /* Slightly darker green on hover */
-}
-
-.grading-criteria {
-  text-align: center; /* Center grading criteria content */
-  margin-top: 30px; /* Space above the grading criteria */
-}
-
-.grading-criteria p {
-  margin-bottom: 20px; /* Space below the paragraph */
-}
-
-.grading-criteria button {
-  background-color: #57a19b;
+  background: linear-gradient(to right, #5cb85c 50%, #007300 50%);
+  background-size: 200% 100%;
+  font-size: 15px;
   color: white;
   padding: 10px 20px;
-  margin: 0 10px; /* Space between buttons */
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  display: inline-block;
+  margin: auto;
+  transition: background-position 0.3s, transform 0.5s;
 }
 
-.grading-criteria button:hover {
-  background-color: #286090; /* Darker blue on hover */
+.upload-button:hover {
+  background-position: -100% 0;
+  transform: scale(1.1);
 }
 
-p {
-  color: #020409;
-}
-
-/* Add responsiveness to the layout */
 @media (max-width: 768px) {
-  .file-upload-container {
-    width: 60%; /* Make the container take up more width on smaller screens */
+  .container {
+    width: 60%;
   }
 }

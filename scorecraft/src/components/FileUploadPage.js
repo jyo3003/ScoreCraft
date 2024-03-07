@@ -1,25 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../css/FileUploadPage.css'
+import '../css/FileUploadPage.css';
 import grade from '../images/Grade.png';
-import { uploadFile } from '../api';
-import { fetchData as fetchDataAPI} from '../api';
+import home from '../images/home.png';
+import { uploadFile, fetchData as fetchDataAPI } from '../api';
 
 function FileUploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
+  const [assessmentType, setAssessmentType] = useState('');
+  const [data, setData] = useState(null); // State to hold fetched data
   const navigate = useNavigate();
+  const uploadSectionRef = useRef(null);
 
-  // Example: Adjust this to obtain the resourceId dynamically if needed
-  const resourceId = 'exampleResourceId'; // Placeholder, replace with actual logic to get resourceId
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedData = await fetchDataAPI();
+        setData(fetchedData); // Save the fetched data to state
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array means this runs once on component mount
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const fetchData = async (event) => {
-    await fetchDataAPI();
-  }
+  const handleAssessmentTypeSelection = (type) => {
+    setAssessmentType(type);
+    setTimeout(() => { // Adding a timeout to ensure the section is visible for scrolling
+      uploadSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  };
 
   const handleUpload = async () => {
     if (!selectedFile) {
@@ -28,43 +44,40 @@ function FileUploadPage() {
     }
 
     try {
-      // Ensure you pass all required parameters to the uploadFile function
+      const resourceId = 'exampleResourceId'; // Placeholder, replace with actual logic
       await uploadFile(selectedFile, resourceId);
-      console.log('File upload success');
-      setUploadStatus('File Upload Successful'); // Display success message
+      setUploadStatus('File Upload Successful');
       setSelectedFile(null);
-
-      // Resetting the form to clear the file input after successful upload
-      document.getElementById('file-upload-form')?.reset();
-
-      // Optional: Navigate to another page if needed
-      // navigate('/path-to-success-page');
+      navigate(`/${assessmentType}`);
     } catch (error) {
       console.error('Error uploading file:', error);
-      setUploadStatus(error.message || 'Error uploading file'); // Display error message
+      setUploadStatus(error.message || 'Error uploading file');
     }
   };
 
-  // Navigation function, adjust or remove according to your app's needs
-  const navigateToPage = (page) => {
-    navigate(`/${page}`);
-  };
-
   return (
-    <div className="file-upload-container">
-      <form id="file-upload-form">
-        <div className="file-upload-header">
-          <img src={grade} alt="Img" className="pencil-logo"/>
-          <h1>ScoreCraft</h1>
+    <div>
+      <header className="header">
+        <img src={grade} alt="ScoreCraft Logo" className="pencil-logo" />
+        <h1>ScoreCraft</h1>
+        <button onClick={() => navigate('/')} className="home-button">
+          <img src={home} alt="Home Icon" />
+        </button>
+      </header>
+      <div className="container">
+        {!assessmentType ? (
+          <div className="grading-criteria">
+            <p className="grading-question">Is this grading criteria for a group or an individual assessment?</p>
+            <button type="button" onClick={() => handleAssessmentTypeSelection('MainPageGroup')}>Group</button>
+            <button type="button" onClick={() => handleAssessmentTypeSelection('MainPageIndividual')}>Individual</button>
+          </div>
+        ) : null}
+        <div ref={uploadSectionRef} className={`file-upload-section ${assessmentType ? 'active' : ''}`}>
+          <h2>File Upload</h2>
           <input type="file" onChange={handleFileChange} accept=".xls,.xlsx" />
           <button type="button" onClick={handleUpload} className="upload-button">Upload File</button>
-          {uploadStatus && <p>{uploadStatus}</p>}
+          {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
         </div>
-      </form>
-      <div className="grading-criteria">
-        <p>Is this grading criteria for a group or an individual assessment?</p>
-        <button type="button" onClick={() => navigateToPage('MainPageGroup')}>Group</button>
-        <button type="button" onClick={() => navigateToPage('MainPageIndividual')}>Individual</button>
       </div>
     </div>
   );

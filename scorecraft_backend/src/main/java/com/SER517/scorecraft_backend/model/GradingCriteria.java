@@ -11,11 +11,11 @@ public class GradingCriteria {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "criteria_name", nullable = false, length = 100)
+    @Column(name = "criteria_name", nullable = false, length = 512)
     private String criteriaName;
 
     @Column(name = "score")
-    private int score;
+    private double score;
 
     @Column(name = "type_of_criteria", length = 50)
     private String typeOfCriteria;
@@ -40,12 +40,12 @@ public class GradingCriteria {
         this.criteriaName = criteriaName;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setScore(double d) {
+        this.score = d;
     }
 
     public String getTypeOfCriteria() {

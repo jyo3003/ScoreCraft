@@ -3,7 +3,7 @@ package com.SER517.scorecraft_backend.dto;
 public class GradingCriteriaDTO {
     private Long id;  // New field
     private String criteriaName;
-    private int score;
+    private double score;
     private String typeOfCriteria;
     private String gradingCriteriaGroupName;
 
@@ -12,10 +12,10 @@ public class GradingCriteriaDTO {
     public GradingCriteriaDTO() {
     }
 
-    public GradingCriteriaDTO(Long id, String criteriaName, int score, String typeOfCriteria, String gradingCriteriaGroupName) {
+    public GradingCriteriaDTO(Long id, String criteriaName, double d, String typeOfCriteria, String gradingCriteriaGroupName) {
         this.id = id;
         this.criteriaName = criteriaName;
-        this.score = score;
+        this.score = d;
         this.typeOfCriteria = typeOfCriteria;
         this.gradingCriteriaGroupName = gradingCriteriaGroupName;
     }
@@ -38,11 +38,11 @@ public class GradingCriteriaDTO {
         this.criteriaName = criteriaName;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 

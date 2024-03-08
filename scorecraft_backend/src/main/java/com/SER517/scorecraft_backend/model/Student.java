@@ -15,13 +15,13 @@ public class Student {
     private String groupName;
 
     @Column(name = "asurite")
-    private String asurite;
+    private double asurite;
 
     @Column(name = "final_comment")
     private String finalComment;
 
     @Column(name = "final_score")
-    private int finalscore;
+    private double finalscore;
 
     @Column(name = "student_name")
     private String studentName;
@@ -33,7 +33,7 @@ public class Student {
     public Student() {
     }
 
-    public Student(String groupName, String asurite) {
+    public Student(String groupName, double asurite) {
         this.groupName = groupName;
         this.asurite = asurite;
     }
@@ -55,11 +55,11 @@ public class Student {
         this.groupName = groupName;
     }
 
-    public String getAsurite() {
+    public double getAsurite() {
         return asurite;
     }
 
-    public void setAsurite(String asurite) {
+    public void setAsurite(double asurite) {
         this.asurite = asurite;
     }
 
@@ -79,11 +79,11 @@ public class Student {
         this.finalComment = finalComment;
     }
 
-    public int getFinalscore() {
+    public double getFinalscore() {
         return finalscore;
     }
 
-    public void setFinalscore(int finalscore) {
+    public void setFinalscore(double finalscore) {
         this.finalscore = finalscore;
     }
 

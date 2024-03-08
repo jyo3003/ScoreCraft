@@ -5,9 +5,9 @@ public class StudentDTO {
     private Long id; // Added id field
 
     private String groupName;
-    private String asurite;
+    private double asurite;
     private String finalComment;
-    private int finalScore;
+    private double finalScore;
     private String studentName;
 
     // Constructors
@@ -15,12 +15,12 @@ public class StudentDTO {
     public StudentDTO() {
     }
 
-    public StudentDTO(Long id, String groupName, String asurite, String finalComment, int finalScore, String studentName) {
+    public StudentDTO(Long id, String groupName, double asurite, String finalComment, double d, String studentName) {
         this.id = id;
         this.groupName = groupName;
         this.asurite = asurite;
         this.finalComment = finalComment;
-        this.finalScore = finalScore;
+        this.finalScore = d;
         this.studentName = studentName;
     }
 
@@ -42,11 +42,11 @@ public class StudentDTO {
         this.groupName = groupName;
     }
 
-    public String getAsurite() {
+    public double getAsurite() {
         return asurite;
     }
 
-    public void setAsurite(String asurite) {
+    public void setAsurite(double asurite) {
         this.asurite = asurite;
     }
 
@@ -58,11 +58,11 @@ public class StudentDTO {
         this.finalComment = finalComment;
     }
 
-    public int getFinalScore() {
+    public double getFinalScore() {
         return finalScore;
     }
 
-    public void setFinalScore(int finalScore) {
+    public void setFinalScore(double finalScore) {
         this.finalScore = finalScore;
     }
 

@@ -13,6 +13,9 @@ import com.SER517.scorecraft_backend.repository.GradingCriteriaRepository;
 import com.SER517.scorecraft_backend.repository.StudentRepository;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -22,6 +25,8 @@ public class ExcelService {
 	private StudentRepository studentRepository;
 	@Autowired
 	private GradingCriteriaRepository gradingRepository;
+
+	private final Path rootLocation = Paths.get("/Users/harshavardhanbodepudi/Desktop/SER517_Team16/scorecraft_backend/src/main/resources");
 
 	public String processExcelFile(MultipartFile file) {
 		try (Workbook workbook = WorkbookFactory.create(convertMultipartFileToFile(file))) {
@@ -40,6 +45,10 @@ public class ExcelService {
 		try (FileOutputStream fos = new FileOutputStream(convFile)) {
 			fos.write(file.getBytes());
 		}
+		// Path destinationFile = rootLocation.resolve(
+        //             Paths.get(file.getOriginalFilename()))
+        //             .normalize().toAbsolutePath();
+        //     Files.copy(file.getInputStream(), destinationFile);
 		return convFile;
 	}
 
@@ -50,9 +59,9 @@ public class ExcelService {
 
 		// Process the first row for grading group names
 		Row firstRow = sheet.getRow(0);
-		Row secondRow = sheet.getRow(0);
-		Row thirdRow = sheet.getRow(0);
-		Row fourthRow = sheet.getRow(0);
+		Row secondRow = sheet.getRow(1);
+		Row thirdRow = sheet.getRow(2);
+		Row fourthRow = sheet.getRow(3);
 
 		// To get index of where to start iterating inner loop later
 		int lastIndex = 3;
@@ -76,7 +85,12 @@ public class ExcelService {
 						gc.setGradingCriteriaGroupName(cell.getStringCellValue());
 						gc.setTypeOfCriteria(cell1.getStringCellValue());
 						gc.setCriteriaName(cell2.getStringCellValue());
-						gc.setScore(Integer.parseInt(cell3.getStringCellValue()));
+						if (cell3 != null && cell3.getCellType() == CellType.NUMERIC) {
+							gc.setScore((int) cell3.getNumericCellValue()); // Directly use numeric value
+						}
+						else{
+							gc.setScore(Integer.parseInt(cell3.getStringCellValue()));
+						}
 						gradingRepository.save(gc);
 					} else {
 						i++;
@@ -95,16 +109,25 @@ public class ExcelService {
 
 	private void pasringStudentInfo(Sheet sheet) {
 		// Process from row 4 onwards for student information
-		for (int rowIndex = 3; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+		for (int rowIndex = 5; rowIndex < sheet.getLastRowNum(); rowIndex++) {
 			Row row = sheet.getRow(rowIndex);
+			if (row.getCell(0) == null) {
+                break;
+            }
 			Student student = new Student();
 			String groupName = row.getCell(0).getStringCellValue();
-			String asuriteId = row.getCell(1).getStringCellValue();
+			double asuriteId;
+			if(row.getCell(1)!= null && row.getCell(1).getCellType()== CellType.NUMERIC){
+				asuriteId = row.getCell(1).getNumericCellValue();
+			}
+			else{
+				System.out.println(row.getCell(1).getStringCellValue());
+                asuriteId = Double.parseDouble(row.getCell(1).getStringCellValue());
+            }
 			String studentName = row.getCell(2).getStringCellValue();
 			student.setAsurite(asuriteId);
 			student.setGroupName(groupName);
 			student.setStudentName(studentName);
-
 			// saving student object
 			studentRepository.save(student);
 

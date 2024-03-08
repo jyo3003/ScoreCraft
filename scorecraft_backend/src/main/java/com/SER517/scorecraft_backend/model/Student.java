@@ -27,16 +27,16 @@ public class Student {
     private String studentName;
 
     @Column(name = "grading status")
-    private Boolean gradingStatus;
+    private boolean gradingStatus;
 
 //    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<GradingCriteria> gradingCriteria;
 
-    public Boolean getGradingStatus() {
+    public boolean getGradingStatus() {
         return gradingStatus;
     }
 
-    public void setGradingStatus(Boolean gradingStatus) {
+    public void setGradingStatus(boolean gradingStatus) {
         this.gradingStatus = gradingStatus;
     }
 

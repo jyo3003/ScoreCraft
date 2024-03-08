@@ -67,11 +67,9 @@ public class GradingPageService {
  private StudentDTO convertToStudentDTO(Student student) {
      return new StudentDTO(
              student.getId(),
-             student.getGroupName(),
              student.getAsurite(),
-             student.getFinalComment(),
-             student.getFinalscore(),
-             student.getStudentName()
+             student.getStudentName(),
+            student.getGradingStatus()
      );
  }
 

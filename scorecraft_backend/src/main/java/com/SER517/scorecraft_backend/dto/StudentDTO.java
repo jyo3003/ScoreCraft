@@ -5,25 +5,26 @@ public class StudentDTO {
     private Long id; // Added id field
     private double asurite;
     private String studentName;
-    private String gradingStatus;
+    private boolean gradingStatus;
 
     // Constructors
 
-    public String getGradingStatus() {
+    public boolean getGradingStatus() {
         return gradingStatus;
     }
 
-    public void setGradingStatus(String gradingStatus) {
+    public void setGradingStatus(boolean gradingStatus) {
         this.gradingStatus = gradingStatus;
     }
 
     public StudentDTO() {
     }
 
-    public StudentDTO(Long id, String groupName, double asurite, String finalComment, double d, String studentName) {
+    public StudentDTO(Long id, double asurite, String studentName, boolean gradingStatus) {
         this.id = id;
         this.asurite = asurite;
         this.studentName = studentName;
+        this.gradingStatus = gradingStatus;
     }
 
     // Getters and Setters

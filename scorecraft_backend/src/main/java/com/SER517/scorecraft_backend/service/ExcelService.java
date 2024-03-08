@@ -2,8 +2,6 @@ package com.SER517.scorecraft_backend.service;
 
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,9 +11,6 @@ import com.SER517.scorecraft_backend.repository.GradingCriteriaRepository;
 import com.SER517.scorecraft_backend.repository.StudentRepository;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -25,8 +20,6 @@ public class ExcelService {
 	private StudentRepository studentRepository;
 	@Autowired
 	private GradingCriteriaRepository gradingRepository;
-
-	private final Path rootLocation = Paths.get("/Users/harshavardhanbodepudi/Desktop/SER517_Team16/scorecraft_backend/src/main/resources");
 
 	public String processExcelFile(MultipartFile file) {
 		try (Workbook workbook = WorkbookFactory.create(convertMultipartFileToFile(file))) {

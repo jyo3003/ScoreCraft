@@ -25,11 +25,16 @@ public class Student {
 
     @Column(name = "student_name")
     private String studentName;
+    
+    @Column(name = "grading_status")
+    private String gradingStatus;
 
 //    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<GradingCriteria> gradingCriteria;
 
-    // Constructors
+    
+
+	// Constructors
     public Student() {
     }
 
@@ -94,4 +99,11 @@ public class Student {
     public void setStudentName(String studentName) {
         this.studentName = studentName;
     }
+    public String getGradingStatus() {
+		return gradingStatus;
+	}
+
+	public void setGradingStatus(String gradingStatus) {
+		this.gradingStatus = gradingStatus;
+	}
 }

@@ -79,10 +79,7 @@ public class GradingPageService {
  private Student convertToStudentEntity(StudentDTO studentDTO) {
      Student student = new Student();
      student.setId(studentDTO.getId());
-     student.setGroupName(studentDTO.getGroupName());
      student.setAsurite(studentDTO.getAsurite());
-     student.setFinalComment(studentDTO.getFinalComment());
-     student.setFinalscore(studentDTO.getFinalScore());
      student.setStudentName(studentDTO.getStudentName());
      return student;
  }

@@ -4,6 +4,7 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import '../css/MainPageGroup.css';
 import grade from '../images/Grade.png';
+import home from '../images/home.png';
 
 const MainPageGroup = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -38,31 +39,36 @@ const MainPageGroup = () => {
     };
 
     return (
-        <div className="main-page-group">
-            <div className="header-container">
-                <img src={grade} alt="Img" className="pencil-logo" />
-                <span className="header-title">ScoreCraft</span>
+        <>
+            <div className="group-header">
+                <header className="header">
+                    <img src={grade} alt="ScoreCraft Logo" className="pencil-logo" />
+                    <h1>ScoreCraft</h1>
+                    <button onClick={() => navigate('/')} className="home-button">
+                        <img src={home} alt="Home Icon" />
+                    </button>
+                </header>
             </div>
-            <div className="content-container">
-                <button onClick={goToHome} className="home-button">Home</button>
-                <div className="search-bar">
-                    <input
-                        type="text"
-                        placeholder="Search Students"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <button onClick={handleExport} className="export-button">Export</button>
-                </div>
-                <table className="groups-table">
-                    <thead>
+            <div className="main-page-group">
+                <div className="content-container">
+                    <div className="group-search-bar">
+                        <input
+                            type="text"
+                            placeholder="Search Students"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        <button onClick={handleExport} className="export-button">Export</button>
+                    </div>
+                    <table className="groups-table">
+                        <thead>
                         <tr>
                             <th>Group Name</th>
                             <th>Student Count</th>
                             <th>Graded</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         {filteredGroups.map((group, index) => (
                             <tr key={index}>
                                 <td>{group.groupName}</td>
@@ -70,10 +76,11 @@ const MainPageGroup = () => {
                                 <td>{group.graded ? '✔️' : ''}</td>
                             </tr>
                         ))}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

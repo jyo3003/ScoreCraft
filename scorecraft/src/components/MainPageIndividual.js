@@ -4,6 +4,7 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import '../css/MainPageIndividual.css';
 import grade from '../images/Grade.png';
+import home from '../images/home.png';
 
 const MainPageIndividual = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -34,13 +35,18 @@ const MainPageIndividual = () => {
   };
 
   return (
-    <div className="main-page-individual">
-      <div className="header-container">
-        <img src={grade} alt="Img" className="pencil-logo"/>
-        <span className="header-title">ScoreCraft</span>
+      <>
+      <header className="header">
+        <img src={grade} alt="ScoreCraft Logo" className="pencil-logo" />
+        <h1>ScoreCraft</h1>
+        <button onClick={(home) => navigate('/')} className="home-button">
+          <img src={home} alt="Home Icon" />
+        </button>
+      </header>
+      <div className="main-page-individual">
+        <div className="header-container">
       </div>
-      <button onClick={goToHome} className="home-button">Home</button>
-      <div className="search-bar">
+      <div className="individual-search-bar">
         <input
           type="text"
           placeholder="Search Students"
@@ -49,7 +55,7 @@ const MainPageIndividual = () => {
         />
         <button onClick={() => exportToCSV(filteredStudents, 'students_export')} className="export-button">Export</button>
       </div>
-      <div className="students-table">
+      <div className="individual-students-table">
         <table>
           <thead>
             <tr>
@@ -70,6 +76,7 @@ const MainPageIndividual = () => {
         </table>
       </div>
     </div>
+      </>
   );
 };
 

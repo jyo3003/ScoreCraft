@@ -1,72 +1,72 @@
-/* MainPageIndividual.css */
-
-/* Base styling for the page */
+/* Container for search bar, export button, and table */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-image: url('../images/pexels.jpeg'); /* Background image */
-    background-color: #f0f0f0; /* Fallback background color */
+    background-color: #d5bcbc; /* Fallback background color */
     background-size: cover; /* Cover the entire background */
 }
 
 /* Header styling */
-.header {
-    background-color: #dcdcdc; /* Grey background for the header */
-    padding: 10px 20px; /* Space inside the header */
-    display: flex; /* Use flexbox for layout */
-    align-items: center; /* Center items vertically */
-    justify-content: start; /* Align items to the start of the flex container */
+.individual-header {
+    background-color: #dcdcdc;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
 }
 
+/* Logo styling */
 .header img {
-    width: 50px; /* Set the size of the image */
-    height: auto; /* Maintain aspect ratio */
-    margin-right: 10px; /* Add space between the image and the title */
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
 }
 
-.header .title {
-    font-size: 29px; /* Large font size for the title */
-    color: #000000;
-    margin: 0; /* Reset margin */
+/* Title styling */
+.individual-header-title {
+    font-size: 35px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #ffffff;
 }
 
-/* MainPageIndividual specific styling */
+/* Apply the container styles to the main page */
 .main-page-individual {
-    font-family: 'Arial', sans-serif;
-    background-image: url('../images/pexels.jpeg');
-    background-size: cover; 
-    background-position: center; 
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
-    padding: 200px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     max-width: 600px;
-    margin: 40px auto;
+    margin: auto;
     position: fixed;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 8px solid #d8c464;
-
+    height:70%;
+    transform: translateY(-50%);
 }
 
-.search-bar {
+/* Search bar styling */
+.individual-search-bar {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    width: 500px; /* Set the initial width of the search bar */
+    margin-left: 10px; /* Remove left margin */
 }
 
-.search-bar input[type="text"] {
+.individual-search-bar input[type="text"] {
     flex: 1;
     padding: 10px;
     margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    width: 300px; /* Ensure the input field takes up all available width */
 }
 
+/* Export button styling */
 .export-button {
     padding: 10px 20px;
+    margin-left: 20px;
     background-color: #4CAF50; /* Green */
     color: white;
     border: none;
@@ -74,26 +74,32 @@ body {
     cursor: pointer;
 }
 
-.students-table table {
-    width: 100%;
+/* Table styling */
+.individual-students-table {
+    margin-left: 8px;
     border-collapse: collapse;
     margin-top: 20px;
+    width: 1250px;
 }
 
-.students-table th, .students-table td {
+.individual-students-table th, .students-table td {
     padding: 12px;
-    border-bottom: 1px solid #ddd;
+    color: #ffffff; /* Change the font color */
+    border: 1px solid #ddd;
+    width: 10000px;
 }
 
-.students-table th {
-    background-color: #f8f8f8;
+.individual-students-table th {
+    background-color: #000000;
+    margin-bottom: 1px;
 }
 
+/* Home button styling */
 .home-button {
     display: block;
-    margin: 20px 0 20px auto; /* Move the button to the far right */
+    margin: 20px 0 20px ;
     padding: 10px 20px;
-    background-color: #000000; /* Black color for the button */
+    background-color: #000000;
     color: white;
     border: none;
     border-radius: 4px;

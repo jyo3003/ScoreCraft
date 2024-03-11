@@ -89,7 +89,21 @@ body {
     width: 10000px;
 }
 
-.individual-students-table th {
+.individual-students-table tr:nth-child(even) {
+    background-color: #d9e3e3;
+    margin-bottom: 1px;
+}
+
+.individual-students-table tbody tr:nth-child(odd) {
+    background-color: #a6bebe; /* Set background color for odd rows */
+    margin-bottom: 1px;
+}
+
+.individual-students-table td {
+    text-align: center;
+}
+
+.individual-students-table th{
     background-color: #000000;
     margin-bottom: 1px;
 }

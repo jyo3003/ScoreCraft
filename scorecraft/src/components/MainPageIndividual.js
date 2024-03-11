@@ -27,7 +27,7 @@ export default function MainPageIndividual() {
 
   // Function to filter the displayed students based on the search term
   const filteredStudents = students.filter(student =>
-    student.name.toLowerCase().includes(searchTerm.toLowerCase())
+    student.studentName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Function to export filtered students to Excel
@@ -73,9 +73,9 @@ export default function MainPageIndividual() {
             <tbody>
               {filteredStudents.map((student, index) => (
                 <tr key={index}>
-                  <td>{student.name}</td>
-                  <td>{student.asuriteId}</td>
-                  <td>{student.graded ? '✔️' : ''}</td>
+                  <td>{student.studentName}</td>
+                  <td>{student.asurite}</td>
+                  <td>{student.gradingStatus ? '✔️' : ''}</td>
                 </tr>
               ))}
             </tbody>

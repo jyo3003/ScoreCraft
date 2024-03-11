@@ -3,28 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import '../css/FileUploadPage.css';
 import grade from '../images/Grade.png';
 import home from '../images/home.png';
-import { uploadFile, fetchData as fetchDataAPI } from '../api';
+import { uploadFile } from '../api';
 
 function FileUploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
   const [assessmentType, setAssessmentType] = useState('');
-  const [data, setData] = useState(null); // State to hold fetched data
   const navigate = useNavigate();
   const uploadSectionRef = useRef(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedData = await fetchDataAPI();
-        setData(fetchedData); // Save the fetched data to state
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-      }
-    };
-
-    fetchData();
-  }, []); // Empty dependency array means this runs once on component mount
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);

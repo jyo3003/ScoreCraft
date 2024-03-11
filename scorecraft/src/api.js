@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { Buffer } from 'buffer';
 
-// Adjust the API URL to match your backend endpoint
+
+//  API URL to match your backend endpoint
 const API_URL = 'http://localhost:8080/api';
 
 export const uploadFile = async (file, resourceId) => {
@@ -73,5 +73,17 @@ export const fetchData = async () => {
   } catch (error) {
     // Handle errors
     console.error('Error:', error);
+  }
+};
+export const getStudents = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/students`);
+    return response.data; // Assuming the backend sends back an array of students
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || "Error fetching students");
+    } else {
+      throw new Error("Network error or no response from server");
+    }
   }
 };

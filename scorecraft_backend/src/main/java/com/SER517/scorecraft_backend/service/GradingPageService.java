@@ -69,7 +69,8 @@ public class GradingPageService {
              student.getId(),
              student.getAsurite(),
              student.getStudentName(),
-            student.getGradingStatus()
+            student.getGradingStatus(),
+            student.getGroupName()
      );
  }
 

@@ -3,29 +3,15 @@ package com.SER517.scorecraft_backend.dto;
 import java.util.List;
 
 public class GroupDTO {
-	
-	private Long id; // Added id field
 
 	private String groupName;
 
-    private List<String> students;
+    private List<StudentDTO> students;
     
-    public GroupDTO() {
-    	
-    }
-    
-    public GroupDTO(Long id, String groupName, List<String> students) {
+    public GroupDTO(String groupName, List<StudentDTO> students) {
 		super();
-		this.id = id;
 		this.groupName = groupName;
 		this.students = students;
-	}
-
-    public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
 	}
 	public String getGroupName() {
 		return groupName;
@@ -33,10 +19,10 @@ public class GroupDTO {
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-	public List<String> getStudents() {
+	public List<StudentDTO> getStudents() {
 		return students;
 	}
-	public void setStudents(List<String> students) {
+	public void setStudents(List<StudentDTO> students) {
 		this.students = students;
 	}
 

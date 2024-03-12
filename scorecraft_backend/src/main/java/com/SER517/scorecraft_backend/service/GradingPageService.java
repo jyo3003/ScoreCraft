@@ -1,10 +1,7 @@
 package com.SER517.scorecraft_backend.service;
 
-import com.SER517.scorecraft_backend.model.Student;
 import com.SER517.scorecraft_backend.model.GradingCriteria;
-import com.SER517.scorecraft_backend.repository.StudentRepository;
 import com.SER517.scorecraft_backend.repository.GradingCriteriaRepository;
-import com.SER517.scorecraft_backend.dto.StudentDTO;
 import com.SER517.scorecraft_backend.dto.GradingCriteriaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,19 +12,10 @@ import java.util.stream.Collectors;
 @Service
 public class GradingPageService {
 
-    @Autowired
-    private StudentRepository studentRepository;
 
     @Autowired
     private GradingCriteriaRepository gradingCriteriaRepository;
 
-    // Retrieve all students and convert them to DTOs
-    public List<StudentDTO> getAllStudents() {
-        List<Student> students = studentRepository.findAll();
-        return students.stream()
-                .map(this::convertToStudentDTO)
-                .collect(Collectors.toList());
-    }
 
     // Retrieve all grading criteria and convert them to DTOs
     public List<GradingCriteriaDTO> getAllGradingCriteria() {
@@ -37,12 +25,7 @@ public class GradingPageService {
                 .collect(Collectors.toList());
     }
 
-    // Update a student and return the updated student as DTO
-    public StudentDTO updateStudent(StudentDTO studentDTO) {
-        Student student = convertToStudentEntity(studentDTO);
-        Student updatedStudent = studentRepository.save(student);
-        return convertToStudentDTO(updatedStudent);
-    }
+    
 
     // Update grading criteria and return the updated criteria as DTO
     public GradingCriteriaDTO updateGradingCriteria(GradingCriteriaDTO gradingCriteriaDTO) {
@@ -51,37 +34,11 @@ public class GradingPageService {
         return convertToGradingCriteriaDTO(updatedGradingCriteria);
     }
 
-    // Delete a student by ID
-    public void deleteStudent(Long id) {
-        studentRepository.deleteById(id);
-    }
 
     // Delete grading criteria by ID
     public void deleteGradingCriteria(Long id) {
         gradingCriteriaRepository.deleteById(id);
     }
-
- // Conversion methods
-
- // Convert Student entity to StudentDTO
- private StudentDTO convertToStudentDTO(Student student) {
-     return new StudentDTO(
-             student.getId(),
-             student.getAsurite(),
-             student.getStudentName(),
-            student.getGradingStatus(),
-            student.getGroupName()
-     );
- }
-
- // Convert StudentDTO to Student entity
- private Student convertToStudentEntity(StudentDTO studentDTO) {
-     Student student = new Student();
-     student.setId(studentDTO.getId());
-     student.setAsurite(studentDTO.getAsurite());
-     student.setStudentName(studentDTO.getStudentName());
-     return student;
- }
 
  // Convert GradingCriteria entity to GradingCriteriaDTO
  private GradingCriteriaDTO convertToGradingCriteriaDTO(GradingCriteria gradingCriteria) {

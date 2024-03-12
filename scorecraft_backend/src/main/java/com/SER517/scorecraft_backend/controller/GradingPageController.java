@@ -1,7 +1,6 @@
 package com.SER517.scorecraft_backend.controller;
 
-import com.SER517.scorecraft_backend.dto.StudentDTO;
-import com.SER517.scorecraft_backend.dto.GradingCriteriaDTO;
+import com.SER517.scorecraft_backend.dto.GradingMainDTO;
 import com.SER517.scorecraft_backend.service.GradingPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,26 +15,26 @@ public class GradingPageController {
     @Autowired
     private GradingPageService gradingPageService;
 
-    
-
-    @GetMapping("/criteria")
-    public ResponseEntity<List<GradingCriteriaDTO>> getAllGradingCriteria() {
-        List<GradingCriteriaDTO> criteria = gradingPageService.getAllGradingCriteria();
-        return ResponseEntity.ok().body(criteria);
+    // Endpoint to get all grading groups with their criteria
+    @GetMapping("/allGradingGroups")
+    public ResponseEntity<List<GradingMainDTO>> getAllGradingGroups() {
+        List<GradingMainDTO> gradingGroups = gradingPageService.getAllGradingGroups();
+        return ResponseEntity.ok().body(gradingGroups);
     }
 
-    
-
-    @PostMapping("/updateGradingCriteria")
-    public ResponseEntity<GradingCriteriaDTO> updateGradingCriteria(@RequestBody GradingCriteriaDTO gradingCriteriaDTO) {
-        return ResponseEntity.ok(gradingPageService.updateGradingCriteria(gradingCriteriaDTO));
+    // Endpoint to create or update a whole group of grading criteria
+    @PostMapping("/saveGradingGroup")
+    public ResponseEntity<List<GradingMainDTO>> saveGradingGroup(@RequestBody GradingMainDTO gradingMainDTO) {
+        gradingPageService.saveGradingCriteria(gradingMainDTO);
+        // After saving, fetch and return the updated list of all grading groups
+        List<GradingMainDTO> updatedGradingGroups = gradingPageService.getAllGradingGroups();
+        return ResponseEntity.ok().body(updatedGradingGroups);
     }
 
-    
-
-    @DeleteMapping("/deleteGradingCriteria/{id}")
-    public ResponseEntity<Void> deleteGradingCriteria(@PathVariable Long id) {
-        gradingPageService.deleteGradingCriteria(id);
+    // Endpoint to delete all grading criteria by their group name
+    @DeleteMapping("/deleteGradingGroup/{groupName}")
+    public ResponseEntity<Void> deleteGradingGroup(@PathVariable String groupName) {
+        gradingPageService.deleteGradingCriteriaByGroupName(groupName);
         return ResponseEntity.ok().build();
     }
 }

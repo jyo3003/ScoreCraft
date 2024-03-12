@@ -22,7 +22,7 @@ public class GradingPageController {
         return ResponseEntity.ok().body(gradingGroups);
     }
 
-    // Endpoint to create or update a whole group of grading criteria
+    // Endpoint to create or update a whole group of grading criteria and return it
     @PostMapping("/saveGradingGroup")
     public ResponseEntity<List<GradingMainDTO>> saveGradingGroup(@RequestBody GradingMainDTO gradingMainDTO) {
         gradingPageService.saveGradingCriteria(gradingMainDTO);
@@ -31,7 +31,7 @@ public class GradingPageController {
         return ResponseEntity.ok().body(updatedGradingGroups);
     }
 
-    // Endpoint to delete all grading criteria by their group name
+    // Endpoint to delete all grading criteria by their group names
     @DeleteMapping("/deleteGradingGroup/{groupName}")
     public ResponseEntity<Void> deleteGradingGroup(@PathVariable String groupName) {
         gradingPageService.deleteGradingCriteriaByGroupName(groupName);

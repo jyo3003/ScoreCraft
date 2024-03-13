@@ -24,7 +24,7 @@ export const uploadFile = async (file, resourceId) => {
       },
     });
 
-    return response.data; // Assuming the backend sends back JSON data
+    return response.data; 
   } catch (error) {
     if (error.response) {
       throw new Error(error.response.data.message || "Error uploading file");
@@ -38,10 +38,22 @@ export const getStudents = async () => {
   try {
     const response = await axios.get(`${API_URL}/main/students`);
     console.log('Response:', response.data);
-    return response.data; // Assuming the backend sends back an array of students
+    return response.data; 
   } catch (error) {
     if (error.response) {
       throw new Error(error.response.data.message || "Error fetching students");
+    } else {
+      throw new Error("Network error or no response from server");
+    }
+  }
+};
+export const getStudentsByGroup = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/main/groups`);
+    return response.data; // Assuming the backend sends back an array of students with group numbers
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || "Error fetching students by group");
     } else {
       throw new Error("Network error or no response from server");
     }

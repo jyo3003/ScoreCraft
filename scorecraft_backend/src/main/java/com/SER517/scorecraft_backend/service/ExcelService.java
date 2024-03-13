@@ -58,6 +58,7 @@ public class ExcelService {
 
 		// To get index of where to start iterating inner loop later
 		int lastIndex = 3;
+		
 
 		for (int cellIndex = 3; cellIndex < firstRow.getLastCellNum(); cellIndex += 2) { // Start from the 4th cell and
 																							// skip every other cell
@@ -94,7 +95,7 @@ public class ExcelService {
 				}
 
 			} else {
-				break; // Exit if the main grading group name is empty
+				continue; // Exit if the main grading group name is empty
 			}
 		}
 

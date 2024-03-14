@@ -34,7 +34,7 @@ const MainPageGroup = () => {
         if (group.groupName === groupName) {
           return { ...group, show: !group.show };
         }
-        return group;
+        return { ...group, show: false }; // Collapse other rows
       })
     );
   };

@@ -4,12 +4,10 @@ import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.SER517.scorecraft_backend.model.Student;
 import com.SER517.scorecraft_backend.model.GradingCriteria;
 import com.SER517.scorecraft_backend.repository.GradingCriteriaRepository;
 import com.SER517.scorecraft_backend.repository.StudentRepository;
-
 import java.io.*;
 import java.util.*;
 
@@ -21,9 +19,17 @@ public class ExcelService {
 	@Autowired
 	private GradingCriteriaRepository gradingRepository;
 
+	private void clearExistingData() {
+        // Truncate tables or delete data from repositories
+        gradingRepository.deleteAllInBatch();
+        studentRepository.deleteAllInBatch();
+    }
+
 	public String processExcelFile(MultipartFile file) {
 		try (Workbook workbook = WorkbookFactory.create(convertMultipartFileToFile(file))) {
 			Sheet sheet = workbook.getSheetAt(0);
+			// Clear existing data
+            clearExistingData();
 			parsingGradingCriteria(sheet);
 			pasringStudentInfo(sheet);
 			return "File processed and data stored successfully";

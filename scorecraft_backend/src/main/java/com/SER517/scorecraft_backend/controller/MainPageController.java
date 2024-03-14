@@ -11,6 +11,7 @@ import com.SER517.scorecraft_backend.service.MainPageService;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/main")
 public class MainPageController {

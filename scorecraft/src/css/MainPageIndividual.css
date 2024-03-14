@@ -1,11 +1,12 @@
-/* Container for search bar, export button, and table */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('../images/pexels.jpeg'); /* Background image */
-    background-color: #d5bcbc; /* Fallback background color */
-    background-size: cover; /* Cover the entire background */
+    background-image: url('../images/pexels.jpeg');
+    background-color: #d5bcbc; 
+    background-size: cover;
+    overflow-y: auto;
+
 }
 
 /* Header styling */
@@ -32,17 +33,15 @@ body {
     color: #ffffff;
 }
 
-/* Apply the container styles to the main page */
+
 .main-page-individual {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    max-width: 600px;
-    margin: auto;
-    position: fixed;
-    top: 50%;
-    height:70%;
-    transform: translateY(-50%);
+    max-width: 100%;
+    margin: 0;
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 50px;
+    padding-top: 120px;
+    margin-left:100px;
 }
 
 /* Search bar styling */
@@ -50,8 +49,8 @@ body {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    width: 500px; /* Set the initial width of the search bar */
-    margin-left: 10px; /* Remove left margin */
+    width: 500px;
+    margin-left: 10px;
 }
 
 .individual-search-bar input[type="text"] {
@@ -60,14 +59,14 @@ body {
     margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 300px; /* Ensure the input field takes up all available width */
+    width: 300px;
 }
 
 /* Export button styling */
 .export-button {
     padding: 10px 20px;
     margin-left: 20px;
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
@@ -79,28 +78,31 @@ body {
     margin-left: 8px;
     border-collapse: collapse;
     margin-top: 20px;
-    width: 1250px;
+    width: 1000px;
+    color: white;
+
+
 }
 
 .individual-students-table th, .students-table td {
     padding: 12px;
-    color: #ffffff; /* Change the font color */
-    border: 1px solid #ddd;
+    color: #ffffff;
     width: 10000px;
+
 }
 
 .individual-students-table tr:nth-child(even) {
-    background-color: #d9e3e3;
-    margin-bottom: 1px;
+    background-color: #000000;
+
 }
 
 .individual-students-table tbody tr:nth-child(odd) {
-    background-color: #a6bebe; /* Set background color for odd rows */
-    margin-bottom: 1px;
+    background-color: #333;
 }
 
 .individual-students-table td {
     text-align: center;
+    border: 1px solid;
 }
 
 .individual-students-table th{

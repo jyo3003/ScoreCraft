@@ -5,11 +5,11 @@ import * as XLSX from 'xlsx';
 import '../css/MainPageIndividual.css';
 import grade from '../images/Grade.png';
 import home from '../images/home.png';
-import { getStudents } from '../api'; // Make sure the path to your api.js is correct
+import { getStudents } from '../api';
 
 export default function MainPageIndividual() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [students, setStudents] = useState([]); // State to store fetched students
+  const [students, setStudents] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,14 +23,18 @@ export default function MainPageIndividual() {
     };
 
     fetchStudents();
-  }, []); // Dependency array is empty, so this runs once on mount
+  }, []);
 
-  // Function to filter the displayed students based on the search term
   const filteredStudents = students.filter(student =>
     student.studentName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  const handleCheckboxChange = (event, index) => {
+    const updatedStudents = students.map((student, i) =>
+        i === index ? { ...student, graded: event.target.checked } : student
+    );
+    setStudents(updatedStudents);
+  };
 
-  // Function to export filtered students to Excel
   const exportToCSV = (csvData, fileName) => {
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const fileExtension = '.xlsx';
@@ -71,13 +75,19 @@ export default function MainPageIndividual() {
               </tr>
             </thead>
             <tbody>
-              {filteredStudents.map((student, index) => (
+            {filteredStudents.map((student, index) => (
                 <tr key={index}>
                   <td>{student.studentName}</td>
                   <td>{student.asurite}</td>
-                  <td>{student.gradingStatus ? '✔️' : ''}</td>
+                  <td>
+                    <input
+                        type="checkbox"
+                        checked={student.graded}
+                        onChange={(e) => handleCheckboxChange(e, index)}
+                    />
+                  </td>
                 </tr>
-              ))}
+            ))}
             </tbody>
           </table>
         </div>

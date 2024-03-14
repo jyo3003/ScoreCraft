@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'; // Import useEffect here
 import { useNavigate } from 'react-router-dom';
-import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
 import '../css/MainPageIndividual.css';
 import grade from '../images/Grade.png';
 import home from '../images/home.png';
@@ -35,17 +33,6 @@ export default function MainPageIndividual() {
     setStudents(updatedStudents);
   };
 
-  const exportToCSV = (csvData, fileName) => {
-    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    const fileExtension = '.xlsx';
-
-    const ws = XLSX.utils.json_to_sheet(csvData);
-    const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
-    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const data = new Blob([excelBuffer], {type: fileType});
-    FileSaver.saveAs(data, fileName + fileExtension);
-  };
-
   return (
     <>
       <header className="header">
@@ -63,7 +50,7 @@ export default function MainPageIndividual() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button onClick={() => exportToCSV(filteredStudents, 'students_export')} className="export-button">Export</button>
+          <button className="export-button">Export</button>
         </div>
         <div className="individual-students-table">
           <table>
@@ -77,7 +64,9 @@ export default function MainPageIndividual() {
             <tbody>
             {filteredStudents.map((student, index) => (
                 <tr key={index}>
-                  <td>{student.studentName}</td>
+                  <td><span onClick={() => navigate('/GradingIndividual')} style={{ cursor: 'pointer', color: 'white', textDecoration: 'underline' }}>
+          {student.studentName}
+        </span></td>
                   <td>{student.asurite}</td>
                   <td>
                     <input

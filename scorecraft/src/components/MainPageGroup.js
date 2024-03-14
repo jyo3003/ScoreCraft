@@ -89,22 +89,12 @@ const MainPageGroup = () => {
                     {item.groupName}
                     {item.show && (
                       <>
-                        <table className="inner-table">
-                          <thead>
-                            <tr>
-                              <th>Student Name</th>
-                              <th>ASURite ID</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {item.students.map(student => (
-                              <tr key={student.id}>
-                                <td>{student.studentName}</td>
-                                <td>{student.asurite}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                        <p className="inner-table">
+                        <span className="inner-table">
+                          <span className='student-name'>
+                        {item.students.map(student => student.studentName).join("  ")}</span>
+                      </span>
+                        </p>
                       </>
                     )}
                   </td>

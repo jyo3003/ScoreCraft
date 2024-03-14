@@ -111,39 +111,17 @@ body {
 }
 
 .inner-table {
-    display: block;
+    display: flex;
     width: 100%;
     max-height: 300px;
     overflow-y: auto;
     margin-bottom: 1em;
     border-collapse: collapse;
+    flex-wrap: wrap;
 }
 
-.inner-table th, .inner-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-    white-space: nowrap;
-    width: 100%;
-
+.student-name {
+    margin-right: 20px; 
+    display: inline-block; 
 }
 
-
-.inner-table thead th {
-    background-color: #333;
-    color: #fff;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-
-}
-
-
-.inner-table tbody tr:nth-child(odd) {
-    background-color: #000000;
-
-}
-
-.inner-table tbody tr:nth-child(even) {
-    background-color: #333;
-}

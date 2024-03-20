@@ -60,7 +60,7 @@
 /* Apply the font change to the grading question */
 .grading-criteria .grading-question {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-size: 45px;
+  font-size: 30px;
   color: #e9eef3;
 }
 
@@ -78,8 +78,8 @@
 .file-upload-section.active {
   display: flex;
   flex-direction: column;
-  margin-top: 400px;
-  margin-bottom: 400px;
+  margin-top: 300px;
+  margin-bottom: 300px;
 }
 
 input[type="file"] {

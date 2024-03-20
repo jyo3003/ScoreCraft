@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'; // Import useEffect here
 import { useNavigate } from 'react-router-dom';
 import '../css/MainPageIndividual.css';
-import grade from '../images/Grade.png';
-import home from '../images/home.png';
 import { getStudents } from '../api';
+import Header from './Header';
 
 export default function MainPageIndividual() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,13 +34,7 @@ export default function MainPageIndividual() {
 
   return (
     <>
-      <header className="header">
-        <img src={grade} alt="ScoreCraft Logo" className="pencil-logo" />
-        <h1>ScoreCraft</h1>
-        <button onClick={() => navigate('/')} className="home-button">
-          <img src={home} alt="Home Icon" />
-        </button>
-      </header>
+      <Header />
       <div className="main-page-individual">
         <div className="individual-search-bar">
           <input

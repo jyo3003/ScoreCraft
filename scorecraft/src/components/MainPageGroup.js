@@ -4,10 +4,10 @@ import { getStudentsByGroup } from '../api';
 import { Box, Collapse, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import grade from '../images/Grade.png';
-import home from '../images/home.png';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import Header from './Header';
 
-function GroupRow({ group }) {
+function GroupRow({ group,navigate }) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -27,6 +27,11 @@ function GroupRow({ group }) {
                         checked={group.graded}
                         onChange={(event) => event.stopPropagation()} // Prevent row collapse when toggling checkbox
                     />
+                </TableCell>
+                <TableCell>
+                    <IconButton aria-label="expand row" size="small" onClick={() => navigate('/GradingPage')}>
+                        <KeyboardArrowRightIcon />
+                    </IconButton>
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -82,15 +87,7 @@ const MainPageGroup = () => {
 
     return (
         <div>
-            <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px', background: 'linear-gradient(rgba(58, 106, 67, 0.744), rgba(0, 0, 0, 1.5))' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <img src={grade} alt="ScoreCraft Logo" style={{ width: 50, height: 'auto', marginRight: 10 }} />
-                    <Typography variant="h4" style={{ color: '#fff', fontFamily: 'Segoe UI',fontWeight: 'bold'}}>ScoreCraft</Typography>
-                </div>
-                <IconButton onClick={() => navigate('/')}>
-                    <img src={home} alt="Home Icon" style={{ width: 50, height: 'auto' }} />
-                </IconButton>
-            </header>
+            <Header />
             <Box sx={{ mt: 2, mx: 2 }}>
                 <input
                     type="text"
@@ -107,11 +104,12 @@ const MainPageGroup = () => {
                             <TableCell />
                             <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold',fontSize: '20px' }}>Group Name</TableCell>
                             <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold',fontSize: '20px' }}>Graded</TableCell>
+                            <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold',fontSize: '20px' }}>Go to Grading</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {filteredGroups.map((group) => (
-                            <GroupRow key={group.groupName} group={group} />
+                            <GroupRow key={group.groupName} group={group} navigate={navigate} />
                         ))}
                     </TableBody>
                 </Table>

@@ -78,8 +78,8 @@
 .file-upload-section.active {
   display: flex;
   flex-direction: column;
-  margin-top: 300px;
-  margin-bottom: 300px;
+  margin-top: 500px;
+  margin-bottom: 200px;
 }
 
 input[type="file"] {

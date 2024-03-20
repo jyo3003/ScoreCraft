@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/FileUploadPage.css';
-import grade from '../images/Grade.png';
-import home from '../images/home.png';
 import { uploadFile } from '../api';
+import Header from './Header';
 
 function FileUploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -43,23 +42,13 @@ function FileUploadPage() {
 
   return (
     <div>
-      <header className="header">
-        <img src={grade} alt="ScoreCraft Logo" className="pencil-logo" />
-        <h1>ScoreCraft</h1>
-        <button onClick={() => navigate('/')} className="home-button">
-          <img src={home} alt="Home Icon" />
-        </button>
-      </header>
-
+      <Header />
       <div className="container">
-        {!assessmentType ? (
           <div className="grading-criteria">
             <p className="grading-question">Is this grading criteria for a group or an individual assessment?</p>
             <button type="button" onClick={() => handleAssessmentTypeSelection('MainPageGroup')}>Group</button>
             <button type="button" onClick={() => handleAssessmentTypeSelection('MainPageIndividual')}>Individual</button>
           </div>
-
-        ) : null}
 
         <div ref={uploadSectionRef} className={`file-upload-section ${assessmentType ? 'active' : ''}`}>
           <h2>File Upload</h2>

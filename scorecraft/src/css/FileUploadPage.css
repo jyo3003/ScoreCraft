@@ -1,47 +1,8 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-image: url('../images/pexels.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}
-.header h1 {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Replace 'YourFont' with your desired font name */
-  font-size: 35px;
-}
-
 .file-upload-section h2 {
   color: #ffffff; /* Change to the desired color */
-  font-size: 55px; /* Adjust the font size as needed */
+  font-size: 30px; /* Adjust the font size as needed */
   font-family: 'Calibri bold', sans-serif; /* Replace 'YourFont' with your desired font name */
   width: 350px;
-}
-
-.header {
-  background: linear-gradient(rgba(58, 106, 67, 0.744), rgba(0, 0, 0, 1.5)); /* Black to transparent gradient */
-  color: white;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  width: 100%;
-  height: 80px;
-  z-index: 100;
-  .home-button {
-    background: none;
-    border-color: #000000;
-    border-radius: 20px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin-left: auto;
-    padding-right: 50px;
-    font-family: 'book antiqua', sans-serif;
-  }
 }
 
 .logo {
@@ -70,7 +31,6 @@ body {
 }
 
 .file-upload-section {
-  padding: 150px;
   display: none;
 }
 
@@ -116,13 +76,17 @@ body {
 }
 
 .file-upload-section.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  margin-top: 400px;
+  margin-bottom: 400px;
 }
 
 input[type="file"] {
   border: 1px solid #ccc;
   display: block;
-  margin: 0 auto 20px;
+  margin-left: 0px;
+  margin-bottom: 20px;
   padding: 10px;
 }
 

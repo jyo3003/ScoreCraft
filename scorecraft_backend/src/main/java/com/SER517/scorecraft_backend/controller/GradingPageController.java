@@ -1,6 +1,7 @@
 package com.SER517.scorecraft_backend.controller;
 
 import com.SER517.scorecraft_backend.dto.GradingMainDTO;
+import com.SER517.scorecraft_backend.dto.StudentGradeDTO;
 import com.SER517.scorecraft_backend.service.GradingPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +25,12 @@ public class GradingPageController {
         return ResponseEntity.ok().body(gradingGroups);
     }
     
-    @PostMapping("/addNewFields")
-    public ResponseEntity<String> addScoreAndComment(@RequestBody GradingMainDTO gradingGroups) {
-    	gradingPageService.addNewFields(gradingGroups);
-        return new ResponseEntity<>("Score and comment added successfully", HttpStatus.OK);
+    @PostMapping("/submitGrades")
+    public ResponseEntity<String> submitGrades(@RequestBody List<StudentGradeDTO> studentGrades) {
+        gradingPageService.saveStudentGrades(studentGrades);
+        return ResponseEntity.ok("Grades submitted successfully");
     }
+
 
     // Endpoint to create or update a whole group of grading criteria and return it
     @PostMapping("/saveGradingGroup")

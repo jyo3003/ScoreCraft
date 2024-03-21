@@ -1,13 +1,21 @@
 package com.SER517.scorecraft_backend.service;
 
 import com.SER517.scorecraft_backend.model.GradingCriteria;
+import com.SER517.scorecraft_backend.model.StudentGrading;
 import com.SER517.scorecraft_backend.repository.GradingCriteriaRepository;
+import com.SER517.scorecraft_backend.repository.StudentGradingRepository;
+import com.SER517.scorecraft_backend.repository.StudentRepository;
 import com.SER517.scorecraft_backend.dto.GradingCriteriaDTO;
 import com.SER517.scorecraft_backend.dto.GradingMainDTO;
+import com.SER517.scorecraft_backend.dto.StudentGradeDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.persistence.EntityNotFoundException;
+
 import java.util.Map;
 
 @Service
@@ -15,6 +23,12 @@ public class GradingPageService {
 
     @Autowired
     private GradingCriteriaRepository gradingCriteriaRepository;
+    @Autowired
+    private StudentGradingRepository studentGradingRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+    
+    
 
     // Create or Update Grading Criteria based on GradingMainDTO
     public List<GradingCriteriaDTO> saveGradingCriteria(GradingMainDTO gradingMainDTO) {
@@ -86,5 +100,20 @@ public class GradingPageService {
 
         gradingCriteriaRepository.saveAll(newGradingCriteriaList);
     }
+
+	public void saveStudentGrades(List<StudentGradeDTO> studentGrades) {
+		// TODO Auto-generated method stub
+		List<StudentGrading> studentGradings = studentGrades.stream().map(dto -> {
+	        StudentGrading sg = new StudentGrading();
+	        sg.setStudent(studentRepository.findById(dto.getStudentId()).orElseThrow(() -> new EntityNotFoundException("Student not found")));
+	        sg.setGradingCriteria(gradingCriteriaRepository.findById(dto.getCriteriaId()).orElseThrow(() -> new EntityNotFoundException("Grading Criteria not found")));
+	        sg.setScore(dto.getScore());
+	        sg.setComment(dto.getComment());
+	        return sg;
+	    }).collect(Collectors.toList());
+
+	    studentGradingRepository.saveAll(studentGradings);
+		
+	}
 
 }

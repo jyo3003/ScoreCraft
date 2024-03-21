@@ -12,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.SER517.scorecraft_backend.repository")
 @EntityScan(basePackages = "com.SER517.scorecraft_backend.model")
-@ComponentScan(basePackages = "com.SER517.scorecraft_backend")
 public class ScorecraftBackendApplication {
 
 	public static void main(String[] args) {

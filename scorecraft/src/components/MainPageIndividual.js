@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'; // Import useEffect here
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/MainPageIndividual.css';
 import { getStudents } from '../api';
 import Header from './Header';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox } from '@mui/material';
 
 export default function MainPageIndividual() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -25,9 +26,10 @@ export default function MainPageIndividual() {
   const filteredStudents = students.filter(student =>
     student.studentName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   const handleCheckboxChange = (event, index) => {
     const updatedStudents = students.map((student, i) =>
-        i === index ? { ...student, graded: event.target.checked } : student
+      i === index ? { ...student, graded: event.target.checked } : student
     );
     setStudents(updatedStudents);
   };
@@ -45,34 +47,36 @@ export default function MainPageIndividual() {
           />
           <button className="export-button">Export</button>
         </div>
-        <div className="individual-students-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>ASURite ID</th>
-                <th>Graded</th>
-              </tr>
-            </thead>
-            <tbody>
-            {filteredStudents.map((student, index) => (
-                <tr key={index}>
-                  <td><span onClick={() => navigate('/GradingPage')} style={{ cursor: 'pointer', color: 'white', textDecoration: 'underline' }}>
-          {student.studentName}
-        </span></td>
-                  <td>{student.asurite}</td>
-                  <td>
-                    <input
-                        type="checkbox"
-                        checked={student.graded}
-                        onChange={(e) => handleCheckboxChange(e, index)}
+        <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>ASURite ID</TableCell>
+                <TableCell>Graded</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredStudents.map((student, index) => (
+                <TableRow hover key={student.asurite}>
+                  <TableCell>
+                    <span onClick={() => navigate('/GradingPage')} style={{ cursor: 'pointer', color: 'black', textDecoration: 'underline' }}>
+                      {student.studentName}
+                    </span>
+                  </TableCell>
+                  <TableCell>{student.asurite}</TableCell>
+                  <TableCell>
+                    <Checkbox
+                      checked={student.graded || false}
+                      onChange={(e) => handleCheckboxChange(e, index)}
+                      inputProps={{ 'aria-label': 'controlled' }}
                     />
-                  </td>
-                </tr>
-            ))}
-            </tbody>
-          </table>
-        </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </>
   );

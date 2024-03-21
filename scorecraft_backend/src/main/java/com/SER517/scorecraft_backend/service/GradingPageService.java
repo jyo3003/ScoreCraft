@@ -5,6 +5,9 @@ import com.SER517.scorecraft_backend.model.StudentGrading;
 import com.SER517.scorecraft_backend.repository.GradingCriteriaRepository;
 import com.SER517.scorecraft_backend.repository.StudentGradingRepository;
 import com.SER517.scorecraft_backend.repository.StudentRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.SER517.scorecraft_backend.dto.GradingCriteriaDTO;
 import com.SER517.scorecraft_backend.dto.GradingMainDTO;
 import com.SER517.scorecraft_backend.dto.StudentGradeDTO;
@@ -101,19 +104,26 @@ public class GradingPageService {
         gradingCriteriaRepository.saveAll(newGradingCriteriaList);
     }
 
-	public void saveStudentGrades(List<StudentGradeDTO> studentGrades) {
-		// TODO Auto-generated method stub
-		List<StudentGrading> studentGradings = studentGrades.stream().map(dto -> {
-	        StudentGrading sg = new StudentGrading();
-	        sg.setStudent(studentRepository.findById(dto.getStudentId()).orElseThrow(() -> new EntityNotFoundException("Student not found")));
-	        sg.setGradingCriteria(gradingCriteriaRepository.findById(dto.getCriteriaId()).orElseThrow(() -> new EntityNotFoundException("Grading Criteria not found")));
-	        sg.setScore(dto.getScore());
-	        sg.setComment(dto.getComment());
-	        return sg;
-	    }).collect(Collectors.toList());
+    @Transactional
+    public void saveOrUpdateGradesForStudent(List<StudentGradeDTO> gradesDTO) {
+        for (StudentGradeDTO dto : gradesDTO) {
+            StudentGrading existingGrade = studentGradingRepository
+                    .findByStudentIdAndGradingCriteriaId(dto.getStudentId(), dto.getCriteriaId())
+                    .orElseGet(() -> new StudentGrading());
 
-	    studentGradingRepository.saveAll(studentGradings);
-		
-	}
+            if (existingGrade.getId() == null) {
+                // This is a new grade
+                existingGrade.setStudent(studentRepository.findById(dto.getStudentId())
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + dto.getStudentId())));
+                existingGrade.setGradingCriteria(gradingCriteriaRepository.findById(dto.getCriteriaId())
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid criteria ID: " + dto.getCriteriaId())));
+            }
+            
+            existingGrade.setScore(dto.getScore());
+            existingGrade.setComment(dto.getComment());
+
+            studentGradingRepository.save(existingGrade);
+        }
+    }
 
 }

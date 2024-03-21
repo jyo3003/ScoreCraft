@@ -27,7 +27,7 @@ public class GradingPageController {
     
     @PostMapping("/submitGrades")
     public ResponseEntity<String> submitGrades(@RequestBody List<StudentGradeDTO> studentGrades) {
-        gradingPageService.saveStudentGrades(studentGrades);
+        gradingPageService.saveOrUpdateGradesForStudent(studentGrades);
         return ResponseEntity.ok("Grades submitted successfully");
     }
 

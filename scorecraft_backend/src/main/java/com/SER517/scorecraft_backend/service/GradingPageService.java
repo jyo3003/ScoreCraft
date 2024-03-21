@@ -1,6 +1,7 @@
 package com.SER517.scorecraft_backend.service;
 
 import com.SER517.scorecraft_backend.model.GradingCriteria;
+import com.SER517.scorecraft_backend.model.Student;
 import com.SER517.scorecraft_backend.model.StudentGrading;
 import com.SER517.scorecraft_backend.repository.GradingCriteriaRepository;
 import com.SER517.scorecraft_backend.repository.StudentGradingRepository;
@@ -9,11 +10,13 @@ import com.SER517.scorecraft_backend.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 
 import com.SER517.scorecraft_backend.dto.GradingCriteriaDTO;
-import com.SER517.scorecraft_backend.dto.GradingMainDTO;
 import com.SER517.scorecraft_backend.dto.StudentGradeDTO;
+import com.SER517.scorecraft_backend.dto.StudentWithGradesDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,80 +34,8 @@ public class GradingPageService {
     @Autowired
     private StudentRepository studentRepository;
     
-    
 
-    // Create or Update Grading Criteria based on GradingMainDTO
-    public List<GradingCriteriaDTO> saveGradingCriteria(GradingMainDTO gradingMainDTO) {
-        List<GradingCriteria> entities = gradingMainDTO.getGradingCriteria().stream()
-                .map(this::convertToGradingCriteriaEntity)
-                .collect(Collectors.toList());
-
-        List<GradingCriteria> savedEntities = gradingCriteriaRepository.saveAll(entities);
-        return savedEntities.stream().map(this::convertToGradingCriteriaDTO).collect(Collectors.toList());
-    }
-
-    // Fetch all GradingMainDTO
-    public List<GradingMainDTO> getAllGradingGroups() {
-        List<GradingCriteria> criteriaList = gradingCriteriaRepository.findAll();
-        Map<String, List<GradingCriteriaDTO>> groupedCriteria = criteriaList.stream()
-                .map(this::convertToGradingCriteriaDTO)
-                .collect(Collectors.groupingBy(GradingCriteriaDTO::getGradingCriteriaGroupName));
-
-        return groupedCriteria.entrySet().stream()
-                .map(entry -> new GradingMainDTO(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toList());
-    }
-
-    // Delete Grading Criteria by Group Name
-    public void deleteGradingCriteriaByGroupName(String groupName) {
-        List<GradingCriteria> criteriaList = gradingCriteriaRepository.findAll();
-        List<GradingCriteria> filteredCriteria = criteriaList.stream()
-                .filter(c -> groupName.equals(c.getGradingCriteriaGroupName()))
-                .collect(Collectors.toList());
-
-        gradingCriteriaRepository.deleteAll(filteredCriteria);
-    }
-
-    // Utility methods for conversion
-    private GradingCriteriaDTO convertToGradingCriteriaDTO(GradingCriteria gradingCriteria) {
-        return new GradingCriteriaDTO(
-            gradingCriteria.getId(),
-            gradingCriteria.getCriteriaName(),
-            gradingCriteria.getScore(),
-            gradingCriteria.getGradedScore(),
-            gradingCriteria.getTypeOfCriteria(),
-            gradingCriteria.getGradingCriteriaGroupName(),
-            gradingCriteria.getComment()
-        );
-    }
-
-
-    private GradingCriteria convertToGradingCriteriaEntity(GradingCriteriaDTO gradingCriteriaDTO) {
-        GradingCriteria gradingCriteria = new GradingCriteria();
-        gradingCriteria.setId(gradingCriteriaDTO.getId()); // Be cautious with setting ID for creation
-        gradingCriteria.setCriteriaName(gradingCriteriaDTO.getCriteriaName());
-        gradingCriteria.setScore(gradingCriteriaDTO.getScore());
-        gradingCriteria.setGradedScore(gradingCriteriaDTO.getGradedScore());
-        gradingCriteria.setTypeOfCriteria(gradingCriteriaDTO.getTypeOfCriteria());
-        gradingCriteria.setGradingCriteriaGroupName(gradingCriteriaDTO.getGradingCriteriaGroupName());
-        gradingCriteria.setComment(gradingCriteriaDTO.getComment());
-        return gradingCriteria;
-    }
-
-    //To save any new score, comment fields
-    public void addNewFields(GradingMainDTO gradingMainDTO) {
-        List<GradingCriteria> newGradingCriteriaList = gradingMainDTO.getGradingCriteria().stream()
-                .map(this::convertToGradingCriteriaEntity)
-                .collect(Collectors.toList());
-        
-     // Set the gradingCriteriaGroupName for each entity
-        newGradingCriteriaList.forEach(entity -> entity.setGradingCriteriaGroupName(gradingMainDTO.getGradingCriteriaGroupName()));
-
-
-        gradingCriteriaRepository.saveAll(newGradingCriteriaList);
-    }
-
-    @Transactional
+	@Transactional
     public void saveOrUpdateGradesForStudent(List<StudentGradeDTO> gradesDTO) {
         for (StudentGradeDTO dto : gradesDTO) {
             StudentGrading existingGrade = studentGradingRepository
@@ -112,6 +43,7 @@ public class GradingPageService {
                     .orElseGet(() -> new StudentGrading());
 
             if (existingGrade.getId() == null) {
+            	
                 // This is a new grade
                 existingGrade.setStudent(studentRepository.findById(dto.getStudentId())
                         .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + dto.getStudentId())));
@@ -123,7 +55,55 @@ public class GradingPageService {
             existingGrade.setComment(dto.getComment());
 
             studentGradingRepository.save(existingGrade);
+            
         }
+    }
+
+
+    public StudentWithGradesDTO getStudentWithGrades(Long studentId) {
+		Student student = studentRepository.findById(studentId)
+            .orElseThrow(() -> new EntityNotFoundException("Student not found with ID: " + studentId));
+
+        List<StudentGrading> studentGradings = studentGradingRepository.findByStudentId(studentId);
+        System.out.println(studentGradings);
+        List<GradingCriteriaDTO> gradingCriteriaDTOs = new ArrayList<>();
+        
+
+        for (GradingCriteria gradingCriteria : gradingCriteriaRepository.findAll()) {
+            // Find the grading record for the current criteria (if exists)
+            StudentGrading grading = findGradingRecordForCriteria(studentGradings, gradingCriteria.getId());
+
+            // Construct the DTO for the criteria
+            GradingCriteriaDTO criterionDTO = new GradingCriteriaDTO(
+                gradingCriteria.getCriteriaName(),
+                gradingCriteria.getScore(), // Static score associated with the criteria
+                gradingCriteria.getTypeOfCriteria(),
+                gradingCriteria.getGradingCriteriaGroupName(),
+                (grading != null) ? grading.getScore() : 0.0, // Actual score achieved by the student (can be 0)
+                (grading != null) ? grading.getComment() : null // Comment for the student's score (nullable)
+            );
+            
+            System.out.println(criterionDTO);
+            gradingCriteriaDTOs.add(criterionDTO);
+        }
+
+        return new StudentWithGradesDTO(
+            student.getId(),
+            student.getStudentName(),
+            student.getAsurite(),
+            gradingCriteriaDTOs
+        );
+	}
+    
+    
+    
+    private StudentGrading findGradingRecordForCriteria(List<StudentGrading> studentGradings, Long criteriaId) {
+        for (StudentGrading grading : studentGradings) {
+            if (grading.getGradingCriteria().getId().equals(criteriaId)) {
+                return grading;
+            }
+        }
+        return null; // No grading record found for the criteria
     }
 
 }

@@ -1,79 +1,57 @@
 package com.SER517.scorecraft_backend.dto;
 
 public class GradingCriteriaDTO {
-    private Long id;  // New field
-    private String criteriaName;
-    private double score;
-    private double  gradedScore;
+	private String criteriaName;
+    private double criteriaScore; // Static score associated with the criteria for reference
     private String typeOfCriteria;
     private String gradingCriteriaGroupName;
-    private String comment;
-
-    // Constructors
-
     
+    
+    private double gradedScore; // Dynamic score given to the student
+    private String comment; // Comment associated with the student's graded score
 
-	public GradingCriteriaDTO() {
-    }
-
-    public GradingCriteriaDTO(Long id, String criteriaName, double d, double gradedScore, String typeOfCriteria, String gradingCriteriaGroupName, String comment) {
-        this.id = id;
+    public GradingCriteriaDTO(String criteriaName, double criteriaScore, String typeOfCriteria, 
+                                String gradingCriteriaGroupName, double gradedScore, String comment) {
         this.criteriaName = criteriaName;
-        this.score = d;
-        this.gradedScore = gradedScore;
+        this.criteriaScore = criteriaScore;
         this.typeOfCriteria = typeOfCriteria;
         this.gradingCriteriaGroupName = gradingCriteriaGroupName;
-        this.comment = comment;
+        
+        
+        this.gradedScore = gradedScore; // Nullable to accommodate criteria not yet graded
+        this.comment = comment; // Nullable
     }
 
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCriteriaName() {
-        return criteriaName;
-    }
-
-    public void setCriteriaName(String criteriaName) {
-        this.criteriaName = criteriaName;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    public String getTypeOfCriteria() {
-        return typeOfCriteria;
-    }
-
-    public void setTypeOfCriteria(String typeOfCriteria) {
-        this.typeOfCriteria = typeOfCriteria;
-    }
-
-    public String getGradingCriteriaGroupName() {
-        return gradingCriteriaGroupName;
-    }
-
-    public void setGradingCriteriaGroupName(String gradingCriteriaGroupName) {
-        this.gradingCriteriaGroupName = gradingCriteriaGroupName;
-    }
-    
-    public String getComment() {
-		return comment;
+	public String getCriteriaName() {
+		return criteriaName;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setCriteriaName(String criteriaName) {
+		this.criteriaName = criteriaName;
+	}
+
+	public double getCriteriaScore() {
+		return criteriaScore;
+	}
+
+	public void setCriteriaScore(double criteriaScore) {
+		this.criteriaScore = criteriaScore;
+	}
+
+	public String getTypeOfCriteria() {
+		return typeOfCriteria;
+	}
+
+	public void setTypeOfCriteria(String typeOfCriteria) {
+		this.typeOfCriteria = typeOfCriteria;
+	}
+
+	public String getGradingCriteriaGroupName() {
+		return gradingCriteriaGroupName;
+	}
+
+	public void setGradingCriteriaGroupName(String gradingCriteriaGroupName) {
+		this.gradingCriteriaGroupName = gradingCriteriaGroupName;
 	}
 
 	public double getGradedScore() {
@@ -83,4 +61,15 @@ public class GradingCriteriaDTO {
 	public void setGradedScore(double gradedScore) {
 		this.gradedScore = gradedScore;
 	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+    
+    
 }

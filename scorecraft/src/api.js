@@ -1,25 +1,38 @@
 import axios from 'axios';
 
-
-//  API URL to match your backend endpoint
+// Base API URL to match your backend endpoint
 const API_URL = 'http://localhost:8080/api';
 
+// Axios instance for all API calls
+const api = axios.create({
+  baseURL: API_URL,
+});
+
+// Grading Page API Calls
+export const gradingAPI = {
+  getAllGradingGroups: async () => {
+    try {
+      const response = await api.get('/gradingPage/allGradingGroups');
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        throw new Error(error.response.data.message || "Error fetching grading groups");
+      } else {
+        throw new Error("Network error or no response from server");
+      }
+    }
+  },
+};
+
+// Existing API calls for uploading files and fetching students
 export const uploadFile = async (file, resourceId) => {
   try {
     const formData = new FormData();
-    formData.append('file', file); // Adjust 'file' if your backend expects a different key
+    formData.append('file', file);
 
-    // Include the resource ID in the URL if your backend requires it
     const url = `${API_URL}/excel/upload`;
-    // const username = 'user';
-    // const password = '6e1b4648-724d-4a03-9ad8-0ac9fd6baf17';
-
-    // // Encode the username and password
-    // const credentials = Buffer.from(`${username}:${password}`).toString('base64');
-
     const response = await axios.put(url, formData, {
       headers: {
-        // Authorization: `Basic ${credentials}`,
         'Content-Type': 'multipart/form-data',
       },
     });
@@ -38,7 +51,7 @@ export const getStudents = async () => {
   try {
     const response = await axios.get(`${API_URL}/main/students`);
     console.log('Response:', response.data);
-    return response.data; 
+    return response.data;
   } catch (error) {
     if (error.response) {
       throw new Error(error.response.data.message || "Error fetching students");
@@ -47,10 +60,11 @@ export const getStudents = async () => {
     }
   }
 };
+
 export const getStudentsByGroup = async () => {
   try {
     const response = await axios.get(`${API_URL}/main/groups`);
-    return response.data; // Assuming the backend sends back an array of students with group numbers
+    return response.data;
   } catch (error) {
     if (error.response) {
       throw new Error(error.response.data.message || "Error fetching students by group");

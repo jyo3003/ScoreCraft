@@ -5,7 +5,24 @@ import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import Header from './Header';
 
-export default function GradingPage() {
+function GradingPage() {
+
+    const [gradingGroups, setGradingGroups] = useState([]);
+
+    useEffect(() => {
+        const fetchAllGradingGroups = async () => {
+            try {
+                const data = await gradingAPI.getAllGradingGroups();
+                console.log('Received data:', data); // Log the data for debugging
+                setGradingGroups(data); // Set the data as received
+            } catch (error) {
+                console.error("Failed to fetch grading groups:", error.message);
+                // Handle error state appropriately
+            }
+        };
+
+        fetchAllGradingGroups();
+    }, []);
     // Row Data: The data to be displayed.
     const [rowData, setRowData] = useState([
         { make: "Tesla", model: "Model Y", price: 64950, electric: true },
@@ -26,9 +43,37 @@ export default function GradingPage() {
     return (
         <>
             <Header />
-            <div style={{ height: 'calc(100vh - 100px)', width: '100%', paddingTop:'100px' }} className="ag-theme-quartz">
+            {/* <div style={{ height: 'calc(100vh - 100px)', width: '100%', paddingTop:'100px' }} className="ag-theme-quartz">
                 <AgGridReact rowData={rowData} columnDefs={colDefs} />
-            </div>
+            </div> */}
+                        <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Criteria Name</th>
+                        <th>Score</th>
+                        <th>Type of Criteria</th>
+                        <th>Grading Criteria Group Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {gradingGroups.map(group => 
+                        group.gradingCriteria.map((criteria, index) => (
+                            <tr key={index}>
+                                {/* Accessing each criteria fields from the gradingCriteria array */}
+                                <td>{criteria.id}</td>
+                                <td>{criteria.criteriaName}</td>
+                                <td>{criteria.score}</td>
+                                <td>{criteria.typeOfCriteria}</td>
+                                <td>{group.gradingCriteriaGroupName}</td>
+                            </tr>
+                        ))
+                    )}
+                </tbody>
+            </table>
+
         </>
     );
 }
+
+export default GradingPage;

@@ -88,32 +88,34 @@ const MainPageGroup = () => {
     return (
         <div>
             <Header />
-            <Box sx={{ mt: 2, mx: 2 }}>
-                <input
-                    type="text"
-                    placeholder="Search Groups"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', width: '50%' }}
-                />
-            </Box>
-            <TableContainer component={Paper} sx={{ mt: 2, mx: 2, width: '98vw' }}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold',fontSize: '20px' }}>Group Name</TableCell>
-                            <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold',fontSize: '20px' }}>Graded</TableCell>
-                            <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold',fontSize: '20px' }}>Go to Grading</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {filteredGroups.map((group) => (
-                            <GroupRow key={group.groupName} group={group} navigate={navigate} />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <div style={{width:'100%', paddingTop:'100px'}}>
+                <Box sx={{ mt: 2, mx: 2 }}>
+                    <input
+                        type="text"
+                        placeholder="Search Groups"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', width: '50%' }}
+                    />
+                </Box>
+                <TableContainer component={Paper} sx={{ mt: 2, mx: 2, width: '98vw' }}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell />
+                                <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold',fontSize: '20px' }}>Group Name</TableCell>
+                                <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold',fontSize: '20px' }}>Graded</TableCell>
+                                <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold',fontSize: '20px' }}>Go to Grading</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {filteredGroups.map((group) => (
+                                <GroupRow key={group.groupName} group={group} navigate={navigate} />
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
         </div>
     );
 };

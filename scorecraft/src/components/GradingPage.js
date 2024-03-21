@@ -5,10 +5,25 @@ import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import Header from './Header';
 import { gradingAPI } from '../api';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Box from '@mui/material/Box';
+import { useLocation } from 'react-router-dom';
 
 function GradingPage() {
+  
+    const location = useLocation();
+    const selectedGroup = location.state ? location.state.selectedGroup : null;
+    const [selectedStudent, setSelectedStudent] = useState('');
 
     const [gradingGroups, setGradingGroups] = useState([]);
+
+    const handleStudentChange = (event) => {
+      setSelectedStudent(event.target.value);
+      console.log(selectedGroup);
+    };
 
     useEffect(() => {
         const fetchAllGradingGroups = async () => {
@@ -46,6 +61,24 @@ function GradingPage() {
               {/* <div style={{ height: 'calc(100vh - 100px)', width: '100%', paddingTop:'100px' }} className="ag-theme-quartz">
                 <AgGridReact rowData={rowData} columnDefs={colDefs} />
             </div> */}
+
+            <Box style={{ paddingTop: '100px', paddingLeft: '20px' }} sx={{ minWidth: 200 }}>
+              <FormControl variant="filled" style={{ minWidth: '200px', backgroundColor: '#fff', borderRadius: '4px' }}>
+                <InputLabel id="demo-simple-select-filled-label">Student</InputLabel>
+                <Select
+                  labelId="demo-simple-select-filled-label"
+                  id="demo-simple-select-filled"
+                  value={selectedStudent}
+                  label="Student Name"
+                  onChange={handleStudentChange}
+                  sx={{ backgroundColor: '#fff', borderRadius: '4px' }} // Light-themed background color
+                >
+                {selectedGroup && selectedGroup.students.map((student) => (
+                    <MenuItem key={student.id} value={student.studentName}>{student.studentName}</MenuItem>
+                ))}
+                </Select>
+              </FormControl>
+            </Box>
             <div style={{ paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px' }}>
                 <table className="table-sticky-header">
                     <thead>

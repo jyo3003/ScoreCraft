@@ -5,6 +5,7 @@ import com.SER517.scorecraft_backend.service.GradingPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -21,6 +22,12 @@ public class GradingPageController {
     public ResponseEntity<List<GradingMainDTO>> getAllGradingGroups() {
         List<GradingMainDTO> gradingGroups = gradingPageService.getAllGradingGroups();
         return ResponseEntity.ok().body(gradingGroups);
+    }
+    
+    @PostMapping("/addNewFields")
+    public ResponseEntity<String> addScoreAndComment(@RequestBody GradingMainDTO gradingGroups) {
+    	gradingPageService.addNewFields(gradingGroups);
+        return new ResponseEntity<>("Score and comment added successfully", HttpStatus.OK);
     }
 
     // Endpoint to create or update a whole group of grading criteria and return it

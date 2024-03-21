@@ -16,14 +16,24 @@ public class GradingCriteria {
 
     @Column(name = "score")
     private double score;
+    
+    @Column(name = "gradedScore")
+    private double gradedScore = 0.0;
 
-    @Column(name = "type_of_criteria", length = 50)
+
+	@Column(name = "type_of_criteria", length = 50)
     private String typeOfCriteria;
 
     @Column(name = "grading_criteria_group_name", length = 100)
     private String gradingCriteriaGroupName;
+    
+    @Column(name = "comment", length = 512)
+    private String comment;
+    
 
-    // Getters and setters
+    
+
+	// Getters and setters
     public Long getId() {
         return id;
     }
@@ -63,4 +73,19 @@ public class GradingCriteria {
     public void setGradingCriteriaGroupName(String gradingCriteriaGroupName) {
         this.gradingCriteriaGroupName = gradingCriteriaGroupName;
     }
+    
+    public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public double getGradedScore() {
+		return gradedScore;
+	}
+
+	public void setGradedScore(double gradedScore) {
+		this.gradedScore = gradedScore;
+	}
 }

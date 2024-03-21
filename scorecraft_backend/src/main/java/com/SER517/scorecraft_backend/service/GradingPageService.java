@@ -54,8 +54,10 @@ public class GradingPageService {
             gradingCriteria.getId(),
             gradingCriteria.getCriteriaName(),
             gradingCriteria.getScore(),
+            gradingCriteria.getGradedScore(),
             gradingCriteria.getTypeOfCriteria(),
-            gradingCriteria.getGradingCriteriaGroupName()
+            gradingCriteria.getGradingCriteriaGroupName(),
+            gradingCriteria.getComment()
         );
     }
 
@@ -65,9 +67,24 @@ public class GradingPageService {
         gradingCriteria.setId(gradingCriteriaDTO.getId()); // Be cautious with setting ID for creation
         gradingCriteria.setCriteriaName(gradingCriteriaDTO.getCriteriaName());
         gradingCriteria.setScore(gradingCriteriaDTO.getScore());
+        gradingCriteria.setGradedScore(gradingCriteriaDTO.getGradedScore());
         gradingCriteria.setTypeOfCriteria(gradingCriteriaDTO.getTypeOfCriteria());
         gradingCriteria.setGradingCriteriaGroupName(gradingCriteriaDTO.getGradingCriteriaGroupName());
+        gradingCriteria.setComment(gradingCriteriaDTO.getComment());
         return gradingCriteria;
+    }
+
+    //To save any new score, comment fields
+    public void addNewFields(GradingMainDTO gradingMainDTO) {
+        List<GradingCriteria> newGradingCriteriaList = gradingMainDTO.getGradingCriteria().stream()
+                .map(this::convertToGradingCriteriaEntity)
+                .collect(Collectors.toList());
+        
+     // Set the gradingCriteriaGroupName for each entity
+        newGradingCriteriaList.forEach(entity -> entity.setGradingCriteriaGroupName(gradingMainDTO.getGradingCriteriaGroupName()));
+
+
+        gradingCriteriaRepository.saveAll(newGradingCriteriaList);
     }
 
 }

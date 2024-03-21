@@ -1,127 +1,127 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url('../images/pexels.jpeg'); /* Background image */
-    background-color: #d5bcbc; /* Fallback background color */
-    background-size: cover; /* Cover the entire background */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('../images/pexels.jpeg'); /* Background image */
+  background-color: #d5bcbc; /* Fallback background color */
+  background-size: cover; /* Cover the entire background */
 }
 
 /* Header styling */
 .group-header {
-    padding: 50px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    margin-left: -1.5%;
+  padding: 50px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-left: -1.5%;
 }
 .group-header img {
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
+  width: 50px;
+  height: auto;
+  margin-right: 10px;
 }
 .group-header-title {
-    font-size: 35px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: bold;
-    color: #ffffff;
+  font-size: 35px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 /* MainPageGroup specific styling */
 .main-page-group {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 200px;
-    max-width: 600px;
-    margin: auto;
-    position: fixed;
-    top: 50%;
-    left: 14%;
-    bottom: 350%;
-    transform: translate(-50%, -50%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 200px;
+  max-width: 600px;
+  margin: auto;
+  position: fixed;
+  top: 50%;
+  left: 14%;
+  bottom: 350%;
+  transform: translate(-50%, -50%);
 }
 
 .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 20px;
 }
 
 .content-container {
-    margin-bottom: 350px;
+  margin-bottom: 350px;
 
 }
 
 .group-search-bar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    width: 150%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 150%;
 }
 
 .group-search-bar input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 300%;
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 300%;
 }
 
 .export-button {
-    padding: 10px 20px;
-    margin-left: 20px;
-    background-color: #4CAF50; /* Green */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  padding: 10px 20px;
+  margin-left: 20px;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .groups-table {
-    width: 370%;
-    margin-left: 1px;
-    border-collapse: collapse;
-    margin-top: 20px;
+  width: 370%;
+  margin-left: 1px;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
 .groups-table th, .groups-table td {
-    padding: 12px;
-    color: #ffffff;
-    border: 1px solid;
+  padding: 12px;
+  color: #ffffff;
+  border: 1px solid;
 
 }
 
 .groups-table th {
-    background-color: #150e0e;
-    margin-bottom: 1px;
+  background-color: #150e0e;
+  margin-bottom: 1px;
 }
 
 .group-home-button {
-    display: block;
-    margin: 20px 0 20px auto;
-    padding: 10px 20px;
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  display: block;
+  margin: 20px 0 20px auto;
+  padding: 10px 20px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .inner-table {
-    display: flex;
-    width: 100%;
-    max-height: 300px;
-    overflow-y: auto;
-    margin-bottom: 1em;
-    border-collapse: collapse;
-    flex-wrap: wrap;
+  display: flex;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1em;
+  border-collapse: collapse;
+  flex-wrap: wrap;
 }
 
 .student-name {
-    margin-right: 20px; 
-    display: inline-block; 
+  margin-right: 20px; 
+  display: inline-block; 
 }
 

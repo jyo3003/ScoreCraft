@@ -57,7 +57,7 @@ export default function MainPageIndividual() {
             <tbody>
             {filteredStudents.map((student, index) => (
                 <tr key={index}>
-                  <td><span onClick={() => navigate('/GradingIndividual')} style={{ cursor: 'pointer', color: 'white', textDecoration: 'underline' }}>
+                  <td><span onClick={() => navigate('/GradingPage')} style={{ cursor: 'pointer', color: 'white', textDecoration: 'underline' }}>
           {student.studentName}
         </span></td>
                   <td>{student.asurite}</td>

@@ -40,41 +40,53 @@ function GradingPage() {
         { field: "price" },
         { field: "electric" }
     ]);
-
     return (
         <>
             <Header />
-            {/* <div style={{ height: 'calc(100vh - 100px)', width: '100%', paddingTop:'100px' }} className="ag-theme-quartz">
+              {/* <div style={{ height: 'calc(100vh - 100px)', width: '100%', paddingTop:'100px' }} className="ag-theme-quartz">
                 <AgGridReact rowData={rowData} columnDefs={colDefs} />
             </div> */}
-                        <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Criteria Name</th>
-                        <th>Score</th>
-                        <th>Type of Criteria</th>
-                        <th>Grading Criteria Group Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {gradingGroups.map(group => 
-                        group.gradingCriteria.map((criteria, index) => (
-                            <tr key={index}>
-                                {/* Accessing each criteria fields from the gradingCriteria array */}
-                                <td>{criteria.id}</td>
-                                <td>{criteria.criteriaName}</td>
-                                <td>{criteria.score}</td>
-                                <td>{criteria.typeOfCriteria}</td>
-                                <td>{group.gradingCriteriaGroupName}</td>
-                            </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
-
+            <div style={{ paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px' }}>
+                <table className="table-sticky-header">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Criteria Name</th>
+                            <th>Score</th>
+                            <th>Type of Criteria</th>
+                            <th>Grading Criteria Group Name</th>
+                            <th>Input Score</th> {/* New column for score input */}
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {gradingGroups.map(group => 
+                            group.gradingCriteria.map((criteria, index) => (
+                                <tr key={index}>
+                                    <td>{criteria.id}</td>
+                                    <td>{criteria.criteriaName}</td>
+                                    <td>{criteria.score}</td>
+                                    <td>{criteria.typeOfCriteria}</td>
+                                    <td>{group.gradingCriteriaGroupName}</td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            className="input-score"
+                                            placeholder="Enter score"
+                                            // Add onChange handler as needed
+                                        />
+                                    </td>
+                                    <td><input
+                                        type="text"
+                                        className="comments"
+                                    />{criteria.comments}</td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </>
-    );
-}
+    );}
 
 export default GradingPage;

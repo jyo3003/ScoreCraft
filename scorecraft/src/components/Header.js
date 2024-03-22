@@ -17,7 +17,7 @@ function Header() {
             alignItems: 'center', 
             justifyContent: 'space-between', 
             padding: '10px', 
-            background: 'linear-gradient(rgba(58, 106, 67, 0.744), rgba(0, 0, 0, 1.5))' 
+            background: 'linear-gradient(rgba(0,0,0,1.5), rgba(255,255,255))'
         }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img src={grade} alt="ScoreCraft Logo" style={{ width: 50, height: 'auto', marginRight: 10 }} />

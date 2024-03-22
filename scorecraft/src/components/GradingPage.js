@@ -85,7 +85,7 @@ function GradingPage() {
         <>
             <Header />
             <Box style={{ paddingTop: '100px', paddingLeft: '20px' }} sx={{ minWidth: 200 }}>
-              <h2 style={{color:'#fff', marginBottom:'20px'}}>{selectedGroup.groupName}</h2>
+              <h2 style={{color:'#000', marginBottom:'20px'}}>{selectedGroup.groupName}</h2>
               <FormControl variant="filled" style={{ minWidth: '200px', backgroundColor: '#fff', borderRadius: '4px' }}>
                 <InputLabel id="demo-simple-select-filled-label">Student</InputLabel>
                 <Select

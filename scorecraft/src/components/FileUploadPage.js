@@ -45,14 +45,14 @@ function FileUploadPage() {
       <Header />
       <div className="container">
           <div className="grading-criteria">
-            <p className="grading-question">Is this grading criteria for a group or an individual assessment?</p>
+            <p className="grading-question" style={{color:'#000'}}>Is this grading criteria for a group or an individual assessment?</p>
             <button type="button" onClick={() => handleAssessmentTypeSelection('MainPageGroup')}>Group</button>
             <button type="button" onClick={() => handleAssessmentTypeSelection('MainPageIndividual')}>Individual</button>
           </div>
 
         <div ref={uploadSectionRef} className={`file-upload-section ${assessmentType ? 'active' : ''}`}>
-          <h2>File Upload</h2>
-          <input type="file" onChange={handleFileChange} accept=".xls,.xlsx" />
+          <h2 style={{color:'#000'}}>File Upload</h2>
+          <input type="file" style={{color:'#000'}} onChange={handleFileChange} accept=".xls,.xlsx" />
           <button type="button" onClick={handleUpload} className="upload-button">Upload File</button>
           {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
         </div>

@@ -10,9 +10,9 @@ const api = axios.create({
 
 // Grading Page API Calls
 export const gradingAPI = {
-  getAllGradingGroups: async () => {
+  getAllGradingGroups: async (studentId) => {
     try {
-      const response = await api.get('/gradingPage/allGradingGroups');
+      const response = await api.get('/gradingPage/studentGrades/' + studentId);
       return response.data;
     } catch (error) {
       if (error.response) {

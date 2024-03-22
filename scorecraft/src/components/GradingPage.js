@@ -9,26 +9,26 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Box from '@mui/material/Box';
+import {Box, Button} from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
 function GradingPage() {
   
     const location = useLocation();
     const selectedGroup = location.state ? location.state.selectedGroup : null;
-    const [selectedStudent, setSelectedStudent] = useState('');
+    const [selectedStudent, setSelectedStudent] = useState(selectedGroup.students[0]);
 
     const [gradingGroups, setGradingGroups] = useState([]);
 
     const handleStudentChange = (event) => {
+      console.log(event.target.value);
       setSelectedStudent(event.target.value);
-      console.log(selectedGroup);
     };
 
     useEffect(() => {
         const fetchAllGradingGroups = async () => {
             try {
-                const data = await gradingAPI.getAllGradingGroups();
+                const data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
                 console.log('Received data:', data); // Log the data for debugging
                 setGradingGroups(data); // Set the data as received
             } catch (error) {
@@ -38,7 +38,7 @@ function GradingPage() {
         };
 
         fetchAllGradingGroups();
-    }, []);
+    }, [selectedGroup, selectedStudent]);
     // Row Data: The data to be displayed.
     const [rowData, setRowData] = useState([
         { make: "Tesla", model: "Model Y", price: 64950, electric: true },
@@ -63,6 +63,7 @@ function GradingPage() {
             </div> */}
 
             <Box style={{ paddingTop: '100px', paddingLeft: '20px' }} sx={{ minWidth: 200 }}>
+              <h2 style={{color:'#fff', marginBottom:'20px'}}>{selectedGroup.groupName}</h2>
               <FormControl variant="filled" style={{ minWidth: '200px', backgroundColor: '#fff', borderRadius: '4px' }}>
                 <InputLabel id="demo-simple-select-filled-label">Student</InputLabel>
                 <Select
@@ -74,7 +75,7 @@ function GradingPage() {
                   sx={{ backgroundColor: '#fff', borderRadius: '4px' }} // Light-themed background color
                 >
                 {selectedGroup && selectedGroup.students.map((student) => (
-                    <MenuItem key={student.id} value={student.studentName}>{student.studentName}</MenuItem>
+                    <MenuItem key={student.id} value={student}>{student.studentName}</MenuItem>
                 ))}
                 </Select>
               </FormControl>
@@ -93,14 +94,13 @@ function GradingPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {gradingGroups.map(group => 
-                            group.gradingCriteria.map((criteria, index) => (
+                        {gradingGroups && gradingGroups.gradingCriteria && gradingGroups.gradingCriteria.map((criteria, index) => (
                                 <tr key={index}>
                                     <td>{criteria.id}</td>
                                     <td>{criteria.criteriaName}</td>
                                     <td>{criteria.score}</td>
                                     <td>{criteria.typeOfCriteria}</td>
-                                    <td>{group.gradingCriteriaGroupName}</td>
+                                    <td>{criteria.gradingCriteriaGroupName}</td>
                                     <td>
                                         <input
                                             type="number"
@@ -115,9 +115,18 @@ function GradingPage() {
                                     />{criteria.comments}</td>
                                 </tr>
                             ))
-                        )}
+                        }
                     </tbody>
                 </table>
+                <div className="container" style={{
+                    display: 'flex',
+                    padding: '20px',
+                    justifyContent: 'center'}}>
+                <Button variant="contained" color="success" style={{color:"#fff"}}>
+                Save
+                </Button>
+                </div>
+
             </div>
         </>
     );}

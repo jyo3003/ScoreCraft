@@ -95,7 +95,7 @@ const MainPageGroup = () => {
                         style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', width: '50%' }}
                     />
                 </Box>
-                <TableContainer component={Paper} sx={{ mt: 2, mx: 2, width: '98vw' }}>
+                <TableContainer component={Paper} sx={{ mt: 2, mx: 2, width: '98vw' }} style={{background:'transparent'}}>
                     <Table>
                         <TableHead>
                             <TableRow>

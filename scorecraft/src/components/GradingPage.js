@@ -16,14 +16,20 @@ function GradingPage() {
     const [gradingGroups, setGradingGroups] = useState([]);
     const [grades, setGrades] = useState({});
 
+    const handleStudentChange = (event) => {
+        console.log(event.target.value);
+        setSelectedStudent(event.target.value);
+        console.log(selectedGroup);
+      };
+
     // Initialize grades state when gradingGroups data is fetched
     useEffect(() => {
         if (gradingGroups.gradingCriteria) {
             const initialGrades = {};
             gradingGroups.gradingCriteria.forEach(criteria => {
                 initialGrades[criteria.id] = {
-                    score: '', // Initialize score as an empty string or other default value
-                    comments: '' // Initialize comments as an empty string
+                    gradedScore: criteria.gradedScore,
+                    comment: criteria.comment || '' // Initialize comments if not set
                 };
             });
             setGrades(initialGrades);
@@ -49,8 +55,8 @@ function GradingPage() {
         // Make sure each grade has a non-null criteriaId
         const payload = gradingGroups.gradingCriteria.map(criteria => ({
           studentId: gradingGroups.studentId, // Converting to string in case the server expects a string type
-          score: grades[criteria.id]?.score || '',
-          comment: grades[criteria.id]?.comments || '',
+          score: grades[criteria.id]?.gradedScore,
+          comment: grades[criteria.id]?.comment || '',
           criteriaId: criteria.id
         }));
       
@@ -78,7 +84,7 @@ function GradingPage() {
     return (
         <>
             <Header />
-            {/* <Box style={{ paddingTop: '100px', paddingLeft: '20px' }} sx={{ minWidth: 200 }}>
+            <Box style={{ paddingTop: '100px', paddingLeft: '20px' }} sx={{ minWidth: 200 }}>
               <h2 style={{color:'#fff', marginBottom:'20px'}}>{selectedGroup.groupName}</h2>
               <FormControl variant="filled" style={{ minWidth: '200px', backgroundColor: '#fff', borderRadius: '4px' }}>
                 <InputLabel id="demo-simple-select-filled-label">Student</InputLabel>
@@ -95,18 +101,11 @@ function GradingPage() {
                 ))}
                 </Select>
               </FormControl>
-            </Box> */}
-            <div style={{ height: 'calc(100vh - 100px)', width: '100%', padding:'100px 20px 20px 20px' }} className="ag-theme-quartz">
+            </Box>
+            {/* <div style={{ height: 'calc(100vh - 100px)', width: '100%', padding:'100px 20px 20px 20px' }} className="ag-theme-quartz">
                 <AgGridReact rowData={rowData} columnDefs={colDefs} pagination={true} rowDragManaged={true} rowDragEntireRow={true}/>
-            </div>
-            <div className="container" style={{
-                    display: 'flex',
-                    padding: '20px',
-                    justifyContent: 'center'}}>
-                <Button variant="contained" color="success" style={{color:"#fff"}}>
-                Save
-                </Button>
-                </div>
+            </div> */}
+
             <div style={{ paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px' }}>
 
                 <table className="table-sticky-header">
@@ -134,12 +133,12 @@ function GradingPage() {
                                         type="number"
                                         className="input-score"
                                         placeholder="Enter score"
-                                        value={grades[criteria.id]?.score || ''}
+                                        value={grades[criteria.id]?.gradedScore}
                                         onChange={(e) => setGrades(prevGrades => ({
                                             ...prevGrades,
                                             [criteria.id]: {
                                                 ...prevGrades[criteria.id],
-                                                score: e.target.value
+                                                gradedScore: e.target.value
                                             }
                                         }))}
                                     />
@@ -149,12 +148,12 @@ function GradingPage() {
                                         type="text"
                                         className="comments"
                                         placeholder="Enter comments"
-                                        value={grades[criteria.id]?.comments || ''}
+                                        value={grades[criteria.id]?.comment || ''}
                                         onChange={(e) => setGrades(prevGrades => ({
                                             ...prevGrades,
                                             [criteria.id]: {
                                                 ...prevGrades[criteria.id],
-                                                comments: e.target.value
+                                                comment: e.target.value
                                             }
                                         }))}
                                         />
@@ -165,6 +164,14 @@ function GradingPage() {
                     </tbody>
                 </table>
             </div>
+            <div className="container" style={{
+                    display: 'flex',
+                    padding: '20px',
+                    justifyContent: 'center'}}>
+                <Button variant="contained" color="success" style={{color:"#fff"}} onClick={handleSubmitGrades}>
+                Save
+                </Button>
+                </div>
         </>
     )};
 

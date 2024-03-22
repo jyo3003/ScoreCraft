@@ -75,6 +75,7 @@ public class GradingPageService {
 
             // Construct the DTO for the criteria
             GradingCriteriaDTO criterionDTO = new GradingCriteriaDTO(
+            	gradingCriteria.getId(),
                 gradingCriteria.getCriteriaName(),
                 gradingCriteria.getScore(), // Static score associated with the criteria
                 gradingCriteria.getTypeOfCriteria(),

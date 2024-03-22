@@ -1,6 +1,8 @@
 package com.SER517.scorecraft_backend.dto;
 
 public class GradingCriteriaDTO {
+	
+	private Long gradingID;
 	private String criteriaName;
     private double criteriaScore; // Static score associated with the criteria for reference
     private String typeOfCriteria;
@@ -10,8 +12,9 @@ public class GradingCriteriaDTO {
     private double gradedScore; // Dynamic score given to the student
     private String comment; // Comment associated with the student's graded score
 
-    public GradingCriteriaDTO(String criteriaName, double criteriaScore, String typeOfCriteria, 
+    public GradingCriteriaDTO(Long gradingID, String criteriaName, double criteriaScore, String typeOfCriteria, 
                                 String gradingCriteriaGroupName, double gradedScore, String comment) {
+    	this.gradingID = gradingID;
         this.criteriaName = criteriaName;
         this.criteriaScore = criteriaScore;
         this.typeOfCriteria = typeOfCriteria;
@@ -68,6 +71,14 @@ public class GradingCriteriaDTO {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public Long getId() {
+		return gradingID;
+	}
+
+	public void setId(Long gradingID) {
+		this.gradingID = gradingID;
 	}
 
     

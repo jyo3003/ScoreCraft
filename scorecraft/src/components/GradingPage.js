@@ -5,13 +5,14 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import Header from './Header';
 import { gradingAPI } from '../api';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function GradingPage() {
     const location = useLocation();
     const selectedGroup = location.state ? location.state.selectedGroup : null;
     const [selectedStudent, setSelectedStudent] = useState(selectedGroup.students[0]);
     const [rowData, setRowData] = useState();
+    const navigate = useNavigate();
 
     const [gradingGroups, setGradingGroups] = useState([]);
     const [grades, setGrades] = useState({});
@@ -84,6 +85,7 @@ function GradingPage() {
     return (
         <>
             <Header />
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'end'}}>
             <Box style={{ paddingTop: '100px', paddingLeft: '20px' }} sx={{ minWidth: 200 }}>
               <h2 style={{color:'#000', marginBottom:'20px'}}>{selectedGroup.groupName}</h2>
               <FormControl variant="filled" style={{ minWidth: '200px', backgroundColor: '#fff', borderRadius: '4px' }}>
@@ -102,6 +104,11 @@ function GradingPage() {
                 </Select>
               </FormControl>
             </Box>
+            <Button variant="contained" style={{color:'#fff', maxHeight:'40px', marginRight:'20px'}} onClick={()=>navigate(`/MainPageGroup`)}>
+                Back
+            </Button>
+            </div>
+
             {/* <div style={{ height: 'calc(100vh - 100px)', width: '100%', padding:'100px 20px 20px 20px' }} className="ag-theme-quartz">
                 <AgGridReact rowData={rowData} columnDefs={colDefs} pagination={true} rowDragManaged={true} rowDragEntireRow={true}/>
             </div> */}

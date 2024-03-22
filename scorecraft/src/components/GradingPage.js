@@ -10,7 +10,9 @@ import { useLocation } from 'react-router-dom';
 function GradingPage() {
     const location = useLocation();
     const selectedGroup = location.state ? location.state.selectedGroup : null;
-    const [selectedStudent, setSelectedStudent] = useState(selectedGroup ? selectedGroup.students[0] : '');
+    const [selectedStudent, setSelectedStudent] = useState(selectedGroup.students[0]);
+    const [rowData, setRowData] = useState();
+
     const [gradingGroups, setGradingGroups] = useState([]);
     const [grades, setGrades] = useState({});
 
@@ -32,20 +34,16 @@ function GradingPage() {
         const fetchAllGradingGroups = async () => {
             try {
                 const data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
-                setGradingGroups(data);
+                console.log('Received data:', data); // Log the data for debugging
+                setGradingGroups(data); // Set the data as received
+                setRowData(data.gradingCriteria);
             } catch (error) {
                 console.error("Failed to fetch grading groups:", error.message);
             }
         };
-
-        if (selectedStudent && selectedStudent.id) {
-            fetchAllGradingGroups();
-        }
-    }, [selectedStudent]);
-
-    const handleStudentChange = (event) => {
-        setSelectedStudent(event.target.value);
-    };
+        fetchAllGradingGroups();
+    }, [selectedGroup, selectedStudent]);
+    // Row Data: The data to be displayed.
 
     const handleSubmitGrades = async () => {
         // Make sure each grade has a non-null criteriaId
@@ -67,29 +65,50 @@ function GradingPage() {
           alert('Failed to submit grades.');
         }
       };
-      
-      
+
+    const [colDefs, setColDefs] = useState([
+        { field: "id", rowDrag: true, flex: 1},
+        { field: "criteriaName", flex: 3 },
+        { field: "criteriaScore", flex:1 },
+        { field: "typeOfCriteria", flex:1},
+        { field: "gradingCriteriaGroupName",flex:2 },
+        { field: "gradedScore", editable: true, flex:1},
+        { field: "comment", editable: true, flex:2},   
+    ]);
     return (
         <>
             <Header />
-            <Box style={{ paddingTop: '100px', paddingLeft: '20px' }} sx={{ minWidth: 200 }}>
-                <h2 style={{ color: '#fff', marginBottom: '20px' }}>{selectedGroup ? selectedGroup.groupName : 'Select a Group'}</h2>
-                <FormControl variant="filled" style={{ minWidth: '200px', backgroundColor: '#fff', borderRadius: '4px' }}>
-                    <InputLabel id="student-select-label">Student</InputLabel>
-                    <Select
-                        labelId="student-select-label"
-                        id="student-select"
-                        value={selectedStudent}
-                        onChange={handleStudentChange}
-                        sx={{ backgroundColor: '#fff', borderRadius: '4px' }}
-                    >
-                        {selectedGroup?.students.map((student) => (
-                            <MenuItem key={student.id} value={student}>{student.studentName}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            </Box>
+            {/* <Box style={{ paddingTop: '100px', paddingLeft: '20px' }} sx={{ minWidth: 200 }}>
+              <h2 style={{color:'#fff', marginBottom:'20px'}}>{selectedGroup.groupName}</h2>
+              <FormControl variant="filled" style={{ minWidth: '200px', backgroundColor: '#fff', borderRadius: '4px' }}>
+                <InputLabel id="demo-simple-select-filled-label">Student</InputLabel>
+                <Select
+                  labelId="demo-simple-select-filled-label"
+                  id="demo-simple-select-filled"
+                  value={selectedStudent}
+                  label="Student Name"
+                  onChange={handleStudentChange}
+                  sx={{ backgroundColor: '#fff', borderRadius: '4px' }} // Light-themed background color
+                >
+                {selectedGroup && selectedGroup.students.map((student) => (
+                    <MenuItem key={student.id} value={student}>{student.studentName}</MenuItem>
+                ))}
+                </Select>
+              </FormControl>
+            </Box> */}
+            <div style={{ height: 'calc(100vh - 100px)', width: '100%', padding:'100px 20px 20px 20px' }} className="ag-theme-quartz">
+                <AgGridReact rowData={rowData} columnDefs={colDefs} pagination={true} rowDragManaged={true} rowDragEntireRow={true}/>
+            </div>
+            <div className="container" style={{
+                    display: 'flex',
+                    padding: '20px',
+                    justifyContent: 'center'}}>
+                <Button variant="contained" color="success" style={{color:"#fff"}}>
+                Save
+                </Button>
+                </div>
             <div style={{ paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px' }}>
+
                 <table className="table-sticky-header">
                     <thead>
                         <tr>
@@ -141,22 +160,12 @@ function GradingPage() {
                                         />
                                     </td>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        padding: '20px'
-                    }}>
-                        <Button variant="contained" color="success" onClick={handleSubmitGrades} style={{ color: "#fff" }}>
-                            Submit
-                        </Button>
-                    </div>
-                </div>
-            </>
-        );
-    }
-    
-    export default GradingPage;
-    
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </>
+    )};
+
+export default GradingPage;

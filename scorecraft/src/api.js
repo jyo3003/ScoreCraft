@@ -12,7 +12,7 @@ const api = axios.create({
 export const gradingAPI = {
   getAllGradingGroups: async (studentId) => {
     try {
-      const response = await api.get('/gradingPage/studentGrades/' + studentId);
+      const response = await api.get(`/gradingPage/studentGrades/${studentId}`);
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -22,16 +22,28 @@ export const gradingAPI = {
       }
     }
   },
+  submitGrades: async (grades) => {
+    try {
+      const response = await api.post('/gradingPage/submitGrades', grades);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        throw new Error(error.response.data.message || "Error submitting grades");
+      } else {
+        throw new Error("Network error or no response from server");
+      }
+    }
+  },
 };
 
-// Existing API calls for uploading files and fetching students
+// API calls for uploading files
 export const uploadFile = async (file, resourceId) => {
   try {
     const formData = new FormData();
     formData.append('file', file);
 
     const url = `${API_URL}/excel/upload`;
-    const response = await axios.put(url, formData, {
+    const response = await api.put(url, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -47,10 +59,10 @@ export const uploadFile = async (file, resourceId) => {
   }
 };
 
+// API calls for fetching students
 export const getStudents = async () => {
   try {
-    const response = await axios.get(`${API_URL}/main/students`);
-    console.log('Response:', response.data);
+    const response = await api.get(`${API_URL}/main/students`);
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -61,9 +73,10 @@ export const getStudents = async () => {
   }
 };
 
+// API calls for fetching students by group
 export const getStudentsByGroup = async () => {
   try {
-    const response = await axios.get(`${API_URL}/main/groups`);
+    const response = await api.get(`${API_URL}/main/groups`);
     return response.data;
   } catch (error) {
     if (error.response) {

@@ -98,7 +98,7 @@ function GradingPage() {
                                 <tr key={index}>
                                     <td>{criteria.id}</td>
                                     <td>{criteria.criteriaName}</td>
-                                    <td>{criteria.score}</td>
+                                    <td>{criteria.criteriaScore}</td>
                                     <td>{criteria.typeOfCriteria}</td>
                                     <td>{criteria.gradingCriteriaGroupName}</td>
                                     <td>

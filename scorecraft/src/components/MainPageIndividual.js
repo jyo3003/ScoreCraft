@@ -3,10 +3,30 @@ import { useNavigate } from 'react-router-dom';
 import '../css/MainPageIndividual.css';
 import { getStudents } from '../api';
 import Header from './Header';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TextField, Button, InputAdornment, IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+
+// Custom hook for debouncing
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 
 export default function MainPageIndividual() {
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 500); // Debouncing search term
   const [students, setStudents] = useState([]);
   const navigate = useNavigate();
 
@@ -23,8 +43,9 @@ export default function MainPageIndividual() {
     fetchStudents();
   }, []);
 
+  // Filtering students based on debounced search term
   const filteredStudents = students.filter(student =>
-    student.studentName.toLowerCase().includes(searchTerm.toLowerCase())
+    student.studentName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
 
   const handleCheckboxChange = (event, index) => {
@@ -39,15 +60,33 @@ export default function MainPageIndividual() {
       <Header />
       <div className="main-page-individual">
         <div className="individual-search-bar">
-          <input
+          <TextField
+            fullWidth
             type="text"
             placeholder="Search Students"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            variant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                searchTerm && (
+                  <IconButton onClick={() => setSearchTerm('')}>
+                    <ClearIcon />
+                  </IconButton>
+                )
+              ),
+            }}
           />
-          <button className="export-button">Export</button>
+          <Button variant="contained" color="primary" onClick={() => console.log('Export functionality to be implemented')} style={{ marginLeft: '8px' }}>
+            Export
+          </Button>
         </div>
-        <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: 440, marginTop: '16px', backgroundColor: 'transparent', boxShadow: 'none' }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -60,7 +99,7 @@ export default function MainPageIndividual() {
               {filteredStudents.map((student, index) => (
                 <TableRow hover key={student.asurite}>
                   <TableCell>
-                    <span onClick={() => navigate('/GradingPage')} style={{ cursor: 'pointer', color: 'black', textDecoration: 'underline' }}>
+                    <span onClick={() => navigate('/GradingPage', { state: { student } })} style={{ cursor: 'pointer', textDecoration: 'underline' }}>
                       {student.studentName}
                     </span>
                   </TableCell>

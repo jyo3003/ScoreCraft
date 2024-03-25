@@ -45,78 +45,80 @@ export default function MainPageIndividual() {
 
   // Filtering students based on debounced search term
   const filteredStudents = students.filter(student =>
-    student.studentName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+      student.studentName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
 
   const handleCheckboxChange = (event, index) => {
     const updatedStudents = students.map((student, i) =>
-      i === index ? { ...student, graded: event.target.checked } : student
+        i === index ? { ...student, graded: event.target.checked } : student
     );
     setStudents(updatedStudents);
   };
 
   return (
-    <>
-      <Header />
-      <div className="main-page-individual">
-        <div className="individual-search-bar">
-          <TextField
-            fullWidth
-            type="text"
-            placeholder="Search Students"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            variant="outlined"
+      <>
+          <Header />
+          <div className="main-page-individual">
+              <div className="individual-search-bar" style={{ width: '40%',float: 'left', marginRight: '-210px' }}>
+              </div>
+              <div className="individual-search-bar" style={{ float: 'left' }}>
+                  <TextField
+                fullWidth
+                type="text"
+                placeholder="Search Students"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                variant="outlined"
             InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                searchTerm && (
-                  <IconButton onClick={() => setSearchTerm('')}>
-                    <ClearIcon />
-                  </IconButton>
-                )
-              ),
-            }}
-          />
-          <Button variant="contained" color="primary" onClick={() => console.log('Export functionality to be implemented')} style={{ marginLeft: '8px' }}>
-            Export
-          </Button>
-        </div>
-        <TableContainer component={Paper} sx={{ maxHeight: 440, marginTop: '16px', backgroundColor: 'transparent', boxShadow: 'none' }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>ASURite ID</TableCell>
-                <TableCell>Graded</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredStudents.map((student, index) => (
-                <TableRow hover key={student.asurite}>
-                  <TableCell>
+                  startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                  ),
+                  endAdornment: (
+                      searchTerm && (
+                          <IconButton onClick={() => setSearchTerm('')}>
+                            <ClearIcon />
+                          </IconButton>
+                      )
+                  ),
+                }}
+            />
+            <Button variant="contained" color="primary" onClick={() => console.log('Export functionality to be implemented')} style={{ marginLeft: '8px' }}>
+              Export
+            </Button>
+          </div>
+          <TableContainer component={Paper} sx={{ maxHeight: 440, maxWidth:1400, marginLeft: '-40px', marginTop: '16px', backgroundColor: 'transparent', boxShadow: 'none'}}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  <TableCell  style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>Name</TableCell>
+                  <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>ASURite ID</TableCell>
+                  <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>Graded</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredStudents.map((student, index) => (
+                    <TableRow hover key={student.asurite}>
+                      <TableCell>
                     <span onClick={() => navigate('/GradingPage', { state: { student } })} style={{ cursor: 'pointer', textDecoration: 'underline' }}>
                       {student.studentName}
                     </span>
-                  </TableCell>
-                  <TableCell>{student.asurite}</TableCell>
-                  <TableCell>
-                    <Checkbox
-                      checked={student.graded || false}
-                      onChange={(e) => handleCheckboxChange(e, index)}
-                      inputProps={{ 'aria-label': 'controlled' }}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </>
+                      </TableCell>
+                      <TableCell>{student.asurite}</TableCell>
+                      <TableCell>
+                        <Checkbox
+                            checked={student.graded || false}
+                            onChange={(e) => handleCheckboxChange(e, index)}
+                            inputProps={{ 'aria-label': 'controlled' }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </>
   );
 }

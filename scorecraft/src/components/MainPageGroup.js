@@ -82,7 +82,7 @@ const MainPageGroup = () => {
     const fetchStudentsByGroup = async () => {
       try {
         const studentsByGroup = await getStudentsByGroup();
-        setGroups(studentsByGroup);
+        setGroups(studentsByGroup.map(group => ({ ...group, show: false, graded: false })));
       } catch (error) {
         console.error("Failed to fetch students by group:", error.message);
       }
@@ -134,7 +134,7 @@ const MainPageGroup = () => {
                 <TableCell />
                 <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>Group Name</TableCell>
                 <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>Graded</TableCell>
-                <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>Details</TableCell>
+                <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>Go to Grading</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

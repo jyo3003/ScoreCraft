@@ -3,10 +3,9 @@ body {
     margin: 0;
     padding: 0;
     background-image: url('../images/pexels.jpeg');
-    background-color: #d5bcbc; 
+    background-color: #d5bcbc;
     background-size: cover;
     overflow-y: auto;
-
 }
 
 /* Header styling */
@@ -33,7 +32,6 @@ body {
     color: #ffffff;
 }
 
-
 .main-page-individual {
     max-width: 100%;
     margin: 0;
@@ -41,7 +39,7 @@ body {
     position: relative;
     padding-bottom: 50px;
     padding-top: 120px;
-    margin-left:100px;
+    margin-left: 100px;
 }
 
 /* Search bar styling */
@@ -80,20 +78,16 @@ body {
     margin-top: 20px;
     width: 1000px;
     color: white;
-
-
 }
 
-.individual-students-table th, .students-table td {
+.individual-students-table th, .individual-students-table td {
     padding: 12px;
     color: #ffffff;
     width: 10000px;
-
 }
 
 .individual-students-table tr:nth-child(even) {
     background-color: #000000;
-
 }
 
 .individual-students-table tbody tr:nth-child(odd) {
@@ -105,19 +99,46 @@ body {
     border: 1px solid;
 }
 
-.individual-students-table th{
+.individual-students-table th {
     background-color: #000000;
     margin-bottom: 1px;
 }
 
 /* Home button styling */
 .home-button {
-    display: block;
-    margin: 20px 0 20px ;
+    display: inline-block;
+    margin: 20px 0 20px;
     padding: 10px 20px;
     background-color: #000000;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 3D effect on hover */
+.home-button:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+    transform: translateY(-3px); /* Move button slightly up on hover */
+}
+
+/* Pseudo-element for creating 3D effect */
+.home-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+/* 3D effect animation */
+.home-button:hover::before {
+    transform: scaleY(1);
 }

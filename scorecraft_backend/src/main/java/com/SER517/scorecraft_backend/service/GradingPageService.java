@@ -80,8 +80,8 @@ public class GradingPageService {
                 gradingCriteria.getScore(), // Static score associated with the criteria
                 gradingCriteria.getTypeOfCriteria(),
                 gradingCriteria.getGradingCriteriaGroupName(),
-                (grading != null) ? grading.getScore() : 0.0, // Actual score achieved by the student (can be 0)
-                (grading != null) ? grading.getComment() : null, // Comment for the student's score (nullable)
+                (grading != null) ? grading.getScore() : -100.0, // Actual score achieved by the student (can be 0)
+                (grading != null) ? grading.getComment() : "", // Comment for the student's score (nullable)
                 gradingCriteria.getComments()
             );
             
@@ -118,7 +118,8 @@ public class GradingPageService {
                     .findFirst()
                     .orElse(null);
 
-            if (grading == null || grading.getComment() == null || grading.getComment().isEmpty()) {
+         // Check if the grading is missing, has a score of -100, or has an empty or null comment
+            if (grading == null || grading.getScore() == -100.0 || grading.getComment() == null || grading.getComment().isEmpty()) {
                 return false;
             }
         }

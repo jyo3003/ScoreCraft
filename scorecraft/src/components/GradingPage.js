@@ -103,6 +103,13 @@ function GradingPage() {
         return color;
     };
 
+    // Custom cell renderer for scores
+    const scoreCellRenderer = (params) => {
+        // Check if the score is null and return an empty string; otherwise, return the score
+        return params.value === -100.0 ? 0.0 : params.value;
+    };
+
+
       const [colDefs, setColDefs] = useState([
         { field: "id", rowDrag: true, flex: 1 },
         { field: "criteriaName", flex: 3 }, 
@@ -112,7 +119,13 @@ function GradingPage() {
             const backgroundColor = groupColors[params.value];
             return { backgroundColor }; // Return an object with the backgroundColor property
         }},
-        { field: "gradedScore", editable: true, flex: 1, cellClassRules: cellClassRules },
+        {
+            field: "gradedScore",
+            editable: true,
+            flex:1,
+            cellClassRules: cellClassRules,
+            cellRenderer: scoreCellRenderer, // Use custom renderer here
+        },
         { 
             field: "comment", 
             editable: true, 

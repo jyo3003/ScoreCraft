@@ -45,11 +45,12 @@ body {
 /* Search bar styling */
 .individual-search-bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; /* Aligns content to the left */
     margin-bottom: 20px;
-    width: 500px;
-    margin-left: 10px;
-}
+    width: auto; /* Allow it to take natural width or define as needed */
+    margin-left: -40px; /* Align with the parent container */
+  }
+  
 
 .individual-search-bar input[type="text"] {
     flex: 1;

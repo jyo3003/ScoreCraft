@@ -92,9 +92,9 @@ export default function MainPageIndividual() {
       <>
           <Header />
           <div className="main-page-individual">
-              <div className="individual-search-bar" style={{ width: '40%',float: 'left', marginRight: '-210px' }}>
+              <div className="individual-search-bar" style={{ width: '40%' }}>
               </div>
-              <div className="individual-search-bar" style={{ float: 'left' }}>
+              <div className="individual-search-bar" style={{ width: '40%' }}>
                   <TextField
                 fullWidth
                 type="text"
@@ -121,13 +121,14 @@ export default function MainPageIndividual() {
               Export
             </Button>
           </div>
-          <TableContainer component={Paper} sx={{ maxHeight: 440, maxWidth:1400, marginLeft: '-40px', marginTop: '16px', backgroundColor: 'transparent', boxShadow: 'none'}}>
+          <TableContainer component={Paper} sx={{ maxHeight: 440, maxWidth:1400, marginLeft: '-40px', marginTop: '16px', backgroundColor: 'transparent', boxShadow: 'none',  border: '1px solid #000', borderRadius: '4px'}}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                  <TableCell  style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>Name</TableCell>
-                  <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>ASURite ID</TableCell>
-                  <TableCell style={{ fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>Graded</TableCell>
+                  <TableCell  style={{ width: '80.3333%',fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>Name</TableCell>
+                  <TableCell style={{ width: '80.3333%',fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>ASURite ID</TableCell>
+                  <TableCell style={{ width: '80.3333%',fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}>Graded</TableCell>
+                  <TableCell style={{ width: '80.3333%',fontFamily: 'Arial', fontWeight: 'bold', fontSize: '20px' }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

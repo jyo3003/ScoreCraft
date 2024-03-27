@@ -110,7 +110,7 @@ const MainPageGroup = () => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         fullWidth
-                        sx={{ width: '40%', marginLeft: '350px' }} // Set the width to 100%
+                        sx={{ width: '40%', marginLeft: '80px' }} 
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -127,7 +127,7 @@ const MainPageGroup = () => {
                         }}
                     />
                 </Box>
-                <TableContainer component={Paper} sx={{ mt: 2, maxWidth:1240, marginLeft:2,
+                <TableContainer component={Paper} sx={{ mt: 2, maxWidth:1240, marginLeft:12,border: '1px solid #000',borderRadius: '4px',
                     background: 'transparent' }}>
                     <Table aria-label="collapsible table">
                         <TableHead>

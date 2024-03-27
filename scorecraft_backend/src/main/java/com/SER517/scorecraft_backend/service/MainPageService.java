@@ -18,10 +18,15 @@ public class MainPageService {
 
     @Autowired
     private StudentRepository studentRepository;
+    
+    @Autowired
+    private GradingPageService gradingPageService; // Use GradingPageService to check grading status
+
 
     // Convert Student Entity to DTO
     private StudentDTO convertStudentToDTO(Student student) {
-        return new StudentDTO(student.getId(), student.getAsurite(), student.getStudentName(), student.getGradingStatus(), student.getGroupName());
+        boolean isFullyGraded = gradingPageService.isStudentFullyGraded(student.getId());
+        return new StudentDTO(student.getId(), student.getAsurite(), student.getStudentName(), isFullyGraded, student.getGroupName());
     }
 
     public List<StudentDTO> getAllStudents() {
@@ -31,18 +36,16 @@ public class MainPageService {
     }
 
     public List<GroupDTO> getAllGroups() {
-        // Fetch all students
         List<Student> students = studentRepository.findAll();
-
-        // Group students by groupName
-        Map<String, List<StudentDTO>> groups = students.stream()
+        Map<String, List<StudentDTO>> groupedStudents = students.stream()
                 .map(this::convertStudentToDTO)
                 .collect(Collectors.groupingBy(StudentDTO::getGroupName));
 
-        // Convert groups map to list of GroupDTO
-        return groups.entrySet().stream()
-                .map(entry -> new GroupDTO(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toList());
+        return groupedStudents.entrySet().stream().map(entry -> {
+            GroupDTO group = new GroupDTO(entry.getKey(), entry.getValue());
+            group.setIsGraded(entry.getValue().stream().allMatch(StudentDTO::getGradingStatus));
+            return group;
+        }).collect(Collectors.toList());
     }
 
     // Add more methods for student and group operations as needed

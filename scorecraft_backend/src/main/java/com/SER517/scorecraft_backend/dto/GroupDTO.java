@@ -8,6 +8,9 @@ public class GroupDTO {
 
     private List<StudentDTO> students;
     
+    private boolean isGraded; // Add this line
+
+    
     public GroupDTO(String groupName, List<StudentDTO> students) {
 		super();
 		this.groupName = groupName;
@@ -25,5 +28,13 @@ public class GroupDTO {
 	public void setStudents(List<StudentDTO> students) {
 		this.students = students;
 	}
+	
+    public boolean getIsGraded() {
+        return isGraded;
+    }
+
+    public void setIsGraded(boolean isGraded) {
+        this.isGraded = isGraded;
+    }
 
 }

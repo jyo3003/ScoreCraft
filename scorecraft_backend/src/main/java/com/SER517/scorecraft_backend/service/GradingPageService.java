@@ -106,5 +106,23 @@ public class GradingPageService {
         }
         return null; // No grading record found for the criteria
     }
+    
+    public boolean isStudentFullyGraded(Long studentId) {
+        List<StudentGrading> studentGradings = studentGradingRepository.findByStudentId(studentId);
+        List<GradingCriteria> allCriteria = gradingCriteriaRepository.findAll();
+
+        for (GradingCriteria criterion : allCriteria) {
+            StudentGrading grading = studentGradings.stream()
+                    .filter(g -> g.getGradingCriteria().getId().equals(criterion.getId()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (grading == null || grading.getComment() == null || grading.getComment().isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 }

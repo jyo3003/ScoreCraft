@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AgGridReact } from 'ag-grid-react';
 import '../css/GradingPage.css';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
@@ -6,6 +7,7 @@ import Header from './Header';
 import { gradingAPI } from '../api';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 
 function GradingPage() {
     const location = useLocation();
@@ -16,27 +18,12 @@ function GradingPage() {
     const navigate = useNavigate();
 
     const [gradingGroups, setGradingGroups] = useState([]);
-    const [grades, setGrades] = useState({});
 
     const handleStudentChange = (event) => {
         console.log(event.target.value);
         setSelectStudent(event.target.value);
         console.log(selectedGroup);
       };
-
-    // Initialize grades state when gradingGroups data is fetched
-    useEffect(() => {
-        if (gradingGroups.gradingCriteria) {
-            const initialGrades = {};
-            gradingGroups.gradingCriteria.forEach(criteria => {
-                initialGrades[criteria.id] = {
-                    gradedScore: criteria.gradedScore,
-                    comment: criteria.comment || '' // Initialize comments if not set
-                };
-            });
-            setGrades(initialGrades);
-        }
-    }, [gradingGroups]);
 
     useEffect(() => {
         const fetchAllGradingGroups = async () => {
@@ -45,10 +32,12 @@ function GradingPage() {
                 if(selectedGroup){
                     data = await gradingAPI.getAllGradingGroups(studentSelect.id);
                     setGradingGroups(data); // Set the data as received
+                    setRowData(data.gradingCriteria);
                 }
                 else if(selectedStudent){
                     data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
                     setGradingGroups(data); // Set the data as received
+                    setRowData(data.gradingCriteria);
                 }
                 console.log('Received data:', data); // Log the data for debugging
                 // setRowData(data.gradingCriteria);
@@ -62,11 +51,12 @@ function GradingPage() {
 
     const handleSubmitGrades = async () => {
         // Make sure each grade has a non-null criteriaId
-        const payload = gradingGroups.gradingCriteria.map(criteria => ({
-          studentId: gradingGroups.studentId, // Converting to string in case the server expects a string type
-          score: grades[criteria.id]?.gradedScore,
-          comment: grades[criteria.id]?.comment || '',
-          criteriaId: criteria.id
+        console.log(rowData);
+        const payload = rowData.map(criteria => ({
+          studentId: gradingGroups?.studentId, // Converting to string in case the server expects a string type
+          score: criteria?.gradedScore,
+          comment: criteria?.comment || '',
+          criteriaId: criteria?.id
         }));
       
         console.log('Submitting grades:', payload);
@@ -126,67 +116,8 @@ function GradingPage() {
             </Button>
             </div>
 
-            {/* <div style={{ height: 'calc(100vh - 100px)', width: '100%', padding:'100px 20px 20px 20px' }} className="ag-theme-quartz">
+            <div style={{ height: 'calc(100vh - 100px)', width: '100%', padding:'20px' }} className="ag-theme-quartz">
                 <AgGridReact rowData={rowData} columnDefs={colDefs} pagination={true} rowDragManaged={true} rowDragEntireRow={true}/>
-            </div> */}
-
-            <div style={{ paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px' }}>
-
-                <table className="table-sticky-header">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Criteria Name</th>
-                            <th>Score</th>
-                            <th>Type of Criteria</th>
-                            <th>Grading Criteria Group Name</th>
-                            <th>Input Score</th>
-                            <th>Comments</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {gradingGroups.gradingCriteria?.map((criteria, index) => (
-                            <tr key={index}>
-                                <td>{criteria.id}</td>
-                                <td>{criteria.criteriaName}</td>
-                                <td>{criteria.criteriaScore}</td>
-                                <td>{criteria.typeOfCriteria}</td>
-                                <td>{criteria.gradingCriteriaGroupName}</td>
-                                <td>
-                                    <input
-                                        type="number"
-                                        className="input-score"
-                                        placeholder="Enter score"
-                                        value={grades[criteria.id]?.gradedScore}
-                                        onChange={(e) => setGrades(prevGrades => ({
-                                            ...prevGrades,
-                                            [criteria.id]: {
-                                                ...prevGrades[criteria.id],
-                                                gradedScore: e.target.value
-                                            }
-                                        }))}
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        className="comments"
-                                        placeholder="Enter comments"
-                                        value={grades[criteria.id]?.comment || ''}
-                                        onChange={(e) => setGrades(prevGrades => ({
-                                            ...prevGrades,
-                                            [criteria.id]: {
-                                                ...prevGrades[criteria.id],
-                                                comment: e.target.value
-                                            }
-                                        }))}
-                                        />
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
             </div>
             <div className="container" style={{
                     display: 'flex',

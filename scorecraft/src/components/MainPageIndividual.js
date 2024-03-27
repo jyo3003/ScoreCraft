@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation} from 'react-router-dom';
 import '../css/MainPageIndividual.css';
 import { getStudents } from '../api';
 import Header from './Header';
@@ -8,55 +8,39 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-// Custom hook for debouncing
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value);
-
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
   }, [value, delay]);
-
   return debouncedValue;
 }
 
-
-function StudentRow({student, onSelectStudent}){
-  const handleSelect = () => {
-    onSelectStudent(student);
-  };
+function StudentRow({ student, onSelectStudent }) {
   return (
     <TableRow hover key={student.asurite}>
-    <TableCell>
-      <span style={{ cursor: 'pointer', color: 'black', textDecoration: 'underline' }}>
-        {student.studentName}
-      </span>
-    </TableCell>
-    <TableCell>{student.asurite}</TableCell>
-    <TableCell>
-      <Checkbox
-        checked={student.graded || false}
-      />
-    </TableCell>
-    <TableCell>
-      <IconButton aria-label="expand row" size="small" onClick={handleSelect}>
-        <KeyboardArrowRightIcon />
-      </IconButton>
-    </TableCell>
+      <TableCell>{student.studentName}</TableCell>
+      <TableCell>{student.asurite}</TableCell>
+      <TableCell>
+        <Checkbox checked={student.gradingStatus || false} disabled />
+      </TableCell>
+      <TableCell>
+        <IconButton aria-label="expand row" size="small" onClick={() => onSelectStudent(student)}>
+          <KeyboardArrowRightIcon />
+        </IconButton>
+      </TableCell>
     </TableRow>
   );
 }
 
 export default function MainPageIndividual() {
   const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 500); // Debouncing search term
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [students, setStudents] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -67,27 +51,23 @@ export default function MainPageIndividual() {
         console.error("Failed to fetch students:", error.message);
       }
     };
-
     fetchStudents();
-  }, []);
+  }, [refreshKey]);
+  useEffect(() => {
+    if (location.state?.refresh) {
+      setRefreshKey(prevKey => prevKey + 1); // Increment refreshKey to trigger re-fetch
+      // Reset state to avoid loop
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location, navigate]);
 
-  // Filtering students based on debounced search term
   const filteredStudents = students.filter(student =>
-      student.studentName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+    student.studentName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
 
-  const handleCheckboxChange = (event, index) => {
-    const updatedStudents = students.map((student, i) =>
-        i === index ? { ...student, graded: event.target.checked } : student
-    );
-    setStudents(updatedStudents);
-};
-
   const handleSelectStudent = (selectedStudent) => {
-    console.log(selectedStudent);
-    navigate('/GradingPage', {state: {selectedStudent}});
-};
-
+    navigate('/GradingPage', { state: { selectedStudent, from: '/MainPageIndividual' } });
+  };
   return (
       <>
           <Header />

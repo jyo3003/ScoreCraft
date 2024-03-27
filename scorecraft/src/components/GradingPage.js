@@ -31,15 +31,15 @@ function GradingPage() {
             try {
                 if(selectedGroup){
                     data = await gradingAPI.getAllGradingGroups(studentSelect.id);
-                    setGradingGroups(data); // Set the data as received
+                    setGradingGroups(data); 
                     setRowData(data.gradingCriteria);
                 }
                 else if(selectedStudent){
                     data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
-                    setGradingGroups(data); // Set the data as received
+                    setGradingGroups(data); 
                     setRowData(data.gradingCriteria);
                 }
-                console.log('Received data:', data); // Log the data for debugging
+                console.log('Received data:', data); 
                 // setRowData(data.gradingCriteria);
             } catch (error) {
                 console.error("Failed to fetch grading groups:", error.message);
@@ -47,29 +47,39 @@ function GradingPage() {
         };
         fetchAllGradingGroups();
     }, [selectedGroup, studentSelect, selectedStudent]);
-    // Row Data: The data to be displayed.
+    
 
     const handleSubmitGrades = async () => {
-        // Make sure each grade has a non-null criteriaId
+      
         console.log(rowData);
         const payload = rowData.map(criteria => ({
-          studentId: gradingGroups?.studentId, // Converting to string in case the server expects a string type
-          score: criteria?.gradedScore,
-          comment: criteria?.comment || '',
-          criteriaId: criteria?.id
+            studentId: gradingGroups?.studentId, 
+            score: criteria?.gradedScore,
+            comment: criteria?.comment || '',
+            criteriaId: criteria?.id,
         }));
-      
+    
         console.log('Submitting grades:', payload);
-      
+    
         try {
-          const response = await gradingAPI.submitGrades(payload);
-          console.log('Submission response:', response);
-          alert('Grades submitted successfully!');
+            const response = await gradingAPI.submitGrades(payload);
+            console.log('Submission response:', response);
+            alert('Grades submitted successfully!');
+    
+            
+            if (selectedGroup) {
+                // Navigate to the group main page if grading a group, passing the refresh state.
+                navigate('/MainPageGroup', { state: { refresh: true } });
+            } else if (selectedStudent) {
+                // Navigate to the individual main page if grading an individual, passing the refresh state.
+                navigate('/MainPageIndividual', { state: { refresh: true } });
+            }
         } catch (error) {
-          console.error('Failed to submit grades:', error);
-          alert('Failed to submit grades.');
+            console.error('Failed to submit grades:', error);
+            alert('Failed to submit grades.');
         }
-      };
+    };
+    
 
     const [colDefs, setColDefs] = useState([
         { field: "id", rowDrag: true, flex: 1},

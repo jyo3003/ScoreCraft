@@ -43,7 +43,8 @@ function GroupRow({ group, onSelectGroup }) {
                     <input
                         type="checkbox"
                         checked={group.graded}
-                        onChange={(event) => event.stopPropagation()} // Prevent row collapse when toggling checkbox
+                        onChange={(event) => event.stopPropagation()} 
+                        readOnly// Prevent row collapse when toggling checkbox
                     />
                 </TableCell>
                 <TableCell>
@@ -82,7 +83,7 @@ const MainPageGroup = () => {
         const fetchStudentsByGroup = async () => {
             try {
                 const studentsByGroup = await getStudentsByGroup();
-                setGroups(studentsByGroup.map(group => ({ ...group, show: false, graded: false })));
+                setGroups(studentsByGroup.map(group => ({ ...group, show: false, graded: group.isGraded })));
             } catch (error) {
                 console.error("Failed to fetch students by group:", error.message);
             }

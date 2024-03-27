@@ -6,6 +6,7 @@ import Header from './Header';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TextField, Button, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 // Custom hook for debouncing
 function useDebounce(value, delay) {
@@ -22,6 +23,33 @@ function useDebounce(value, delay) {
   }, [value, delay]);
 
   return debouncedValue;
+}
+
+
+function StudentRow({student, onSelectStudent}){
+  const handleSelect = () => {
+    onSelectStudent(student);
+  };
+  return (
+    <TableRow hover key={student.asurite}>
+    <TableCell>
+      <span style={{ cursor: 'pointer', color: 'black', textDecoration: 'underline' }}>
+        {student.studentName}
+      </span>
+    </TableCell>
+    <TableCell>{student.asurite}</TableCell>
+    <TableCell>
+      <Checkbox
+        checked={student.graded || false}
+      />
+    </TableCell>
+    <TableCell>
+      <IconButton aria-label="expand row" size="small" onClick={handleSelect}>
+        <KeyboardArrowRightIcon />
+      </IconButton>
+    </TableCell>
+    </TableRow>
+  );
 }
 
 export default function MainPageIndividual() {
@@ -53,6 +81,11 @@ export default function MainPageIndividual() {
         i === index ? { ...student, graded: event.target.checked } : student
     );
     setStudents(updatedStudents);
+};
+
+  const handleSelectStudent = (selectedStudent) => {
+    console.log(selectedStudent);
+    navigate('/GradingPage', {state: {selectedStudent}});
 };
 
   return (
@@ -98,23 +131,9 @@ export default function MainPageIndividual() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredStudents.map((student, index) => (
-                    <TableRow hover key={student.asurite}>
-                      <TableCell>
-                    <span onClick={() => navigate('/GradingPage', { state: { student } })} style={{ cursor: 'pointer', textDecoration: 'underline' }}>
-                      {student.studentName}
-                    </span>
-                      </TableCell>
-                      <TableCell>{student.asurite}</TableCell>
-                      <TableCell>
-                        <Checkbox
-                            checked={student.graded || false}
-                            onChange={(e) => handleCheckboxChange(e, index)}
-                            inputProps={{ 'aria-label': 'controlled' }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                ))}
+              {filteredStudents.map((student) => (
+                      <StudentRow key={student.studentName} student={student} onSelectStudent={handleSelectStudent} />
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>

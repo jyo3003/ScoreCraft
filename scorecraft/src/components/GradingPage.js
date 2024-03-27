@@ -10,7 +10,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 function GradingPage() {
     const location = useLocation();
     const selectedGroup = location.state ? location.state.selectedGroup : null;
-    const [selectedStudent, setSelectedStudent] = useState(selectedGroup.students[0]);
+    const selectedStudent = location.state ? location.state.selectedStudent : null;
+    const [studentSelect, setSelectStudent] = useState(selectedGroup? selectedGroup.students[0]: null);
     const [rowData, setRowData] = useState();
     const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ function GradingPage() {
 
     const handleStudentChange = (event) => {
         console.log(event.target.value);
-        setSelectedStudent(event.target.value);
+        setSelectStudent(event.target.value);
         console.log(selectedGroup);
       };
 
@@ -39,17 +40,24 @@ function GradingPage() {
 
     useEffect(() => {
         const fetchAllGradingGroups = async () => {
+            var data={};
             try {
-                const data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
+                if(selectedGroup){
+                    data = await gradingAPI.getAllGradingGroups(studentSelect.id);
+                    setGradingGroups(data); // Set the data as received
+                }
+                else if(selectedStudent){
+                    data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
+                    setGradingGroups(data); // Set the data as received
+                }
                 console.log('Received data:', data); // Log the data for debugging
-                setGradingGroups(data); // Set the data as received
-                setRowData(data.gradingCriteria);
+                // setRowData(data.gradingCriteria);
             } catch (error) {
                 console.error("Failed to fetch grading groups:", error.message);
             }
         };
         fetchAllGradingGroups();
-    }, [selectedGroup, selectedStudent]);
+    }, [selectedGroup, studentSelect, selectedStudent]);
     // Row Data: The data to be displayed.
 
     const handleSubmitGrades = async () => {
@@ -87,13 +95,14 @@ function GradingPage() {
             <Header />
             <div style={{display:'flex', justifyContent:'space-between', alignItems:'end'}}>
             <Box style={{ paddingTop: '100px', paddingLeft: '20px' }} sx={{ minWidth: 200 }}>
-              <h2 style={{color:'#000', marginBottom:'20px'}}>{selectedGroup.groupName}</h2>
-              <FormControl variant="filled" style={{ minWidth: '200px', backgroundColor: '#fff', borderRadius: '4px' }}>
+              {selectedStudent ? <h2 style={{color:'#000', marginBottom:'20px'}}>{selectedStudent.studentName}</h2>:null}
+              {selectedGroup ?<h2 style={{color:'#000', marginBottom:'20px'}}>{selectedGroup.groupName}</h2>:null}
+              {selectedGroup?<FormControl variant="filled" style={{ minWidth: '200px', backgroundColor: '#fff', borderRadius: '4px' }}>
                 <InputLabel id="demo-simple-select-filled-label">Student</InputLabel>
                 <Select
                   labelId="demo-simple-select-filled-label"
                   id="demo-simple-select-filled"
-                  value={selectedStudent}
+                  value={studentSelect}
                   label="Student Name"
                   onChange={handleStudentChange}
                   sx={{ backgroundColor: '#fff', borderRadius: '4px' }} // Light-themed background color
@@ -102,9 +111,17 @@ function GradingPage() {
                     <MenuItem key={student.id} value={student}>{student.studentName}</MenuItem>
                 ))}
                 </Select>
-              </FormControl>
+              </FormControl>:null}
             </Box>
-            <Button variant="contained" style={{color:'#fff', maxHeight:'40px', marginRight:'20px'}} onClick={()=>navigate(`/MainPageGroup`)}>
+            <Button variant="contained" style={{color:'#fff', maxHeight:'40px', marginRight:'20px'}} onClick={()=>{
+                if(selectedGroup){
+                    navigate(`/MainPageGroup`);
+                }
+                else if(selectedStudent){
+                    navigate(`/MainPageIndividual`);
+                }
+            }
+            }>
                 Back
             </Button>
             </div>

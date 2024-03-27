@@ -53,7 +53,7 @@ export default function MainPageIndividual() {
         i === index ? { ...student, graded: event.target.checked } : student
     );
     setStudents(updatedStudents);
-  };
+};
 
   return (
       <>

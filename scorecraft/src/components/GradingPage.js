@@ -113,7 +113,16 @@ function GradingPage() {
             return { backgroundColor }; // Return an object with the backgroundColor property
         }},
         { field: "gradedScore", editable: true, flex: 1, cellClassRules: cellClassRules },
-        { field: "comment", editable: true, flex: 2 },   
+        { 
+            field: "comment", 
+            editable: true, 
+            flex: 2, 
+            cellEditor: "agSelectCellEditor", 
+            cellEditorParams: params => {
+                const rowData = params.node.data;
+                return { values: rowData.predefinedComments || [] };
+            }
+        },        
     ]);
 
 
@@ -163,7 +172,7 @@ return (
                 <Button variant="contained" color="success" style={{color:"#fff"}} onClick={handleSubmitGrades}>
                 Save
                 </Button>
-                </div>
+            </div>
         </>
     )};
 

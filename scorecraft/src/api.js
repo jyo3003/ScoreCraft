@@ -8,6 +8,32 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
+
+
+// New API call for checking if data exists
+export const checkDataExists = async () => {
+  try {
+    const response = await api.get('/excel/checkDataExists');
+    return response.data; // Assuming the endpoint returns a boolean directly
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || "Error checking data existence");
+    } else {
+      throw new Error("Network error or no response from server");
+    }
+  }
+};
+
+//To get if it's group or individual assessment
+export const getAssessmentType = async () => {
+  try {
+    const response = await api.get('/excel/assessmentType'); // Use api instance that includes baseURL
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Grading Page API Calls
 export const gradingAPI = {
   getAllGradingGroups: async (studentId) => {

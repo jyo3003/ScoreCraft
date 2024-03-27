@@ -18,12 +18,26 @@ public class ExcelService {
 	private StudentRepository studentRepository;
 	@Autowired
 	private GradingCriteriaRepository gradingRepository;
+	
+	public boolean checkDataExists() {
+        boolean studentsExist = studentRepository.count() > 0;
+        boolean criteriaExist = gradingRepository.count() > 0;
+
+        return studentsExist || criteriaExist;
+    }
 
 	private void clearExistingData() {
         // Truncate tables or delete data from repositories
         gradingRepository.deleteAllInBatch();
         studentRepository.deleteAllInBatch();
     }
+	
+	public boolean getAssessmentType() {
+	    // Logic to determine the assessment type based on existing data
+		 // Check if group names exist in the Student table
+        boolean groupNamesExist = studentRepository.existsByGroupNameNotNull();
+        return groupNamesExist;
+	}
 
 	public String processExcelFile(MultipartFile file) {
 		try (Workbook workbook = WorkbookFactory.create(convertMultipartFileToFile(file))) {

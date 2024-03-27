@@ -16,6 +16,19 @@ public class ExcelController {
     @Autowired
     private ExcelService excelService;
     
+    @GetMapping("/checkDataExists")
+    public ResponseEntity<Boolean> checkDataExists() {
+        boolean dataExists = excelService.checkDataExists();
+        return new ResponseEntity<>(dataExists, HttpStatus.OK);
+    }
+    
+    @GetMapping("/assessmentType")
+    public ResponseEntity<Boolean> getAssessmentType() {
+        // Logic to fetch assessment type based on uploaded file
+        boolean type = excelService.getAssessmentType(); // Assuming you have a method in your service to determine assessment type
+        return ResponseEntity.ok(type);
+    }
+    
 
     @PutMapping("/upload")
     public ResponseEntity<String> uploadExcelFile(@RequestParam("file") MultipartFile file) throws IOException {

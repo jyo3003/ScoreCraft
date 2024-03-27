@@ -114,3 +114,54 @@ input[type="file"] {
     width: 60%;
   }
 }
+
+.container .data {
+  color: #4F4F4F; /* Change the text color to dark gray */
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* Replace 'YourFont' with your desired font name */
+  font-weight: bold;
+
+}
+
+.data-exists-question {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.data-exists-question p {
+  margin-bottom: 20px;
+}
+
+.data-exists-question button {
+  background: linear-gradient(to right, #d5d5d5 50%, #e9eef3 50%);
+  background-size: 200% 100%;
+  color: black;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: 10px solid transparent; /* Add a transparent border */
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.5s;
+  font-family: 'arial bold', sans-serif;
+  font-size: 18px;
+}
+
+/* Apply the font change to the grading question */
+.data-exists-question .data {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 30px;
+  color: #e9eef3;
+}
+
+.data-exists-question button {
+  border-top: 3px solid #cea13c; /* Top border */
+  border-bottom: 3px solid #cea13c; /* Bottom border */
+  border-left: 3px solid #cea13c; /* Left border */
+  border-right: 3px solid #cea13c; /* Right border */
+}
+.data-exists-question button:hover {
+  background-position: right;
+  color: #007300;
+}
+
+
+

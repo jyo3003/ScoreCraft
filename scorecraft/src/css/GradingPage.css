@@ -71,3 +71,6 @@ body {
   width: 100%;
   
 }
+.cell-invalid {
+  background-color: #ffcccc; /* Change to your desired highlight color */
+}

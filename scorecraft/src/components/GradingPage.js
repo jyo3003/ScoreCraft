@@ -16,6 +16,7 @@ function GradingPage() {
     const [studentSelect, setSelectStudent] = useState(selectedGroup? selectedGroup.students[0]: null);
     const [rowData, setRowData] = useState();
     const navigate = useNavigate();
+    const [groupColors, setGroupColors] = useState({});
 
     const [gradingGroups, setGradingGroups] = useState([]);
 
@@ -52,11 +53,11 @@ function GradingPage() {
     const handleSubmitGrades = async () => {
       
         console.log(rowData);
-        const payload = rowData.map(criteria => ({
-            studentId: gradingGroups?.studentId, 
-            score: criteria?.gradedScore,
-            comment: criteria?.comment || '',
-            criteriaId: criteria?.id,
+        const payload = rowData?.map(criteria => ({
+          studentId: gradingGroups?.studentId, // Converting to string in case the server expects a string type
+          score: criteria?.gradedScore,
+          comment: criteria?.comment || '',
+          criteriaId: criteria?.id
         }));
     
         console.log('Submitting grades:', payload);
@@ -78,19 +79,45 @@ function GradingPage() {
             console.error('Failed to submit grades:', error);
             alert('Failed to submit grades.');
         }
+      };
+            // CSS class to highlight invalid cell values
+    const cellClassRules = {
+        'cell-invalid': params => params.value < 0 || params.value > params.data.criteriaScore
     };
-    
+    useEffect(() => {
+        // Assign random colors to each distinct gradingCriteriaGroupName
+        const uniqueGroups = new Set(rowData?.map(row => row.gradingCriteriaGroupName));
+        uniqueGroups.forEach(group => {
+            groupColors[group] = randomColor(); // Generate random color for each group
+        });
+        console.log('Group colors:', groupColors);
+        setGroupColors(groupColors);
+    }, [rowData]);
 
-    const [colDefs, setColDefs] = useState([
-        { field: "id", rowDrag: true, flex: 1},
-        { field: "criteriaName", flex: 3 },
-        { field: "criteriaScore", flex:1 },
-        { field: "typeOfCriteria", flex:1},
-        { field: "gradingCriteriaGroupName",flex:2 },
-        { field: "gradedScore", editable: true, flex:1},
-        { field: "comment", editable: true, flex:2},   
+    const randomColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+
+      const [colDefs, setColDefs] = useState([
+        { field: "id", rowDrag: true, flex: 1 },
+        { field: "criteriaName", flex: 3 }, 
+        { field: "criteriaScore", flex: 1 },
+        { field: "typeOfCriteria", flex: 1 },
+        { field: "gradingCriteriaGroupName", flex: 2, cellStyle: params => {
+            const backgroundColor = groupColors[params.value];
+            return { backgroundColor }; // Return an object with the backgroundColor property
+        }},
+        { field: "gradedScore", editable: true, flex: 1, cellClassRules: cellClassRules },
+        { field: "comment", editable: true, flex: 2 },   
     ]);
-    return (
+
+
+return (
         <>
             <Header />
             <div style={{display:'flex', justifyContent:'space-between', alignItems:'end'}}>
@@ -107,7 +134,7 @@ function GradingPage() {
                   onChange={handleStudentChange}
                   sx={{ backgroundColor: '#fff', borderRadius: '4px' }} // Light-themed background color
                 >
-                {selectedGroup && selectedGroup.students.map((student) => (
+                {selectedGroup?.students?.map((student) => (
                     <MenuItem key={student.id} value={student}>{student.studentName}</MenuItem>
                 ))}
                 </Select>

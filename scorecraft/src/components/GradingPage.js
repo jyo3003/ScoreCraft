@@ -68,10 +68,10 @@ function GradingPage() {
             alert('Grades submitted successfully!');
     
             
-            if (selectedGroup) {
+            //if (selectedGroup) {
                 // Navigate to the group main page if grading a group, passing the refresh state.
-                navigate('/MainPageGroup', { state: { refresh: true } });
-            } else if (selectedStudent) {
+               // navigate('/MainPageGroup', { state: { refresh: true } });
+             if (selectedStudent) {
                 // Navigate to the individual main page if grading an individual, passing the refresh state.
                 navigate('/MainPageIndividual', { state: { refresh: true } });
             }

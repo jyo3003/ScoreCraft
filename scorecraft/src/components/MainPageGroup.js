@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation} from 'react-router-dom';
 import { getStudentsByGroup } from '../api';
 import Header from './Header';
 import { Box, Collapse, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper, TextField, InputAdornment } from '@mui/material';
@@ -44,6 +44,7 @@ function GroupRow({ group, onSelectGroup }) {
                         type="checkbox"
                         checked={group.graded}
                         onChange={(event) => event.stopPropagation()} 
+                        onClick={(event) => event.stopPropagation()}
                         readOnly// Prevent row collapse when toggling checkbox
                     />
                 </TableCell>
@@ -77,20 +78,28 @@ const MainPageGroup = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
     const [groups, setGroups] = useState([]);
+    const [refreshKey, setRefreshKey] = useState(0); // Ensure refreshKey is also declared if it's being used
     const navigate = useNavigate();
+    const location = useLocation(); // Declare useLocation here and ensure it's not declared again
 
     useEffect(() => {
         const fetchStudentsByGroup = async () => {
             try {
                 const studentsByGroup = await getStudentsByGroup();
-                setGroups(studentsByGroup.map(group => ({ ...group, show: false, graded: group.isGraded })));
+                setGroups(studentsByGroup.map(group => ({ ...group, graded: group.isGraded })));
             } catch (error) {
                 console.error("Failed to fetch students by group:", error.message);
             }
         };
-
         fetchStudentsByGroup();
-    }, []);
+    }, [refreshKey]);
+
+    useEffect(() => {
+        if (location.state?.refresh) {
+            setRefreshKey(prevKey => prevKey + 1); 
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location, navigate]);
 
     const handleSelectGroup = (selectedGroup) => {
         navigate('/GradingPage', { state: { selectedGroup } });
@@ -99,6 +108,8 @@ const MainPageGroup = () => {
     const filteredGroups = groups.filter(group =>
         group.groupName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
+    
+
 
     return (
         <div>

@@ -61,6 +61,7 @@ public class ExcelService {
 		Row secondRow = sheet.getRow(1);
 		Row thirdRow = sheet.getRow(2);
 		Row fourthRow = sheet.getRow(3);
+		Row fifthRow = sheet.getRow(4);
 
 		// To get index of where to start iterating inner loop later
 		int lastIndex = 3;
@@ -79,6 +80,7 @@ public class ExcelService {
 					Cell cell1 = secondRow.getCell(i);
 					Cell cell2 = thirdRow.getCell(i);
 					Cell cell3 = fourthRow.getCell(i);
+					Cell cell4 = fifthRow.getCell(i);
 					if (cell1 != null && cell1.getCellType() != CellType.BLANK) {
 
 						// saving them in an object
@@ -91,6 +93,14 @@ public class ExcelService {
 						else{
 							gc.setScore(Integer.parseInt(cell3.getStringCellValue()));
 						}
+						// Parse comments
+				        List<String> comments = new ArrayList<>();
+				        // Example: Assuming comments are in a specific cell and separated by ";"
+				        String commentStr = cell4.getStringCellValue(); // Adjust cell index as needed
+				        if (commentStr != null) {
+				            comments = Arrays.asList(commentStr.split(";"));
+				        }
+				        gc.setComments(comments);
 						gradingRepository.save(gc);
 					} else {
 						i++;
@@ -109,7 +119,7 @@ public class ExcelService {
 
 	private void pasringStudentInfo(Sheet sheet) {
 		// Process from row 4 onwards for student information
-		for (int rowIndex = 5; rowIndex < sheet.getLastRowNum(); rowIndex++) {
+		for (int rowIndex = 6; rowIndex < sheet.getLastRowNum(); rowIndex++) {
 			Row row = sheet.getRow(rowIndex);
 			if (row.getCell(0) == null) {
                 break;

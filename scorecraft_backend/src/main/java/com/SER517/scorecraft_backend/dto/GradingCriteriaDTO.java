@@ -1,5 +1,7 @@
 package com.SER517.scorecraft_backend.dto;
 
+import java.util.List;
+
 public class GradingCriteriaDTO {
 	
 	private Long gradingID;
@@ -7,22 +9,32 @@ public class GradingCriteriaDTO {
     private double criteriaScore; // Static score associated with the criteria for reference
     private String typeOfCriteria;
     private String gradingCriteriaGroupName;
+    private List<String> predefinedComments; // List of predefined comments for the grading criteria
+    
     
     
     private double gradedScore; // Dynamic score given to the student
     private String comment; // Comment associated with the student's graded score
 
     public GradingCriteriaDTO(Long gradingID, String criteriaName, double criteriaScore, String typeOfCriteria, 
-                                String gradingCriteriaGroupName, double gradedScore, String comment) {
-    	this.gradingID = gradingID;
-        this.criteriaName = criteriaName;
-        this.criteriaScore = criteriaScore;
-        this.typeOfCriteria = typeOfCriteria;
-        this.gradingCriteriaGroupName = gradingCriteriaGroupName;
-        
-        
-        this.gradedScore = gradedScore; // Nullable to accommodate criteria not yet graded
-        this.comment = comment; // Nullable
+            String gradingCriteriaGroupName, double gradedScore, String comment, 
+            List<String> predefinedComments) {
+		this.gradingID = gradingID;
+		this.criteriaName = criteriaName;
+		this.criteriaScore = criteriaScore;
+		this.typeOfCriteria = typeOfCriteria;
+		this.gradingCriteriaGroupName = gradingCriteriaGroupName;
+		this.gradedScore = gradedScore; // Nullable to accommodate criteria not yet graded
+		this.comment = comment; // Nullable
+		this.predefinedComments = predefinedComments; // Can be empty if no predefined comments
+    }
+    
+    public List<String> getPredefinedComments() {
+        return predefinedComments;
+    }
+
+    public void setPredefinedComments(List<String> predefinedComments) {
+        this.predefinedComments = predefinedComments;
     }
 
 	public String getCriteriaName() {

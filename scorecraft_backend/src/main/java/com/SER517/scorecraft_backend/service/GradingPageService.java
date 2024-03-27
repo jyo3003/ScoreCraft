@@ -81,7 +81,8 @@ public class GradingPageService {
                 gradingCriteria.getTypeOfCriteria(),
                 gradingCriteria.getGradingCriteriaGroupName(),
                 (grading != null) ? grading.getScore() : 0.0, // Actual score achieved by the student (can be 0)
-                (grading != null) ? grading.getComment() : null // Comment for the student's score (nullable)
+                (grading != null) ? grading.getComment() : null, // Comment for the student's score (nullable)
+                gradingCriteria.getComments()
             );
             
             System.out.println(criterionDTO);

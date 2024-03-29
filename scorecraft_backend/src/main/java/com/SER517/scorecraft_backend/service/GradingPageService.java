@@ -127,4 +127,21 @@ public class GradingPageService {
         return true;
     }
 
+
+    public void addGradingCriteria(GradingCriteriaDTO gradingCriteriaDTO) {
+        GradingCriteria gradingCriteria = new GradingCriteria();
+        
+        // Mapping DTO fields to GradingCriteria entity
+        gradingCriteria.setId(gradingCriteriaDTO.getId());
+        gradingCriteria.setCriteriaName(gradingCriteriaDTO.getCriteriaName());
+        gradingCriteria.setScore(gradingCriteriaDTO.getCriteriaScore());
+        gradingCriteria.setTypeOfCriteria(gradingCriteriaDTO.getTypeOfCriteria());
+        gradingCriteria.setGradingCriteriaGroupName(gradingCriteriaDTO.getGradingCriteriaGroupName());
+        
+        
+        
+        // Persist the new grading criteria into the database
+        gradingCriteriaRepository.save(gradingCriteria);
+    }
+
 }

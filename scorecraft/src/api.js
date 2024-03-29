@@ -8,6 +8,20 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
+//Adding new criteria
+export const addGradingCriteria = async (criteriaData) => {
+  try {
+    const response = await api.post('/gradingPage/gradingCriteria', criteriaData);
+    return response.data; // Assuming the endpoint returns some confirmation or the added entity
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || "Error adding grading criteria");
+    } else {
+      throw new Error("Network error or no response from server");
+    }
+  }
+};
+
 
 
 // New API call for checking if data exists

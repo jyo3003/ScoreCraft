@@ -4,9 +4,11 @@ import '../css/GradingPage.css';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import Header from './Header';
-import { gradingAPI } from '../api';
+import { gradingAPI, addGradingCriteria } from '../api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Modal, TextField, Typography } from '@mui/material';
+
+
 function GradingPage() {
    const location = useLocation();
    const selectedGroup = location.state ? location.state.selectedGroup : null;
@@ -16,6 +18,7 @@ function GradingPage() {
    const navigate = useNavigate();
    const [groupColors, setGroupColors] = useState({});
    const [gradingGroups, setGradingGroups] = useState([]);
+   const [criteriaChangeTrigger, setCriteriaChangeTrigger] = useState(0);
 
 
    // Additional state for modal and form
@@ -35,12 +38,31 @@ function GradingPage() {
        setNewCriteria({ ...newCriteria, [event.target.name]: event.target.value });
    };
 
+   // Existing handleCriteriaChange and other component logic...
 
-   // Function to submit the new criteria
-   const handleSubmitCriteria = () => {
-       setRowData([...rowData, { ...newCriteria, id: rowData.length + 1 }]);
-       setOpenModal(false); // Close the modal after submission
-   };
+   const handleSubmitCriteria = async (event) => {
+    event.preventDefault(); // Prevent default form submission which refreshes the page
+
+    const formData = {
+        criteriaName: newCriteria.criteriaName,
+        criteriaScore: newCriteria.criteriaScore,
+        typeOfCriteria: newCriteria.typeOfCriteria,
+        gradingCriteriaGroupName: newCriteria.gradingCriteriaGroupName,
+        gradedScore: newCriteria.gradedScore,
+        comment: newCriteria.comment
+    };
+
+    try {
+        await addGradingCriteria(formData);
+        alert('Criteria added successfully!');
+        fetchAllGradingGroups(); // Refetch the criteria
+        setOpenModal(false);
+    } catch (error) {
+        console.error("Error adding criteria:", error);
+        alert("Failed to add criteria: " + error.message);
+    }
+  };
+
 
 
    // Modal styling
@@ -63,29 +85,31 @@ function GradingPage() {
        console.log(selectedGroup);
      };
 
+     const fetchAllGradingGroups = async () => {
+      var data={};
+      try {
+          if(selectedGroup){
+              data = await gradingAPI.getAllGradingGroups(studentSelect.id);
+              setGradingGroups(data);
+              setRowData(data.gradingCriteria);
+          }
+          else if(selectedStudent){
+              data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
+              setGradingGroups(data);
+              setRowData(data.gradingCriteria);
+          }
+          console.log('Received data:', data);
+          // setRowData(data.gradingCriteria);
+      } catch (error) {
+          console.error("Failed to fetch grading groups:", error.message);
+      }
+  };  
 
+  
    useEffect(() => {
-       const fetchAllGradingGroups = async () => {
-           var data={};
-           try {
-               if(selectedGroup){
-                   data = await gradingAPI.getAllGradingGroups(studentSelect.id);
-                   setGradingGroups(data);
-                   setRowData(data.gradingCriteria);
-               }
-               else if(selectedStudent){
-                   data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
-                   setGradingGroups(data);
-                   setRowData(data.gradingCriteria);
-               }
-               console.log('Received data:', data);
-               // setRowData(data.gradingCriteria);
-           } catch (error) {
-               console.error("Failed to fetch grading groups:", error.message);
-           }
-       };
+    
        fetchAllGradingGroups();
-   }, [selectedGroup, studentSelect, selectedStudent]);
+   }, [selectedGroup, studentSelect, selectedStudent, criteriaChangeTrigger]);
   
 
 

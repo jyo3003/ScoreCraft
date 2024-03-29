@@ -1,9 +1,11 @@
 package com.SER517.scorecraft_backend.controller;
 
+import com.SER517.scorecraft_backend.dto.GradingCriteriaDTO;
 import com.SER517.scorecraft_backend.dto.StudentGradeDTO;
 import com.SER517.scorecraft_backend.dto.StudentWithGradesDTO;
 import com.SER517.scorecraft_backend.service.GradingPageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -34,6 +36,17 @@ public class GradingPageController {
         gradingPageService.saveOrUpdateGradesForStudent(studentGrades);
         return ResponseEntity.ok("Grades submitted successfully");
     }
+    
+    @PostMapping("/gradingCriteria")
+    public ResponseEntity<String> addGradingCriteria(@RequestBody GradingCriteriaDTO gradingCriteriaDTO) {
+        try {
+            gradingPageService.addGradingCriteria(gradingCriteriaDTO);
+            return ResponseEntity.ok("Criteria added successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error adding criteria");
+        }
+    }
+
 
 
    

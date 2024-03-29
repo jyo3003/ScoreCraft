@@ -5,17 +5,20 @@ public class StudentGradeDTO {
     private Long criteriaId;
     private double score;
     private String comment;
+    private boolean checkbox;
+
 
     // Default constructor
     public StudentGradeDTO() {
     }
 
     // Full constructor
-    public StudentGradeDTO(Long studentId, Long criteriaId, double score, String comment) {
+    public StudentGradeDTO(Long studentId, Long criteriaId, double score, String comment, boolean checkbox) {
         this.studentId = studentId;
         this.criteriaId = criteriaId;
         this.score = score;
         this.comment = comment;
+        this.checkbox = checkbox;
     }
 
     // Getters and setters
@@ -49,5 +52,13 @@ public class StudentGradeDTO {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public boolean getCheckbox() {
+        return checkbox;
+    }
+
+    public void setCheckbox(boolean checkbox) {
+        this.checkbox = checkbox;
     }
 }

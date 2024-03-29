@@ -32,7 +32,6 @@ function GradingPage() {
        comment: '',
    });
 
-
    // Function to handle form input changes
    const handleCriteriaChange = (event) => {
        setNewCriteria({ ...newCriteria, [event.target.name]: event.target.value });
@@ -50,6 +49,96 @@ function GradingPage() {
         gradingCriteriaGroupName: newCriteria.gradingCriteriaGroupName,
         gradedScore: newCriteria.gradedScore,
         comment: newCriteria.comment
+    }
+    useEffect(() => {
+        const fetchAllGradingGroups = async () => {
+            var data={};
+            try {
+                if(selectedGroup){
+                    data = await gradingAPI.getAllGradingGroups(studentSelect.id);
+                    setGradingGroups(data); 
+                    const formattedData = data?.gradingCriteria?.map((criteria)=>{
+                        if(criteria?.typeOfCriteria === 'G'){
+                            return {...criteria, checkbox: false};
+                        }
+                        else{
+                            return {...criteria};
+                        }
+                    });
+                    console.log(formattedData);
+                    setRowData(formattedData);
+                }
+                else if(selectedStudent){
+                    data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
+                    setGradingGroups(data);
+                    const formattedData = data?.gradingCriteria?.map((criteria)=>{
+                        if(criteria?.typeOfCriteria === 'G'){
+                            return {...criteria, checkbox: false};
+                        }
+                        else{
+                            return {...criteria};
+                        }
+                    });
+                    setRowData(formattedData); 
+                }
+                console.log('Received data:', data); 
+                // setRowData(data.gradingCriteria);
+            } catch (error) {
+                console.error("Failed to fetch grading groups:", error.message);
+            }
+        };
+        fetchAllGradingGroups();
+    }, [selectedGroup, studentSelect, selectedStudent]);
+    
+
+    const handleSubmitGrades = async () => {
+      
+        console.log(rowData);
+        const payload = rowData?.map(criteria => ({
+          studentId: gradingGroups?.studentId, // Converting to string in case the server expects a string type
+          score: criteria?.gradedScore,
+          comment: criteria?.comment || '',
+          criteriaId: criteria?.id,
+          checkbox: criteria?.checkbox || null
+        }));
+    
+        console.log('Submitting grades:', payload);
+    
+        try {
+            const response = await gradingAPI.submitGrades(payload);
+            console.log('Submission response:', response);
+            alert('Grades submitted successfully!');
+    
+            
+            //if (selectedGroup) {
+                // Navigate to the group main page if grading a group, passing the refresh state.
+               // navigate('/MainPageGroup', { state: { refresh: true } });
+             if (selectedStudent) {
+                // Navigate to the individual main page if grading an individual, passing the refresh state.
+                navigate('/MainPageIndividual', { state: { refresh: true } });
+            }
+        } catch (error) {
+            console.error('Failed to submit grades:', error);
+            alert('Failed to submit grades.');
+        }
+      };
+            // CSS class to highlight invalid cell values
+    const cellClassRules = {
+        'cell-invalid': params => params.value < 0 || params.value > params.data?.criteriaScore
+    };
+    useEffect(() => {
+        // Assign random colors to each distinct gradingCriteriaGroupName
+        const uniqueGroups = new Set(rowData?.map(row => row?.gradingCriteriaGroupName));
+        uniqueGroups.forEach(group => {
+            groupColors[group] = randomColor(); // Generate random color for each group
+        });
+        setGroupColors(groupColors);
+    }, [rowData]);
+
+    const randomColor = () => {
+        const hue = Math.floor(Math.random() * 360); // Random hue value
+        const pastel = `hsl(${hue}, 80%, 80%)`; // Adjust saturation and lightness for pastel color
+        return pastel;
     };
 
     try {
@@ -174,38 +263,61 @@ function GradingPage() {
        return params.value === -100.0 ? 0.0 : params.value;
    };
 
+    const checkboxCellRenderer = (params) => {
+        const criteriaRow = params.node.data;
+        if (criteriaRow.hasOwnProperty('checkbox')) {
+            return (
+                <input 
+                    type="checkbox" 
+                    checked={criteriaRow?.checkbox} 
+                    onChange={(e) => {
+                        const criteriaId = criteriaRow.id;
+                        setRowData(prevRowData => 
+                            prevRowData.map(row => 
+                                row.id === criteriaId ? {...row, checkbox: e.target.checked} : row
+                            )
+                        );
+                    }} 
+                />
+            );
+        } else {
+            return null; // Return null if the field doesn't exist
+        }
+    };
 
-
-
-     const [colDefs, setColDefs] = useState([
-       { field: "id", rowDrag: true, flex: 1 },
-       { field: "criteriaName", flex: 3 },
-       { field: "criteriaScore", flex: 1 },
-       { field: "typeOfCriteria", flex: 1 },
-       { field: "gradingCriteriaGroupName", flex: 2, cellStyle: params => {
-           const backgroundColor = groupColors[params.value];
-           return { backgroundColor }; // Return an object with the backgroundColor property
-       }},
-       {
-           field: "gradedScore",
-           editable: true,
-           flex:1,
-           cellClassRules: cellClassRules,
-           cellRenderer: scoreCellRenderer, // Use custom renderer here
-       },
-       {
-           field: "comment",
-           editable: true,
-           flex: 2,
-           cellEditor: "agSelectCellEditor",
-           cellEditorParams: params => {
-               const rowData = params.node.data;
-               return { values: rowData.predefinedComments || [] };
-           }
-       },       
-   ]);
-
-
+      const [colDefs, setColDefs] = useState([
+        { field: "id", rowDrag: true, flex: 1 },
+        { field: "criteriaName", flex: 3 }, 
+        { field: "criteriaScore", flex: 1 },
+        { field: "typeOfCriteria", flex: 1 },
+        { field: "gradingCriteriaGroupName", flex: 2, cellStyle: params => {
+            const backgroundColor = groupColors[params.value];
+            return { backgroundColor }; // Return an object with the backgroundColor property
+        }},
+        {
+            field: "gradedScore",
+            editable: true,
+            flex:1,
+            cellClassRules: cellClassRules,
+            cellRenderer: scoreCellRenderer, // Use custom renderer here
+        },
+        { 
+            field: "comment", 
+            editable: true, 
+            flex: 3, 
+            cellEditor: "agSelectCellEditor", 
+            cellEditorParams: params => {
+                const rowData = params.node.data;
+                return { values: rowData.predefinedComments || [], valueListGap: 10};
+            }
+        },
+        {
+            field: "checkbox",
+            editable: true,
+            flex: 1,
+            cellRenderer: checkboxCellRenderer
+        }        
+    ]);
 
 
 return (

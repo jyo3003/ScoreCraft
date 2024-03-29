@@ -55,6 +55,33 @@ public class GradingPageService {
             existingGrade.setComment(dto.getComment());
 
             studentGradingRepository.save(existingGrade);
+                    
+            // If the checkbox is true, set the same score and comment for all group members
+            if (dto.getCheckbox()) {
+                // Retrieve the group members of the student
+                List<Student> groupMembers = studentRepository.findGroupMembersByStudentId(dto.getStudentId());
+                
+                // Set the same score and comment for each group member
+                for (Student groupMember : groupMembers) {
+                    StudentGrading existingGradeGrpMember = studentGradingRepository
+                            .findByStudentIdAndGradingCriteriaId(groupMember.getId(), dto.getCriteriaId())
+                            .orElseGet(() -> new StudentGrading());
+
+                    if (existingGradeGrpMember.getId() == null) {
+        
+                        // This is a new grade for this group member
+                        existingGradeGrpMember.setStudent(studentRepository.findById(groupMember.getId())
+                                .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + groupMember.getId())));
+                        existingGradeGrpMember.setGradingCriteria(gradingCriteriaRepository.findById(dto.getCriteriaId())
+                                .orElseThrow(() -> new IllegalArgumentException("Invalid criteria ID: " + dto.getCriteriaId())));
+                    }
+
+                    existingGradeGrpMember.setScore(dto.getScore());
+                    existingGradeGrpMember.setComment(dto.getComment());
+
+                    studentGradingRepository.save(existingGradeGrpMember);
+                }
+            }
             
         }
     }
@@ -65,7 +92,6 @@ public class GradingPageService {
             .orElseThrow(() -> new EntityNotFoundException("Student not found with ID: " + studentId));
 
         List<StudentGrading> studentGradings = studentGradingRepository.findByStudentId(studentId);
-        System.out.println(studentGradings);
         List<GradingCriteriaDTO> gradingCriteriaDTOs = new ArrayList<>();
         
 
@@ -84,8 +110,6 @@ public class GradingPageService {
                 (grading != null) ? grading.getComment() : "", // Comment for the student's score (nullable)
                 gradingCriteria.getComments()
             );
-            
-            System.out.println(criterionDTO);
             gradingCriteriaDTOs.add(criterionDTO);
         }
 

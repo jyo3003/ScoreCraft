@@ -145,7 +145,6 @@ public class ExcelService {
 				asuriteId = row.getCell(1).getNumericCellValue();
 			}
 			else{
-				System.out.println(row.getCell(1).getStringCellValue());
                 asuriteId = Double.parseDouble(row.getCell(1).getStringCellValue());
             }
 			String studentName = row.getCell(2).getStringCellValue();

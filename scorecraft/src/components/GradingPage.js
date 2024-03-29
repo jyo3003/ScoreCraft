@@ -32,24 +32,6 @@ function GradingPage() {
        comment: '',
    });
 
-   // Function to handle form input changes
-   const handleCriteriaChange = (event) => {
-       setNewCriteria({ ...newCriteria, [event.target.name]: event.target.value });
-   };
-
-   // Existing handleCriteriaChange and other component logic...
-
-   const handleSubmitCriteria = async (event) => {
-    event.preventDefault(); // Prevent default form submission which refreshes the page
-
-    const formData = {
-        criteriaName: newCriteria.criteriaName,
-        criteriaScore: newCriteria.criteriaScore,
-        typeOfCriteria: newCriteria.typeOfCriteria,
-        gradingCriteriaGroupName: newCriteria.gradingCriteriaGroupName,
-        gradedScore: newCriteria.gradedScore,
-        comment: newCriteria.comment
-    }
     useEffect(() => {
         const fetchAllGradingGroups = async () => {
             var data={};
@@ -89,6 +71,36 @@ function GradingPage() {
         };
         fetchAllGradingGroups();
     }, [selectedGroup, studentSelect, selectedStudent]);
+
+   // Function to handle form input changes
+   const handleCriteriaChange = (event) => {
+       setNewCriteria({ ...newCriteria, [event.target.name]: event.target.value });
+   };
+
+   // Existing handleCriteriaChange and other component logic...
+
+   const handleSubmitCriteria = async (event) => {
+    event.preventDefault(); // Prevent default form submission which refreshes the page
+
+    const formData = {
+        criteriaName: newCriteria.criteriaName,
+        criteriaScore: newCriteria.criteriaScore,
+        typeOfCriteria: newCriteria.typeOfCriteria,
+        gradingCriteriaGroupName: newCriteria.gradingCriteriaGroupName,
+        gradedScore: newCriteria.gradedScore,
+        comment: newCriteria.comment
+    };
+    
+    try {
+        await addGradingCriteria(formData);
+        alert('Criteria added successfully!');
+        fetchAllGradingGroups(); // Refetch the criteria
+        setOpenModal(false);
+    } catch (error) {
+        console.error("Error adding criteria:", error);
+        alert("Failed to add criteria: " + error.message);
+    }
+  };
     
 
     const handleSubmitGrades = async () => {
@@ -141,19 +153,6 @@ function GradingPage() {
         return pastel;
     };
 
-    try {
-        await addGradingCriteria(formData);
-        alert('Criteria added successfully!');
-        fetchAllGradingGroups(); // Refetch the criteria
-        setOpenModal(false);
-    } catch (error) {
-        console.error("Error adding criteria:", error);
-        alert("Failed to add criteria: " + error.message);
-    }
-  };
-
-
-
    // Modal styling
    const modalStyle = {
        position: 'absolute',
@@ -199,62 +198,6 @@ function GradingPage() {
     
        fetchAllGradingGroups();
    }, [selectedGroup, studentSelect, selectedStudent, criteriaChangeTrigger]);
-  
-
-
-   const handleSubmitGrades = async () => {
-    
-       console.log(rowData);
-       const payload = rowData?.map(criteria => ({
-         studentId: gradingGroups?.studentId, // Converting to string in case the server expects a string type
-         score: criteria?.gradedScore,
-         comment: criteria?.comment || '',
-         criteriaId: criteria?.id
-       }));
-  
-       console.log('Submitting grades:', payload);
-  
-       try {
-           const response = await gradingAPI.submitGrades(payload);
-           console.log('Submission response:', response);
-           alert('Grades submitted successfully!');
-  
-          
-           //if (selectedGroup) {
-               // Navigate to the group main page if grading a group, passing the refresh state.
-              // navigate('/MainPageGroup', { state: { refresh: true } });
-            if (selectedStudent) {
-               // Navigate to the individual main page if grading an individual, passing the refresh state.
-               navigate('/MainPageIndividual', { state: { refresh: true } });
-           }
-       } catch (error) {
-           console.error('Failed to submit grades:', error);
-           alert('Failed to submit grades.');
-       }
-     };
-           // CSS class to highlight invalid cell values
-   const cellClassRules = {
-       'cell-invalid': params => params.value < 0 || params.value > params.data.criteriaScore
-   };
-   useEffect(() => {
-       // Assign random colors to each distinct gradingCriteriaGroupName
-       const uniqueGroups = new Set(rowData?.map(row => row.gradingCriteriaGroupName));
-       uniqueGroups.forEach(group => {
-           groupColors[group] = randomColor(); // Generate random color for each group
-       });
-       console.log('Group colors:', groupColors);
-       setGroupColors(groupColors);
-   }, [rowData]);
-
-
-   const randomColor = () => {
-       const letters = '0123456789ABCDEF';
-       let color = '#';
-       for (let i = 0; i < 6; i++) {
-           color += letters[Math.floor(Math.random() * 16)];
-       }
-       return color;
-   };
 
 
    // Custom cell renderer for scores
@@ -313,8 +256,8 @@ function GradingPage() {
         },
         {
             field: "checkbox",
-            editable: true,
             flex: 1,
+            cellEditor: 'agCheckboxCellEditor',
             cellRenderer: checkboxCellRenderer
         }        
     ]);

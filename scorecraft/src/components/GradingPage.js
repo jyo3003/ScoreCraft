@@ -40,21 +40,21 @@ function GradingPage() {
                     data = await gradingAPI.getAllGradingGroups(studentSelect.id);
                     setGradingGroups(data); 
                     const formattedData = data?.gradingCriteria?.map((criteria)=>{
-                        if(criteria?.typeOfCriteria === 'G'){
+                        if(String(criteria?.typeOfCriteria)?.trim() === "G"){
                             return {...criteria, checkbox: false};
                         }
                         else{
                             return {...criteria};
                         }
                     });
-                    console.log(formattedData);
+                    console.log(formattedData)
                     setRowData(formattedData);
                 }
                 else if(selectedStudent){
                     data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
                     setGradingGroups(data);
                     const formattedData = data?.gradingCriteria?.map((criteria)=>{
-                        if(criteria?.typeOfCriteria === 'G'){
+                        if(String(criteria?.typeOfCriteria)?.trim() === "G"){
                             return {...criteria, checkbox: false};
                         }
                         else{
@@ -103,8 +103,6 @@ function GradingPage() {
     
 
     const handleSubmitGrades = async () => {
-      
-        console.log(rowData);
         const payload = rowData?.map(criteria => ({
           studentId: gradingGroups?.studentId, // Converting to string in case the server expects a string type
           score: criteria?.gradedScore,
@@ -167,9 +165,7 @@ function GradingPage() {
 
 
    const handleStudentChange = (event) => {
-       console.log(event.target.value);
        setSelectStudent(event.target.value);
-       console.log(selectedGroup);
      };
 
 
@@ -180,11 +176,8 @@ function GradingPage() {
    };
 
     const checkboxCellRenderer = (params) => {
-        console.log('Checking');
         const criteriaRow = params.node.data;
-        console.log(criteriaRow);
         if (criteriaRow.hasOwnProperty('checkbox')) {
-            console.log("Checkbox");
             return (
                 <input 
                     type="checkbox" 
@@ -261,7 +254,7 @@ return (
                </Select>
              </FormControl>:null}
            </Box>
-           <Button variant="contained" style={{ maxHeight: '40px', marginRight: '20px' }} onClick={() => setOpenModal(true)}>
+           <Button variant="contained" style={{ maxHeight: '40px', marginRight: '20px', marginLeft:'auto' }} onClick={() => setOpenModal(true)}>
                    Add Criteria
                </Button>
            <Button variant="contained" style={{color:'#fff', maxHeight:'40px', marginRight:'20px'}} onClick={()=>{

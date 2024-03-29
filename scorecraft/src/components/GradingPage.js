@@ -70,7 +70,7 @@ function GradingPage() {
             }
         };
         fetchAllGradingGroups();
-    }, [selectedGroup, studentSelect, selectedStudent]);
+    }, [selectedGroup, studentSelect, selectedStudent, criteriaChangeTrigger, openModal]);
 
    // Function to handle form input changes
    const handleCriteriaChange = (event) => {
@@ -94,7 +94,6 @@ function GradingPage() {
     try {
         await addGradingCriteria(formData);
         alert('Criteria added successfully!');
-        fetchAllGradingGroups(); // Refetch the criteria
         setOpenModal(false);
     } catch (error) {
         console.error("Error adding criteria:", error);
@@ -173,32 +172,6 @@ function GradingPage() {
        console.log(selectedGroup);
      };
 
-     const fetchAllGradingGroups = async () => {
-      var data={};
-      try {
-          if(selectedGroup){
-              data = await gradingAPI.getAllGradingGroups(studentSelect.id);
-              setGradingGroups(data);
-              setRowData(data.gradingCriteria);
-          }
-          else if(selectedStudent){
-              data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
-              setGradingGroups(data);
-              setRowData(data.gradingCriteria);
-          }
-          console.log('Received data:', data);
-          // setRowData(data.gradingCriteria);
-      } catch (error) {
-          console.error("Failed to fetch grading groups:", error.message);
-      }
-  };  
-
-  
-   useEffect(() => {
-    
-       fetchAllGradingGroups();
-   }, [selectedGroup, studentSelect, selectedStudent, criteriaChangeTrigger]);
-
 
    // Custom cell renderer for scores
    const scoreCellRenderer = (params) => {
@@ -207,8 +180,11 @@ function GradingPage() {
    };
 
     const checkboxCellRenderer = (params) => {
+        console.log('Checking');
         const criteriaRow = params.node.data;
+        console.log(criteriaRow);
         if (criteriaRow.hasOwnProperty('checkbox')) {
+            console.log("Checkbox");
             return (
                 <input 
                     type="checkbox" 
@@ -257,7 +233,6 @@ function GradingPage() {
         {
             field: "checkbox",
             flex: 1,
-            cellEditor: 'agCheckboxCellEditor',
             cellRenderer: checkboxCellRenderer
         }        
     ]);

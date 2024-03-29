@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { addGradingCriteria } from "../api";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 
-function Modal({ openModal, setOpenModal, handleSubmitCriteria }) {
+function NewCriteriaModal({ openModal, setOpenModal }) {
     const [newCriteria, setNewCriteria] = useState({
         criteriaName: "",
         criteriaScore: "",
@@ -15,6 +17,41 @@ function Modal({ openModal, setOpenModal, handleSubmitCriteria }) {
             ...newCriteria,
             [event.target.name]: event.target.value,
         });
+    };
+
+    const handleSubmitCriteria = async (event) => {
+        event.preventDefault(); // Prevent default form submission which refreshes the page
+
+        const formData = {
+            criteriaName: newCriteria.criteriaName,
+            criteriaScore: newCriteria.criteriaScore,
+            typeOfCriteria: newCriteria.typeOfCriteria,
+            gradingCriteriaGroupName: newCriteria.gradingCriteriaGroupName,
+            gradedScore: newCriteria.gradedScore,
+            comment: newCriteria.comment,
+        };
+
+        try {
+            await addGradingCriteria(formData);
+            alert("Criteria added successfully!");
+            setOpenModal(false);
+        } catch (error) {
+            console.error("Error adding criteria:", error);
+            alert("Failed to add criteria: " + error.message);
+        }
+    };
+
+    // Modal styling
+    const modalStyle = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 400,
+        bgcolor: "background.paper",
+        border: "2px solid #000",
+        boxShadow: 24,
+        p: 4,
     };
     return (
         <div>
@@ -117,4 +154,4 @@ function Modal({ openModal, setOpenModal, handleSubmitCriteria }) {
     );
 }
 
-export default Modal;
+export default NewCriteriaModal;

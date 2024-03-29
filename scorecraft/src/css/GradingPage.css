@@ -2,22 +2,23 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('../images/pexels.jpeg');
+    background-image: url("../images/pexels.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     min-height: 100vh;
-  }
-
-  
+}
 
 .header h1 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Replace 'YourFont' with your desired font name */
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Replace 'YourFont' with your desired font name */
     font-size: 35px;
-  }
+}
 
 .header {
-    background: linear-gradient(rgba(58, 106, 67, 0.744), rgba(0, 0, 0, 1.5)); /* Black to transparent gradient */
+    background: linear-gradient(
+        rgba(58, 106, 67, 0.744),
+        rgba(0, 0, 0, 1.5)
+    ); /* Black to transparent gradient */
     color: white;
     padding: 10px 20px;
     display: flex;
@@ -28,51 +29,51 @@ body {
     height: 80px;
     z-index: 100;
     .home-button {
-      background: none;
-      border-color: #000000;
-      border-radius: 20px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      margin-left: auto;
-      padding-right: 50px;
-      font-family: 'book antiqua', sans-serif;
+        background: none;
+        border-color: #000000;
+        border-radius: 20px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: auto;
+        padding-right: 50px;
+        font-family: "book antiqua", sans-serif;
     }
-  }
-  /* GradingPage.css or another relevant CSS file */
+}
+/* GradingPage.css or another relevant CSS file */
 .table-sticky-header {
-  position: relative;
-  border-collapse: collapse;
-  width: 100%;
+    position: relative;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 .table-sticky-header thead th {
-  position: sticky;
-  top: 0;
-  background-color: #ddd; /* Adjust background as needed */
-  z-index: 1; /* Ensure header overlays table body rows when scrolling */
+    position: sticky;
+    top: 0;
+    background-color: #ddd; /* Adjust background as needed */
+    z-index: 1; /* Ensure header overlays table body rows when scrolling */
 }
 
-.table-sticky-header tbody td, .table-sticky-header thead th {
-  border: 1px solid #ddd;
-  text-align: left;
-  padding: 8px;
+.table-sticky-header tbody td,
+.table-sticky-header thead th {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
 }
 
-.table-sticky-header tbody  {
-  background-color: #f2f2f2;
+.table-sticky-header tbody {
+    background-color: #f2f2f2;
 }
 
 .input-score {
-  width: 100%;
-  padding: 5px;
-  box-sizing: border-box; /* Makes input fit cell */
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box; /* Makes input fit cell */
 }
 .comments {
-  display:flexbox;
-  width: 100%;
-  
+    display: flexbox;
+    width: 100%;
 }
 .cell-invalid {
-  background-color: #ffcccc; /* Change to your desired highlight color */
+    background-color: #ffcccc; /* Change to your desired highlight color */
 }

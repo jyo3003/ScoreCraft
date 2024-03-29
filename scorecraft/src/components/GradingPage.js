@@ -4,7 +4,7 @@ import "../css/GradingPage.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import Header from "./Header";
-import { gradingAPI, addGradingCriteria } from "../api";
+import { gradingAPI } from "../api";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
     Box,
@@ -13,10 +13,8 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    Modal,
-    TextField,
-    Typography,
 } from "@mui/material";
+import NewCriteriaModal from "./NewCriteriaModal";
 
 function GradingPage() {
     const location = useLocation();
@@ -31,6 +29,7 @@ function GradingPage() {
     const navigate = useNavigate();
     const [groupColors, setGroupColors] = useState({});
     const [gradingGroups, setGradingGroups] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         const fetchAllGradingGroups = async () => {
@@ -83,28 +82,6 @@ function GradingPage() {
 
     // Existing handleCriteriaChange and other component logic...
 
-    const handleSubmitCriteria = async (event) => {
-        event.preventDefault(); // Prevent default form submission which refreshes the page
-
-        const formData = {
-            criteriaName: newCriteria.criteriaName,
-            criteriaScore: newCriteria.criteriaScore,
-            typeOfCriteria: newCriteria.typeOfCriteria,
-            gradingCriteriaGroupName: newCriteria.gradingCriteriaGroupName,
-            gradedScore: newCriteria.gradedScore,
-            comment: newCriteria.comment,
-        };
-
-        try {
-            await addGradingCriteria(formData);
-            alert("Criteria added successfully!");
-            setOpenModal(false);
-        } catch (error) {
-            console.error("Error adding criteria:", error);
-            alert("Failed to add criteria: " + error.message);
-        }
-    };
-
     const handleSubmitGrades = async () => {
         const payload = rowData?.map((criteria) => ({
             studentId: gradingGroups?.studentId, // Converting to string in case the server expects a string type
@@ -153,19 +130,6 @@ function GradingPage() {
         const hue = Math.floor(Math.random() * 360); // Random hue value
         const pastel = `hsl(${hue}, 80%, 80%)`; // Adjust saturation and lightness for pastel color
         return pastel;
-    };
-
-    // Modal styling
-    const modalStyle = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: 400,
-        bgcolor: "background.paper",
-        border: "2px solid #000",
-        boxShadow: 24,
-        p: 4,
     };
 
     const handleStudentChange = (event) => {
@@ -309,10 +273,9 @@ function GradingPage() {
                 >
                     Add Criteria
                 </Button>
-                <Modal
+                <NewCriteriaModal
                     openModal={openModal}
                     setOpenModal={setOpenModal}
-                    handleSubmitCriteria={handleSubmitCriteria}
                 />
                 <Button
                     variant="contained"

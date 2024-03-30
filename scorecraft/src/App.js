@@ -11,17 +11,35 @@ import MainPageGroup from "./components/MainPageGroup";
 import GradingPage from "./components/GradingPage";
 
 function App() {
+
+    const handleFileUpload = (file) => {
+
+        console.log("File uploaded:", file);
+    };
+
+
+    const handleGrading = (grades) => {
+
+        console.log("Grades submitted:", grades);
+    };
+
+
+    const handleNavigation = (path) => {
+
+        console.log("Navigating to:", path);
+    };
+
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<Navigate to="/FileUploadPage" />} />
-                <Route path="/FileUploadPage" element={<FileUploadPage />} />
+                <Route path="/FileUploadPage" element={<FileUploadPage onFileUpload={handleFileUpload} />} />
                 <Route
                     path="/MainPageIndividual"
-                    element={<MainPageIndividual />}
+                    element={<MainPageIndividual onNavigation={handleNavigation} />}
                 />
-                <Route path="/MainPageGroup" element={<MainPageGroup />} />
-                <Route path="/GradingPage" element={<GradingPage />} />
+                <Route path="/MainPageGroup" element={<MainPageGroup onNavigation={handleNavigation} />} />
+                <Route path="/GradingPage" element={<GradingPage onGrading={handleGrading} />} />
             </Routes>
         </Router>
     );

@@ -11,16 +11,11 @@ const api = axios.create({
 //Adding new criteria
 export const addGradingCriteria = async (criteriaData) => {
     try {
-        const response = await api.post(
-            "/gradingPage/gradingCriteria",
-            criteriaData
-        );
+        const response = await api.post("/gradingPage/gradingCriteria", criteriaData);
         return response.data; // Assuming the endpoint returns some confirmation or the added entity
     } catch (error) {
         if (error.response) {
-            throw new Error(
-                error.response.data.message || "Error adding grading criteria"
-            );
+            throw new Error(error.response.data.message || "Error adding grading criteria");
         } else {
             throw new Error("Network error or no response from server");
         }
@@ -34,9 +29,7 @@ export const checkDataExists = async () => {
         return response.data; // Assuming the endpoint returns a boolean directly
     } catch (error) {
         if (error.response) {
-            throw new Error(
-                error.response.data.message || "Error checking data existence"
-            );
+            throw new Error(error.response.data.message || "Error checking data existence");
         } else {
             throw new Error("Network error or no response from server");
         }
@@ -57,16 +50,11 @@ export const getAssessmentType = async () => {
 export const gradingAPI = {
     getAllGradingGroups: async (studentId) => {
         try {
-            const response = await api.get(
-                `/gradingPage/studentGrades/${studentId}`
-            );
+            const response = await api.get(`/gradingPage/studentGrades/${studentId}`);
             return response.data;
         } catch (error) {
             if (error.response) {
-                throw new Error(
-                    error.response.data.message ||
-                        "Error fetching grading groups"
-                );
+                throw new Error(error.response.data.message || "Error fetching grading groups");
             } else {
                 throw new Error("Network error or no response from server");
             }
@@ -74,16 +62,11 @@ export const gradingAPI = {
     },
     submitGrades: async (grades) => {
         try {
-            const response = await api.post(
-                "/gradingPage/submitGrades",
-                grades
-            );
+            const response = await api.post("/gradingPage/submitGrades", grades);
             return response.data;
         } catch (error) {
             if (error.response) {
-                throw new Error(
-                    error.response.data.message || "Error submitting grades"
-                );
+                throw new Error(error.response.data.message || "Error submitting grades");
             } else {
                 throw new Error("Network error or no response from server");
             }
@@ -107,9 +90,7 @@ export const uploadFile = async (file, resourceId) => {
         return response.data;
     } catch (error) {
         if (error.response) {
-            throw new Error(
-                error.response.data.message || "Error uploading file"
-            );
+            throw new Error(error.response.data.message || "Error uploading file");
         } else {
             throw new Error("Network error or no response from server");
         }
@@ -123,9 +104,7 @@ export const getStudents = async () => {
         return response.data;
     } catch (error) {
         if (error.response) {
-            throw new Error(
-                error.response.data.message || "Error fetching students"
-            );
+            throw new Error(error.response.data.message || "Error fetching students");
         } else {
             throw new Error("Network error or no response from server");
         }
@@ -139,10 +118,7 @@ export const getStudentsByGroup = async () => {
         return response.data;
     } catch (error) {
         if (error.response) {
-            throw new Error(
-                error.response.data.message ||
-                    "Error fetching students by group"
-            );
+            throw new Error(error.response.data.message || "Error fetching students by group");
         } else {
             throw new Error("Network error or no response from server");
         }

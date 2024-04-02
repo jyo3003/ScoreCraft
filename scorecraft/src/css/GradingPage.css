@@ -15,10 +15,7 @@ body {
 }
 
 .header {
-    background: linear-gradient(
-        rgba(58, 106, 67, 0.744),
-        rgba(0, 0, 0, 1.5)
-    ); /* Black to transparent gradient */
+    background: linear-gradient(rgba(58, 106, 67, 0.744), rgba(0, 0, 0, 1.5)); /* Black to transparent gradient */
     color: white;
     padding: 10px 20px;
     display: flex;

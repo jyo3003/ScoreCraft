@@ -6,25 +6,14 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import Header from "./Header";
 import { gradingAPI } from "../api";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-    Box,
-    Button,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-} from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import NewCriteriaModal from "./NewCriteriaModal";
 
 function GradingPage() {
     const location = useLocation();
     const selectedGroup = location.state ? location.state.selectedGroup : null;
-    const selectedStudent = location.state
-        ? location.state.selectedStudent
-        : null;
-    const [studentSelect, setSelectStudent] = useState(
-        selectedGroup ? selectedGroup.students[0] : null
-    );
+    const selectedStudent = location.state ? location.state.selectedStudent : null;
+    const [studentSelect, setSelectStudent] = useState(selectedGroup ? selectedGroup.students[0] : null);
     const [rowData, setRowData] = useState();
     const navigate = useNavigate();
     const [groupColors, setGroupColors] = useState({});
@@ -36,39 +25,27 @@ function GradingPage() {
             var data = {};
             try {
                 if (selectedGroup) {
-                    data = await gradingAPI.getAllGradingGroups(
-                        studentSelect.id
-                    );
+                    data = await gradingAPI.getAllGradingGroups(studentSelect.id);
                     setGradingGroups(data);
-                    const formattedData = data?.gradingCriteria?.map(
-                        (criteria) => {
-                            if (
-                                String(criteria?.typeOfCriteria)?.trim() === "G"
-                            ) {
-                                return { ...criteria, checkbox: false };
-                            } else {
-                                return { ...criteria };
-                            }
+                    const formattedData = data?.gradingCriteria?.map((criteria) => {
+                        if (String(criteria?.typeOfCriteria)?.trim() === "G") {
+                            return { ...criteria, checkbox: false };
+                        } else {
+                            return { ...criteria };
                         }
-                    );
+                    });
                     console.log(formattedData);
                     setRowData(formattedData);
                 } else if (selectedStudent) {
-                    data = await gradingAPI.getAllGradingGroups(
-                        selectedStudent.id
-                    );
+                    data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
                     setGradingGroups(data);
-                    const formattedData = data?.gradingCriteria?.map(
-                        (criteria) => {
-                            if (
-                                String(criteria?.typeOfCriteria)?.trim() === "G"
-                            ) {
-                                return { ...criteria, checkbox: false };
-                            } else {
-                                return { ...criteria };
-                            }
+                    const formattedData = data?.gradingCriteria?.map((criteria) => {
+                        if (String(criteria?.typeOfCriteria)?.trim() === "G") {
+                            return { ...criteria, checkbox: false };
+                        } else {
+                            return { ...criteria };
                         }
-                    );
+                    });
                     setRowData(formattedData);
                 }
                 console.log("Received data:", data);
@@ -112,14 +89,11 @@ function GradingPage() {
     };
     // CSS class to highlight invalid cell values
     const cellClassRules = {
-        "cell-invalid": (params) =>
-            params.value < 0 || params.value > params.data?.criteriaScore,
+        "cell-invalid": (params) => params.value < 0 || params.value > params.data?.criteriaScore,
     };
     useEffect(() => {
         // Assign random colors to each distinct gradingCriteriaGroupName
-        const uniqueGroups = new Set(
-            rowData?.map((row) => row?.gradingCriteriaGroupName)
-        );
+        const uniqueGroups = new Set(rowData?.map((row) => row?.gradingCriteriaGroupName));
         uniqueGroups.forEach((group) => {
             groupColors[group] = randomColor(); // Generate random color for each group
         });
@@ -153,9 +127,7 @@ function GradingPage() {
                         const criteriaId = criteriaRow.id;
                         setRowData((prevRowData) =>
                             prevRowData.map((row) =>
-                                row.id === criteriaId
-                                    ? { ...row, checkbox: e.target.checked }
-                                    : row
+                                row.id === criteriaId ? { ...row, checkbox: e.target.checked } : row
                             )
                         );
                     }}
@@ -216,19 +188,12 @@ function GradingPage() {
                     alignItems: "end",
                 }}
             >
-                <Box
-                    style={{ paddingTop: "100px", paddingLeft: "20px" }}
-                    sx={{ minWidth: 200 }}
-                >
+                <Box style={{ paddingTop: "100px", paddingLeft: "20px" }} sx={{ minWidth: 200 }}>
                     {selectedStudent ? (
-                        <h2 style={{ color: "#000", marginBottom: "20px" }}>
-                            {selectedStudent.studentName}
-                        </h2>
+                        <h2 style={{ color: "#000", marginBottom: "20px" }}>{selectedStudent.studentName}</h2>
                     ) : null}
                     {selectedGroup ? (
-                        <h2 style={{ color: "#000", marginBottom: "20px" }}>
-                            {selectedGroup.groupName}
-                        </h2>
+                        <h2 style={{ color: "#000", marginBottom: "20px" }}>{selectedGroup.groupName}</h2>
                     ) : null}
                     {selectedGroup ? (
                         <FormControl
@@ -239,9 +204,7 @@ function GradingPage() {
                                 borderRadius: "4px",
                             }}
                         >
-                            <InputLabel id="demo-simple-select-filled-label">
-                                Student
-                            </InputLabel>
+                            <InputLabel id="demo-simple-select-filled-label">Student</InputLabel>
                             <Select
                                 labelId="demo-simple-select-filled-label"
                                 id="demo-simple-select-filled"
@@ -273,10 +236,7 @@ function GradingPage() {
                 >
                     Add Criteria
                 </Button>
-                <NewCriteriaModal
-                    openModal={openModal}
-                    setOpenModal={setOpenModal}
-                />
+                <NewCriteriaModal openModal={openModal} setOpenModal={setOpenModal} />
                 <Button
                     variant="contained"
                     style={{
@@ -320,12 +280,7 @@ function GradingPage() {
                     justifyContent: "center",
                 }}
             >
-                <Button
-                    variant="contained"
-                    color="success"
-                    style={{ color: "#fff" }}
-                    onClick={handleSubmitGrades}
-                >
+                <Button variant="contained" color="success" style={{ color: "#fff" }} onClick={handleSubmitGrades}>
                     Save
                 </Button>
             </div>

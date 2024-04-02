@@ -62,19 +62,10 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={modalStyle}>
-                    <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2"
-                    >
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
                         Add New Criteria
                     </Typography>
-                    <Box
-                        component="form"
-                        noValidate
-                        autoComplete="off"
-                        sx={{ mt: 1 }}
-                    >
+                    <Box component="form" noValidate autoComplete="off" sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required

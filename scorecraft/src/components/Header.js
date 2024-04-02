@@ -18,16 +18,11 @@ function Header() {
                 alignItems: "center",
                 justifyContent: "space-between",
                 padding: "10px",
-                background:
-                    "linear-gradient(rgba(0,0,0,1.5), rgba(255,255,255))",
+                background: "linear-gradient(rgba(0,0,0,1.5), rgba(255,255,255))",
             }}
         >
             <div style={{ display: "flex", alignItems: "center" }}>
-                <img
-                    src={grade}
-                    alt="ScoreCraft Logo"
-                    style={{ width: 50, height: "auto", marginRight: 10 }}
-                />
+                <img src={grade} alt="ScoreCraft Logo" style={{ width: 50, height: "auto", marginRight: 10 }} />
                 <Typography
                     variant="h4"
                     style={{
@@ -40,11 +35,7 @@ function Header() {
                 </Typography>
             </div>
             <IconButton onClick={() => navigate("/")}>
-                <img
-                    src={home}
-                    alt="Home Icon"
-                    style={{ width: 50, height: "auto", marginRight: "20px" }}
-                />
+                <img src={home} alt="Home Icon" style={{ width: 50, height: "auto", marginRight: "20px" }} />
             </IconButton>
         </header>
     );

@@ -46,23 +46,11 @@ function GroupRow({ group, onSelectGroup }) {
         <React.Fragment>
             <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
                 <TableCell>
-                    <IconButton
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => setOpen(!open)}
-                    >
-                        {open ? (
-                            <KeyboardArrowUpIcon />
-                        ) : (
-                            <KeyboardArrowDownIcon />
-                        )}
+                    <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell
-                    component="th"
-                    scope="row"
-                    style={{ fontFamily: "Arial", fontStyle: "bold" }}
-                >
+                <TableCell component="th" scope="row" style={{ fontFamily: "Arial", fontStyle: "bold" }}>
                     {group.groupName}
                 </TableCell>
                 <TableCell style={{ fontFamily: "Arial", fontWeight: "bold" }}>
@@ -75,34 +63,21 @@ function GroupRow({ group, onSelectGroup }) {
                     />
                 </TableCell>
                 <TableCell>
-                    <IconButton
-                        aria-label="select group"
-                        size="small"
-                        onClick={() => onSelectGroup(group)}
-                    >
+                    <IconButton aria-label="select group" size="small" onClick={() => onSelectGroup(group)}>
                         <KeyboardArrowRightIcon />
                     </IconButton>
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell
-                    style={{ paddingBottom: 0, paddingTop: 0 }}
-                    colSpan={6}
-                >
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
-                            <Typography
-                                variant="h6"
-                                gutterBottom
-                                component="div"
-                            >
+                            <Typography variant="h6" gutterBottom component="div">
                                 Students
                             </Typography>
                             {group.students.map((student) => (
                                 <Box key={student.id} sx={{ marginRight: 2 }}>
-                                    <Typography variant="body1">
-                                        {student.studentName}
-                                    </Typography>
+                                    <Typography variant="body1">{student.studentName}</Typography>
                                 </Box>
                             ))}
                         </Box>
@@ -132,10 +107,7 @@ const MainPageGroup = () => {
                     }))
                 );
             } catch (error) {
-                console.error(
-                    "Failed to fetch students by group:",
-                    error.message
-                );
+                console.error("Failed to fetch students by group:", error.message);
             }
         };
         fetchStudentsByGroup();
@@ -153,9 +125,7 @@ const MainPageGroup = () => {
     };
 
     const filteredGroups = groups.filter((group) =>
-        group.groupName
-            .toLowerCase()
-            .includes(debouncedSearchTerm.toLowerCase())
+        group.groupName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
 
     return (
@@ -230,11 +200,7 @@ const MainPageGroup = () => {
                         </TableHead>
                         <TableBody>
                             {filteredGroups.map((group, index) => (
-                                <GroupRow
-                                    key={index}
-                                    group={group}
-                                    onSelectGroup={handleSelectGroup}
-                                />
+                                <GroupRow key={index} group={group} onSelectGroup={handleSelectGroup} />
                             ))}
                         </TableBody>
                     </Table>

@@ -39,11 +39,7 @@ function StudentRow({ student, onSelectStudent }) {
                 <Checkbox checked={student.gradingStatus || false} disabled />
             </TableCell>
             <TableCell>
-                <IconButton
-                    aria-label="expand row"
-                    size="small"
-                    onClick={() => onSelectStudent(student)}
-                >
+                <IconButton aria-label="expand row" size="small" onClick={() => onSelectStudent(student)}>
                     <KeyboardArrowRightIcon />
                 </IconButton>
             </TableCell>
@@ -79,9 +75,7 @@ export default function MainPageIndividual() {
     }, [location, navigate]);
 
     const filteredStudents = students.filter((student) =>
-        student.studentName
-            .toLowerCase()
-            .includes(debouncedSearchTerm.toLowerCase())
+        student.studentName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
 
     const handleSelectStudent = (selectedStudent) => {
@@ -93,10 +87,7 @@ export default function MainPageIndividual() {
         <>
             <Header />
             <div className="main-page-individual">
-                <div
-                    className="individual-search-bar"
-                    style={{ width: "40%" }}
-                ></div>
+                <div className="individual-search-bar" style={{ width: "40%" }}></div>
                 <div className="individual-search-bar" style={{ width: "40%" }}>
                     <TextField
                         fullWidth
@@ -121,11 +112,7 @@ export default function MainPageIndividual() {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() =>
-                            console.log(
-                                "Export functionality to be implemented"
-                            )
-                        }
+                        onClick={() => console.log("Export functionality to be implemented")}
                         style={{ marginLeft: "8px" }}
                     >
                         Export

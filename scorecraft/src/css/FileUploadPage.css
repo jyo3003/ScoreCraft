@@ -58,8 +58,8 @@
 
 /* Apply the font change to the grading question */
 .grading-criteria .grading-question {
-    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana,
+        sans-serif;
     font-size: 30px;
     color: #e9eef3;
 }
@@ -146,8 +146,8 @@ input[type="file"] {
 
 /* Apply the font change to the grading question */
 .data-exists-question .data {
-    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana,
+        sans-serif;
     font-size: 30px;
     color: #e9eef3;
 }

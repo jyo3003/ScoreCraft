@@ -9,7 +9,7 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
         typeOfCriteria: "",
         gradingCriteriaGroupName: "",
         gradedScore: "",
-        comment: "",
+        comments: "",
     });
     // Function to handle form input changes
     const handleCriteriaChange = (event) => {
@@ -19,8 +19,18 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
         });
     };
 
+    function breakString(inputString, specialCharacter) {
+        // Split the input string based on the special character
+        const substrings = inputString.split(specialCharacter);
+        return substrings;
+    }
+
     const handleSubmitCriteria = async (event) => {
         event.preventDefault(); // Prevent default form submission which refreshes the page
+
+        const inputString = newCriteria.comments;
+        const specialCharacter = ";";
+        const resultingPredefinedCommentsList = breakString(inputString, specialCharacter);
 
         const formData = {
             criteriaName: newCriteria.criteriaName,
@@ -28,7 +38,7 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
             typeOfCriteria: newCriteria.typeOfCriteria,
             gradingCriteriaGroupName: newCriteria.gradingCriteriaGroupName,
             gradedScore: newCriteria.gradedScore,
-            comment: newCriteria.comment,
+            predefinedComments: resultingPredefinedCommentsList,
         };
 
         try {
@@ -111,22 +121,12 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
                         <TextField
                             margin="normal"
                             fullWidth
-                            name="gradedScore"
-                            label="Graded Score"
-                            type="number"
-                            id="gradedScore"
-                            value={newCriteria.gradedScore}
-                            onChange={handleCriteriaChange}
-                        />
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            name="comment"
-                            label="Comment"
-                            id="comment"
+                            name="comments"
+                            label="Comments"
+                            id="comments"
                             multiline
                             rows={4}
-                            value={newCriteria.comment}
+                            value={newCriteria.comments}
                             onChange={handleCriteriaChange}
                         />
                         <Button

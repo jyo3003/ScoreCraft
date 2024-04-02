@@ -161,7 +161,7 @@ public class GradingPageService {
         gradingCriteria.setScore(gradingCriteriaDTO.getCriteriaScore());
         gradingCriteria.setTypeOfCriteria(gradingCriteriaDTO.getTypeOfCriteria());
         gradingCriteria.setGradingCriteriaGroupName(gradingCriteriaDTO.getGradingCriteriaGroupName());
-        
+        gradingCriteria.setComments(gradingCriteriaDTO.getPredefinedComments());
         
         
         // Persist the new grading criteria into the database

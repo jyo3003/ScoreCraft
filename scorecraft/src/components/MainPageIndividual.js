@@ -87,7 +87,7 @@ export default function MainPageIndividual() {
         <>
             <Header />
             <div className="main-page-individual">
-                <div className="individual-search-bar">
+                <div className="individual-search-bar" style={{ width: "40%" }}>
                     <TextField
                         fullWidth
                         type="text"
@@ -107,6 +107,7 @@ export default function MainPageIndividual() {
                                 </IconButton>
                             ),
                         }}
+                        sx={{ width: "100%" }} // Adjust the width of the search bar
                     />
                     <Button
                         variant="contained"
@@ -126,6 +127,7 @@ export default function MainPageIndividual() {
                         boxShadow: "none",
                         border: "1px solid #000",
                         borderRadius: "4px",
+                        marginLeft: "-40px", // Move the table to the left
                     }}
                 >
                     <Table stickyHeader aria-label="sticky table">

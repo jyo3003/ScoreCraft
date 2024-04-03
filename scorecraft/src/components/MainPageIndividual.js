@@ -20,6 +20,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import * as XLSX from "xlsx";
 
 function useDebounce(value, delay) {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -39,7 +40,7 @@ function StudentRow({ student, onSelectStudent }) {
                 <Checkbox checked={student.gradingStatus || false} disabled />
             </TableCell>
             <TableCell>
-                <IconButton aria-label="expand row" size="small" onClick={() => onSelectStudent(student)}>
+                <IconButton aria-label="select student" size="small" onClick={() => onSelectStudent(student)}>
                     <KeyboardArrowRightIcon />
                 </IconButton>
             </TableCell>
@@ -53,7 +54,6 @@ export default function MainPageIndividual() {
     const [students, setStudents] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
-    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -65,30 +65,29 @@ export default function MainPageIndividual() {
             }
         };
         fetchStudents();
-    }, [refreshKey]);
-    useEffect(() => {
-        if (location.state?.refresh) {
-            setRefreshKey((prevKey) => prevKey + 1); // Increment refreshKey to trigger re-fetch
-            // Reset state to avoid loop
-            navigate(location.pathname, { replace: true, state: {} });
-        }
-    }, [location, navigate]);
+    }, []);
 
     const filteredStudents = students.filter((student) =>
         student.studentName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
 
     const handleSelectStudent = (selectedStudent) => {
-        navigate("/GradingPage", {
-            state: { selectedStudent, from: "/MainPageIndividual" },
-        });
+        navigate("/GradingPage", { state: { selectedStudent, from: "/MainPageIndividual" } });
     };
+
+    // Function to export student data to Excel
+    const exportToExcel = () => {
+        const ws = XLSX.utils.json_to_sheet(filteredStudents);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Students");
+        XLSX.writeFile(wb, "StudentData.xlsx");
+    };
+
     return (
         <>
             <Header />
             <div className="main-page-individual">
-                <div className="individual-search-bar" style={{ width: "40%" }}></div>
-                <div className="individual-search-bar" style={{ width: "40%" }}>
+                <div className="individual-search-bar">
                     <TextField
                         fullWidth
                         type="text"
@@ -102,7 +101,7 @@ export default function MainPageIndividual() {
                                     <SearchIcon />
                                 </InputAdornment>
                             ),
-                            endAdornment: searchTerm && (
+                            endAdornment: (
                                 <IconButton onClick={() => setSearchTerm("")}>
                                     <ClearIcon />
                                 </IconButton>
@@ -112,7 +111,7 @@ export default function MainPageIndividual() {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => console.log("Export functionality to be implemented")}
+                        onClick={exportToExcel}
                         style={{ marginLeft: "8px" }}
                     >
                         Export
@@ -122,8 +121,6 @@ export default function MainPageIndividual() {
                     component={Paper}
                     sx={{
                         maxHeight: 440,
-                        maxWidth: 1400,
-                        marginLeft: "-40px",
                         marginTop: "16px",
                         backgroundColor: "transparent",
                         boxShadow: "none",
@@ -134,50 +131,16 @@ export default function MainPageIndividual() {
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
-                                <TableCell
-                                    style={{
-                                        width: "80.3333%",
-                                        fontFamily: "Arial",
-                                        fontWeight: "bold",
-                                        fontSize: "20px",
-                                    }}
-                                >
-                                    Name
-                                </TableCell>
-                                <TableCell
-                                    style={{
-                                        width: "80.3333%",
-                                        fontFamily: "Arial",
-                                        fontWeight: "bold",
-                                        fontSize: "20px",
-                                    }}
-                                >
-                                    ASURite ID
-                                </TableCell>
-                                <TableCell
-                                    style={{
-                                        width: "80.3333%",
-                                        fontFamily: "Arial",
-                                        fontWeight: "bold",
-                                        fontSize: "20px",
-                                    }}
-                                >
-                                    Graded
-                                </TableCell>
-                                <TableCell
-                                    style={{
-                                        width: "80.3333%",
-                                        fontFamily: "Arial",
-                                        fontWeight: "bold",
-                                        fontSize: "20px",
-                                    }}
-                                ></TableCell>
+                                <TableCell>Name</TableCell>
+                                <TableCell>ASURite ID</TableCell>
+                                <TableCell>Graded</TableCell>
+                                <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {filteredStudents.map((student) => (
                                 <StudentRow
-                                    key={student.studentName}
+                                    key={student.asurite}
                                     student={student}
                                     onSelectStudent={handleSelectStudent}
                                 />

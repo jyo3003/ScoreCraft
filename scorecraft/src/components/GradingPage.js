@@ -39,7 +39,11 @@ function GradingPage() {
                     data = await gradingAPI.getAllGradingGroups(studentSelect.id);
                     const formattedData = data?.gradingCriteria?.map((criteria) => {
                         if (String(criteria?.typeOfCriteria)?.trim() === "G") {
-                            return { ...criteria, checkbox: false };
+                            if (!criteria?.checkbox) {
+                                return { ...criteria, checkbox: false };
+                            } else {
+                                return { ...criteria };
+                            }
                         } else {
                             return { ...criteria };
                         }

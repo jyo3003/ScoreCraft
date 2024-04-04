@@ -39,14 +39,7 @@ function GradingPage() {
                 } else if (selectedStudent) {
                     data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
                     setGradingGroups(data);
-                    const formattedData = data?.gradingCriteria?.map((criteria) => {
-                        if (String(criteria?.typeOfCriteria)?.trim() === "G") {
-                            return { ...criteria, checkbox: false };
-                        } else {
-                            return { ...criteria };
-                        }
-                    });
-                    setRowData(formattedData);
+                    setRowData(data?.gradingCriteria);
                 }
                 console.log("Received data:", data);
                 // setRowData(data.gradingCriteria);
@@ -137,46 +130,84 @@ function GradingPage() {
             return null; // Return null if the field doesn't exist
         }
     };
-
-    const [colDefs, setColDefs] = useState([
-        { field: "id", rowDrag: true, flex: 1 },
-        { field: "criteriaName", flex: 3 },
-        { field: "criteriaScore", flex: 1 },
-        { field: "typeOfCriteria", flex: 1 },
-        {
-            field: "gradingCriteriaGroupName",
-            flex: 2,
-            cellStyle: (params) => {
-                const backgroundColor = groupColors[params.value];
-                return { backgroundColor }; // Return an object with the backgroundColor property
-            },
-        },
-        {
-            field: "gradedScore",
-            editable: true,
-            flex: 1,
-            cellClassRules: cellClassRules,
-            cellRenderer: scoreCellRenderer, // Use custom renderer here
-        },
-        {
-            field: "comment",
-            editable: true,
-            flex: 3,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: (params) => {
-                const rowData = params.node.data;
-                return {
-                    values: rowData.predefinedComments || [],
-                    valueListGap: 10,
-                };
-            },
-        },
-        {
-            field: "checkbox",
-            flex: 1,
-            cellRenderer: checkboxCellRenderer,
-        },
-    ]);
+    const [colDefs, setColDefs] = useState(() => {
+        if (selectedStudent) {
+            return [
+                { field: "id", rowDrag: true, flex: 1 },
+                { field: "criteriaName", flex: 3 },
+                { field: "criteriaScore", flex: 1 },
+                { field: "typeOfCriteria", flex: 1 },
+                {
+                    field: "gradingCriteriaGroupName",
+                    flex: 2,
+                    cellStyle: (params) => {
+                        const backgroundColor = groupColors[params.value];
+                        return { backgroundColor }; // Return an object with the backgroundColor property
+                    },
+                },
+                {
+                    field: "gradedScore",
+                    editable: true,
+                    flex: 1,
+                    cellClassRules: cellClassRules,
+                    cellRenderer: scoreCellRenderer, // Use custom renderer here
+                },
+                {
+                    field: "comment",
+                    editable: true,
+                    flex: 3,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: (params) => {
+                        const rowData = params.node.data;
+                        return {
+                            values: rowData.predefinedComments || [],
+                            valueListGap: 10,
+                        };
+                    },
+                },
+            ];
+        } else {
+            return [
+                { field: "id", rowDrag: true, flex: 1 },
+                { field: "criteriaName", flex: 3 },
+                { field: "criteriaScore", flex: 1 },
+                { field: "typeOfCriteria", flex: 1 },
+                {
+                    field: "gradingCriteriaGroupName",
+                    flex: 2,
+                    cellStyle: (params) => {
+                        const backgroundColor = groupColors[params.value];
+                        return { backgroundColor }; // Return an object with the backgroundColor property
+                    },
+                },
+                {
+                    field: "gradedScore",
+                    editable: true,
+                    flex: 1,
+                    cellClassRules: cellClassRules,
+                    cellRenderer: scoreCellRenderer, // Use custom renderer here
+                },
+                {
+                    field: "comment",
+                    editable: true,
+                    flex: 3,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: (params) => {
+                        const rowData = params.node.data;
+                        return {
+                            values: rowData.predefinedComments || [],
+                            valueListGap: 10,
+                        };
+                    },
+                },
+                {
+                    field: "checkbox",
+                    flex: 1,
+                    cellRenderer: checkboxCellRenderer,
+                },
+            ];
+        }
+    });
 
     return (
         <>

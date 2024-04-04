@@ -64,8 +64,6 @@ function GradingPage() {
         fetchAllGradingGroups();
     }, [selectedGroup, studentSelect, selectedStudent, openModal]);
 
-    // Existing handleCriteriaChange and other component logic...
-
     const handleSubmitGrades = async () => {
         
         const payload = rowData?.map((criteria) => ({
@@ -82,10 +80,6 @@ function GradingPage() {
             const response = await gradingAPI.submitGrades(payload);
             console.log("Submission response:", response);
             alert("Grades submitted successfully!");
-
-            //if (selectedGroup) {
-            // Navigate to the group main page if grading a group, passing the refresh state.
-            // navigate('/MainPageGroup', { state: { refresh: true } });
             if (selectedStudent) {
                 // Navigate to the individual main page if grading an individual, passing the refresh state.
                 navigate("/MainPageIndividual", { state: { refresh: true } });
@@ -119,10 +113,36 @@ function GradingPage() {
     };
 
     
-    const scoreCellRenderer = (params) => {
-        // Check if the score is null and return an empty string; otherwise, return the score
+    const scoreCellRenderer = (params) => { 
         return params.value === -100.0 ? 0.0: params.value;
     };
+    const extractScoreFromComment = (comment) => {
+        const scoreRegex = /\((\d+(\.\d+)?)\)/;
+        const match = scoreRegex.exec(comment);
+
+        if (match) {
+            return parseFloat(match[1]);
+        }
+        
+        return null;
+    };
+
+    const onCellValueChanged = (params) => {
+        const updatedRowData = [...rowData];
+        const currentRowIndex = params.node.rowIndex;
+        const currentRow = { ...updatedRowData[currentRowIndex] };
+        
+        if (params.colDef.field === 'comment') {
+            const extractedScore = extractScoreFromComment(currentRow.comment);
+            if (extractedScore !== null) {
+                currentRow.gradedScore = extractedScore;
+            }
+            updatedRowData[currentRowIndex] = currentRow;
+            setRowData(updatedRowData);
+            calculateTotalScore(updatedRowData);
+        }
+    };
+    
 
     const calculateTotalScore = (currentRowData) => {
         const sum = currentRowData.reduce((acc, criteria) => {
@@ -282,7 +302,7 @@ function GradingPage() {
                 </Box>
                 <Box style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
     <FormControl
-        // ... your existing FormControl props
+    
     >
         
     </FormControl>
@@ -337,13 +357,7 @@ function GradingPage() {
                     pagination={true}
                     rowDragManaged={true}
                     rowDragEntireRow={true}
-                    onCellValueChanged={params => {
-                        const updatedRows = [...rowData];
-                        updatedRows[params.node.rowIndex] = params.data;
-                        setRowData(updatedRows); // trigger the useEffect to re-calculate the total
-                        calculateTotalScore(updatedRows); //  re-calculate the total score
-                        
-                    }}
+                    onCellValueChanged={onCellValueChanged}
                 />
             </div>
             <div

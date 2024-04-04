@@ -6,7 +6,7 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import Header from "./Header";
 import { gradingAPI } from "../api";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import NewCriteriaModal from "./NewCriteriaModal";
 
 function GradingPage() {
@@ -20,6 +20,7 @@ function GradingPage() {
     const [gradingGroups, setGradingGroups] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [totalScore, setTotalScore] = useState(0);
+    const [freeFormComment, setFreeFormComment] = useState("");
     useEffect(() => {
         if (rowData) {
             const sum = rowData.reduce((acc, criteria) => {
@@ -66,7 +67,7 @@ function GradingPage() {
     }, [selectedGroup, studentSelect, selectedStudent, openModal]);
 
     const handleSubmitGrades = async () => {
-        const payload = rowData?.map((criteria) => ({
+        const studentGrades = rowData?.map((criteria) => ({
             studentId: gradingGroups?.studentId, // Converting to string in case the server expects a string type
             score: criteria?.gradedScore,
             comment: criteria?.comment || "",
@@ -74,10 +75,10 @@ function GradingPage() {
             checkbox: criteria?.checkbox || null,
         }));
 
-        console.log("Submitting grades:", payload);
+        console.log("Submitting grades:", { studentGrades, freeFormComment });
 
         try {
-            const response = await gradingAPI.submitGrades(payload);
+            const response = await gradingAPI.submitGrades({ studentGrades, freeFormComment });
             console.log("Submission response:", response);
             alert("Grades submitted successfully!");
             if (selectedStudent) {
@@ -360,6 +361,17 @@ function GradingPage() {
                     rowDragManaged={true}
                     rowDragEntireRow={true}
                     onCellValueChanged={onCellValueChanged}
+                />
+            </div>
+            <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
+                <TextField
+                    id="outlined-multiline-flexible"
+                    label="Comment"
+                    multiline
+                    rows={4}
+                    style={{ width: "500px" }}
+                    value={freeFormComment}
+                    onChange={(e) => setFreeFormComment(e.target.value)}
                 />
             </div>
             <div

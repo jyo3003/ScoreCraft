@@ -19,6 +19,20 @@ function GradingPage() {
     const [groupColors, setGroupColors] = useState({});
     const [gradingGroups, setGradingGroups] = useState([]);
     const [openModal, setOpenModal] = useState(false);
+    const [totalScore, setTotalScore] = useState(0);
+    useEffect(() => {
+        if (rowData) {
+            const sum = rowData.reduce((acc, criteria) => {
+                
+                const gradedScore = (Number(criteria.gradedScore) && criteria.gradedScore !== -100) ? Number(criteria.gradedScore) : 0;
+                return acc + gradedScore;
+            }, 0);
+            setTotalScore(sum);
+        }
+    }, [rowData]); 
+    
+   
+    
 
     useEffect(() => {
         const fetchAllGradingGroups = async () => {
@@ -53,6 +67,7 @@ function GradingPage() {
     // Existing handleCriteriaChange and other component logic...
 
     const handleSubmitGrades = async () => {
+        
         const payload = rowData?.map((criteria) => ({
             studentId: gradingGroups?.studentId, // Converting to string in case the server expects a string type
             score: criteria?.gradedScore,
@@ -103,11 +118,20 @@ function GradingPage() {
         setSelectStudent(event.target.value);
     };
 
-    // Custom cell renderer for scores
+    
     const scoreCellRenderer = (params) => {
         // Check if the score is null and return an empty string; otherwise, return the score
-        return params.value === -100.0 ? 0.0 : params.value;
+        return params.value === -100.0 ? 0.0: params.value;
     };
+
+    const calculateTotalScore = (currentRowData) => {
+        const sum = currentRowData.reduce((acc, criteria) => {
+            const score = Number(criteria.gradedScore) || 0;
+            return acc + score;
+        }, 0);
+        setTotalScore(sum);
+    };
+    
 
     const checkboxCellRenderer = (params) => {
         const criteriaRow = params.node.data;
@@ -256,6 +280,18 @@ function GradingPage() {
                         </FormControl>
                     ) : null}
                 </Box>
+                <Box style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <FormControl
+        // ... your existing FormControl props
+    >
+        
+    </FormControl>
+    <Box style={{padding: '10px', border: '1px solid #ccc', borderRadius: '4px', display: 'flex',alignItems: 'center',justifyContent: 'center', minWidth: '50px',
+    }}>
+        {totalScore}
+    </Box>
+</Box>
+
                 <Button
                     variant="contained"
                     style={{
@@ -301,6 +337,13 @@ function GradingPage() {
                     pagination={true}
                     rowDragManaged={true}
                     rowDragEntireRow={true}
+                    onCellValueChanged={params => {
+                        const updatedRows = [...rowData];
+                        updatedRows[params.node.rowIndex] = params.data;
+                        setRowData(updatedRows); // trigger the useEffect to re-calculate the total
+                        calculateTotalScore(updatedRows); //  re-calculate the total score
+                        
+                    }}
                 />
             </div>
             <div

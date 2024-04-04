@@ -23,16 +23,13 @@ function GradingPage() {
     useEffect(() => {
         if (rowData) {
             const sum = rowData.reduce((acc, criteria) => {
-                
-                const gradedScore = (Number(criteria.gradedScore) && criteria.gradedScore !== -100) ? Number(criteria.gradedScore) : 0;
+                const gradedScore =
+                    Number(criteria.gradedScore) && criteria.gradedScore !== -100 ? Number(criteria.gradedScore) : 0;
                 return acc + gradedScore;
             }, 0);
             setTotalScore(sum);
         }
-    }, [rowData]); 
-    
-   
-    
+    }, [rowData]);
 
     useEffect(() => {
         const fetchAllGradingGroups = async () => {
@@ -40,8 +37,16 @@ function GradingPage() {
             try {
                 if (selectedGroup) {
                     data = await gradingAPI.getAllGradingGroups(studentSelect.id);
+                    const formattedData = data?.gradingCriteria?.map((criteria) => {
+                        if (String(criteria?.typeOfCriteria)?.trim() === "G") {
+                            return { ...criteria, checkbox: false };
+                        } else {
+                            return { ...criteria };
+                        }
+                    });
+                    console.log(formattedData);
                     setGradingGroups(data);
-                    setRowData(data?.gradingCriteria);
+                    setRowData(formattedData);
                 } else if (selectedStudent) {
                     data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
                     setGradingGroups(data);
@@ -57,7 +62,6 @@ function GradingPage() {
     }, [selectedGroup, studentSelect, selectedStudent, openModal]);
 
     const handleSubmitGrades = async () => {
-        
         const payload = rowData?.map((criteria) => ({
             studentId: gradingGroups?.studentId, // Converting to string in case the server expects a string type
             score: criteria?.gradedScore,
@@ -104,9 +108,8 @@ function GradingPage() {
         setSelectStudent(event.target.value);
     };
 
-    
-    const scoreCellRenderer = (params) => { 
-        return params.value === -100.0 ? 0.0: params.value;
+    const scoreCellRenderer = (params) => {
+        return params.value === -100.0 ? 0.0 : params.value;
     };
     const extractScoreFromComment = (comment) => {
         const scoreRegex = /\((\d+(\.\d+)?)\)/;
@@ -115,7 +118,7 @@ function GradingPage() {
         if (match) {
             return parseFloat(match[1]);
         }
-        
+
         return null;
     };
 
@@ -123,8 +126,8 @@ function GradingPage() {
         const updatedRowData = [...rowData];
         const currentRowIndex = params.node.rowIndex;
         const currentRow = { ...updatedRowData[currentRowIndex] };
-        
-        if (params.colDef.field === 'comment') {
+
+        if (params.colDef.field === "comment") {
             const extractedScore = extractScoreFromComment(currentRow.comment);
             if (extractedScore !== null) {
                 currentRow.gradedScore = extractedScore;
@@ -134,7 +137,6 @@ function GradingPage() {
             calculateTotalScore(updatedRowData);
         }
     };
-    
 
     const calculateTotalScore = (currentRowData) => {
         const sum = currentRowData.reduce((acc, criteria) => {
@@ -143,7 +145,6 @@ function GradingPage() {
         }, 0);
         setTotalScore(sum);
     };
-    
 
     const checkboxCellRenderer = (params) => {
         const criteriaRow = params.node.data;
@@ -292,17 +293,22 @@ function GradingPage() {
                         </FormControl>
                     ) : null}
                 </Box>
-                <Box style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-    <FormControl
-    
-    >
-        
-    </FormControl>
-    <Box style={{padding: '10px', border: '1px solid #ccc', borderRadius: '4px', display: 'flex',alignItems: 'center',justifyContent: 'center', minWidth: '50px',
-    }}>
-        {totalScore}
-    </Box>
-</Box>
+                <Box style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <FormControl></FormControl>
+                    <Box
+                        style={{
+                            padding: "10px",
+                            border: "1px solid #ccc",
+                            borderRadius: "4px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            minWidth: "50px",
+                        }}
+                    >
+                        {totalScore}
+                    </Box>
+                </Box>
 
                 <Button
                     variant="contained"

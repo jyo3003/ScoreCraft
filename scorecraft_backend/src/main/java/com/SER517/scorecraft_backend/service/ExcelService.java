@@ -72,71 +72,82 @@ public class ExcelService {
 		return convFile;
 	}
 
-	private void parsingGradingCriteria(Sheet sheet) {
-		Iterator<Row> rows = sheet.iterator();
+	public void parsingGradingCriteria(Sheet sheet) {
+	    int gradingGroupNameCellIndex = 3; // Start from 4th cell, considering 0-based index
+	    int lastIndex = gradingGroupNameCellIndex;
 
-		int gradingGroupNameCellIndex = 3; // 4th cell for grading group names, considering 0-based index
+	    // Process the first row for grading group names
+	    Row firstRow = sheet.getRow(0);
+	    if (firstRow == null) return; // Early exit if the row is not present
 
-		// Process the first row for grading group names
-		Row firstRow = sheet.getRow(0);
-		Row secondRow = sheet.getRow(1);
-		Row thirdRow = sheet.getRow(2);
-		Row fourthRow = sheet.getRow(3);
-		Row fifthRow = sheet.getRow(4);
-
-		// To get index of where to start iterating inner loop later
-		int lastIndex = 3;
-		
-
-		for (int cellIndex = 3; cellIndex < firstRow.getLastCellNum(); cellIndex += 2) { // Start from the 4th cell and
-																							// skip every other cell
-
-			Cell cell = firstRow.getCell(cellIndex);
-			// Iterating group names of grading
-			if (cell != null && cell.getCellType() != CellType.BLANK) {
-
-				// iterating grading type, criteria and score under each group name
-				for (int i = lastIndex; i < secondRow.getLastCellNum(); i++) {
-					GradingCriteria gc = new GradingCriteria();
-					Cell cell1 = secondRow.getCell(i);
-					Cell cell2 = thirdRow.getCell(i);
-					Cell cell3 = fourthRow.getCell(i);
-					Cell cell4 = fifthRow.getCell(i);
-					if (cell1 != null && cell1.getCellType() != CellType.BLANK) {
-
-						// saving them in an object
-						gc.setGradingCriteriaGroupName(cell.getStringCellValue());
-						gc.setTypeOfCriteria(cell1.getStringCellValue());
-						gc.setCriteriaName(cell2.getStringCellValue());
-						if (cell3 != null && cell3.getCellType() == CellType.NUMERIC) {
-							gc.setScore((int) cell3.getNumericCellValue()); // Directly use numeric value
-						}
-						else{
-							gc.setScore(Integer.parseInt(cell3.getStringCellValue()));
-						}
-						// Parse comments
-				        List<String> comments = new ArrayList<>();
-				        // Example: Assuming comments are in a specific cell and separated by ";"
-				        String commentStr = cell4.getStringCellValue(); // Adjust cell index as needed
-				        if (commentStr != null) {
-				            comments = Arrays.asList(commentStr.split(";"));
-				        }
-				        gc.setComments(comments);
-						gradingRepository.save(gc);
-					} else {
-						i++;
-						lastIndex = i;
-						break;
-
-					}
-				}
-
-			} else {
-				continue; // Exit if the main grading group name is empty
-			}
-		}
-
+	    try {
+	        for (int cellIndex = gradingGroupNameCellIndex; cellIndex < firstRow.getLastCellNum(); cellIndex += 2) {
+	            Cell cell = firstRow.getCell(cellIndex);
+	            // Check if the cell is not empty and proceed
+	            if (cell != null && cell.getCellType() != CellType.BLANK) {
+	                String groupName = cell.getStringCellValue();
+	                // Parse grading criteria for the current group
+	                lastIndex = parseGradingCriteriaForGroup(sheet, groupName, lastIndex);
+	            }
+	            // Skip to the next if the cell is empty
+	        }
+	    } catch (Exception e) {
+	        // Log or handle the exception as appropriate
+	        e.printStackTrace();
+	    }
 	}
+
+	private int parseGradingCriteriaForGroup(Sheet sheet, String groupName, int startCellIndex) {
+	    Row secondRow = sheet.getRow(1);
+	    Row thirdRow = sheet.getRow(2);
+	    Row fourthRow = sheet.getRow(3);
+	    Row fifthRow = sheet.getRow(4);
+
+	    if (secondRow == null || thirdRow == null || fourthRow == null || fifthRow == null) {
+	        return startCellIndex; // Early exit if any row is not present
+	    }
+
+	    int lastIndex = startCellIndex;
+	    for (int i = startCellIndex; i < secondRow.getLastCellNum(); i++) {
+	        Cell typeCell = secondRow.getCell(i);
+	        if (typeCell != null && typeCell.getCellType() != CellType.BLANK) {
+	            GradingCriteria gc = new GradingCriteria();
+	            try {
+	                populateGradingCriteria(gc, groupName, secondRow, thirdRow, fourthRow, fifthRow, i);
+	                gradingRepository.save(gc);
+	            } catch (NumberFormatException e) {
+	                // Handle parsing error, possibly log or notify about the issue
+	                e.printStackTrace();
+	            }
+	        } else {
+	            lastIndex = i + 1;
+	            break; // Exit the loop if a blank cell is encountered, assuming consecutive data
+	        }
+	    }
+	    return lastIndex; // Return the index to start from for the next group
+	}
+
+	private void populateGradingCriteria(GradingCriteria gc, String groupName, Row secondRow, Row thirdRow, Row fourthRow, Row fifthRow, int cellIndex) {
+	    gc.setGradingCriteriaGroupName(groupName);
+	    gc.setTypeOfCriteria(secondRow.getCell(cellIndex).getStringCellValue());
+	    gc.setCriteriaName(thirdRow.getCell(cellIndex).getStringCellValue());
+
+	    Cell scoreCell = fourthRow.getCell(cellIndex);
+	    if (scoreCell != null && scoreCell.getCellType() == CellType.NUMERIC) {
+	        gc.setScore((int) scoreCell.getNumericCellValue());
+	    } else if (scoreCell != null && scoreCell.getCellType() == CellType.STRING) {
+	        gc.setScore(Integer.parseInt(scoreCell.getStringCellValue())); // Assumes the cell contains a parsable integer
+	    }
+
+	    // Assuming comments are in fifth row and separated by ";"
+	    Cell commentCell = fifthRow.getCell(cellIndex);
+	    if (commentCell != null) {
+	        String commentStr = commentCell.getStringCellValue();
+	        List<String> comments = Arrays.asList(commentStr.split(";"));
+	        gc.setComments(comments);
+	    }
+	}
+
 
 	private void pasringStudentInfo(Sheet sheet) {
 		// Process from row 4 onwards for student information

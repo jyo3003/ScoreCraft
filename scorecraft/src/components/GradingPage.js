@@ -41,15 +41,7 @@ function GradingPage() {
                 if (selectedGroup) {
                     data = await gradingAPI.getAllGradingGroups(studentSelect.id);
                     setGradingGroups(data);
-                    const formattedData = data?.gradingCriteria?.map((criteria) => {
-                        if (String(criteria?.typeOfCriteria)?.trim() === "G") {
-                            return { ...criteria, checkbox: false };
-                        } else {
-                            return { ...criteria };
-                        }
-                    });
-                    console.log(formattedData);
-                    setRowData(formattedData);
+                    setRowData(data?.gradingCriteria);
                 } else if (selectedStudent) {
                     data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
                     setGradingGroups(data);
@@ -155,7 +147,7 @@ function GradingPage() {
 
     const checkboxCellRenderer = (params) => {
         const criteriaRow = params.node.data;
-        if (criteriaRow.hasOwnProperty("checkbox")) {
+        if (criteriaRow.hasOwnProperty("checkbox") && criteriaRow.checkbox !== null) {
             return (
                 <input
                     type="checkbox"

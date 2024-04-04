@@ -10,15 +10,15 @@ public class GradingCriteriaDTO {
     private String typeOfCriteria;
     private String gradingCriteriaGroupName;
     private List<String> predefinedComments; // List of predefined comments for the grading criteria
+    private Boolean checkbox;
     
-    
-    
-    private double gradedScore; // Dynamic score given to the student
+
+	private double gradedScore; // Dynamic score given to the student
     private String comment; // Comment associated with the student's graded score
 
     public GradingCriteriaDTO(Long gradingID, String criteriaName, double criteriaScore, String typeOfCriteria, 
             String gradingCriteriaGroupName, double gradedScore, String comment, 
-            List<String> predefinedComments) {
+            Boolean checkbox, List<String> predefinedComments) {
 		this.gradingID = gradingID;
 		this.criteriaName = criteriaName;
 		this.criteriaScore = criteriaScore;
@@ -27,6 +27,7 @@ public class GradingCriteriaDTO {
 		this.gradedScore = gradedScore; // Nullable to accommodate criteria not yet graded
 		this.comment = comment; // Nullable
 		this.predefinedComments = predefinedComments; // Can be empty if no predefined comments
+		this.checkbox = checkbox;
     }
     
     public List<String> getPredefinedComments() {
@@ -92,6 +93,15 @@ public class GradingCriteriaDTO {
 	public void setId(Long gradingID) {
 		this.gradingID = gradingID;
 	}
+	    
+    public Boolean getCheckbox() {
+		return checkbox;
+	}
+
+	public void setCheckbox(Boolean checkbox) {
+		this.checkbox = checkbox;
+	}
+
 
     
     

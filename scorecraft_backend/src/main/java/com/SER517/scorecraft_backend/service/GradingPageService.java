@@ -53,6 +53,7 @@ public class GradingPageService {
             
             existingGrade.setScore(dto.getScore());
             existingGrade.setComment(dto.getComment());
+            existingGrade.setCheckbox(dto.getCheckbox());
 
             studentGradingRepository.save(existingGrade);
                     
@@ -78,6 +79,7 @@ public class GradingPageService {
 
                     existingGradeGrpMember.setScore(dto.getScore());
                     existingGradeGrpMember.setComment(dto.getComment());
+                    existingGradeGrpMember.setCheckbox(dto.getCheckbox());
 
                     studentGradingRepository.save(existingGradeGrpMember);
                 }
@@ -108,6 +110,7 @@ public class GradingPageService {
                 gradingCriteria.getGradingCriteriaGroupName(),
                 (grading != null) ? grading.getScore() : -100.0, // Actual score achieved by the student (can be 0)
                 (grading != null) ? grading.getComment() : "", // Comment for the student's score (nullable)
+                (grading != null) ? grading.getCheckbox() : null,
                 gradingCriteria.getComments()
             );
             gradingCriteriaDTOs.add(criterionDTO);

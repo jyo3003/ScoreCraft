@@ -23,18 +23,28 @@ public class StudentGrading {
     @Column(name = "comment", length = 512)
     private String comment;
 
-    
+    @Column(name = "checkbox")
+    private Boolean checkbox;
 
     // Default constructor
     public StudentGrading() {
     }
 
     // Full constructor
-    public StudentGrading(Student student, GradingCriteria gradingCriteria, double score, String comment) {
+    public StudentGrading(Student student, GradingCriteria gradingCriteria, double score, String comment, Boolean checkbox) {
         this.student = student;
         this.gradingCriteria = gradingCriteria;
         this.score = score;
         this.comment = comment;
+        this.checkbox = checkbox;
+    }
+
+    public Boolean getCheckbox() {
+        return checkbox;
+    }
+
+    public void setCheckbox(Boolean checkbox) {
+        this.checkbox = checkbox;
     }
 
     // Getters and Setters

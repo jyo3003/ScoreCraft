@@ -58,7 +58,7 @@ public class GradingPageService {
             existingGrade.setCheckbox(dto.getCheckbox());
 
             studentGradingRepository.save(existingGrade);
-
+            System.out.println("Free Form: " + freeformComment);
             // Update or set freeform comment for the student
             student.setFreeformComment(freeformComment);
             studentRepository.save(student);
@@ -116,10 +116,13 @@ public class GradingPageService {
             gradingCriteriaDTOs.add(criterionDTO);
         }
 
+        System.out.println(student.getFreeformComment());
+
         return new StudentWithGradesDTO(
             student.getId(),
             student.getStudentName(),
             student.getAsurite(),
+            student.getFreeformComment(),
             gradingCriteriaDTOs
         );
 	}

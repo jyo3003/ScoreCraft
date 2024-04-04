@@ -52,6 +52,7 @@ function GradingPage() {
                     console.log(formattedData);
                     setGradingGroups(data);
                     setRowData(formattedData);
+                    setFreeFormComment(data?.freeFormComment);
                 } else if (selectedStudent) {
                     data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
                     setGradingGroups(data);

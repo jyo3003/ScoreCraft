@@ -31,6 +31,19 @@ public class Student {
 
 //    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<GradingCriteria> gradingCriteria;
+    
+ // Add a new field for the freeform comment
+    @Column(name = "freeform_comment", length = 1024) // Adjust length as needed
+    private String freeformComment;
+
+    // Getters and setters for the new field
+    public String getFreeformComment() {
+        return freeformComment;
+    }
+
+    public void setFreeformComment(String freeformComment) {
+        this.freeformComment = freeformComment;
+    }
 
     public boolean getGradingStatus() {
         return gradingStatus;

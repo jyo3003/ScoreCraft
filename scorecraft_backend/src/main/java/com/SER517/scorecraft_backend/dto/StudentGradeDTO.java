@@ -8,6 +8,7 @@ public class StudentGradeDTO {
     private boolean checkbox;
 
 
+
     // Default constructor
     public StudentGradeDTO() {
     }

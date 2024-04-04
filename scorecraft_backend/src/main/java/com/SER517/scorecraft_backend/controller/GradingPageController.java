@@ -2,6 +2,7 @@ package com.SER517.scorecraft_backend.controller;
 
 import com.SER517.scorecraft_backend.dto.GradingCriteriaDTO;
 import com.SER517.scorecraft_backend.dto.StudentGradeDTO;
+import com.SER517.scorecraft_backend.dto.StudentGradeFreeComment;
 import com.SER517.scorecraft_backend.dto.StudentWithGradesDTO;
 import com.SER517.scorecraft_backend.service.GradingPageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,13 @@ public class GradingPageController {
    
     
     @PostMapping("/submitGrades")
-    public ResponseEntity<String> submitGrades(@RequestBody List<StudentGradeDTO> studentGrades) {
-        gradingPageService.saveOrUpdateGradesForStudent(studentGrades);
+    public ResponseEntity<String> submitGrades(@RequestBody StudentGradeFreeComment studentGradeFreeComment) {
+    	System.out.println("Freeform Comment: " + studentGradeFreeComment.getFreeFormComment());
+        gradingPageService.saveOrUpdateGradesForStudent(studentGradeFreeComment);
         return ResponseEntity.ok("Grades submitted successfully");
     }
+
+
     
     @PostMapping("/gradingCriteria")
     public ResponseEntity<String> addGradingCriteria(@RequestBody GradingCriteriaDTO gradingCriteriaDTO) {

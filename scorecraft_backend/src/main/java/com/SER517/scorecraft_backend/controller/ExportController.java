@@ -6,11 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SER517.scorecraft_backend.service.ExportService;
 
 @RestController
+@RequestMapping("/api/export")
 public class ExportController {
 
     private final ExportService exportService;
@@ -20,7 +22,7 @@ public class ExportController {
         this.exportService = exportService;
     }
 
-    @GetMapping("/export")
+    @GetMapping("/excel")
     public ResponseEntity<byte[]> exportToExcel() {
         byte[] bytes = exportService.generateExcelReport();
 

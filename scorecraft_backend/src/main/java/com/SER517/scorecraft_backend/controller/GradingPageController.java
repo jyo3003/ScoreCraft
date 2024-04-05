@@ -34,7 +34,6 @@ public class GradingPageController {
     
     @PostMapping("/submitGrades")
     public ResponseEntity<String> submitGrades(@RequestBody StudentGradeFreeComment studentGradeFreeComment) {
-    	System.out.println("Freeform Comment: " + studentGradeFreeComment.getFreeFormComment());
         gradingPageService.saveOrUpdateGradesForStudent(studentGradeFreeComment);
         return ResponseEntity.ok("Grades submitted successfully");
     }

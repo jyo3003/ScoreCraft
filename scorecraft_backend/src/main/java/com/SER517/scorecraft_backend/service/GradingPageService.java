@@ -58,7 +58,6 @@ public class GradingPageService {
             existingGrade.setCheckbox(dto.getCheckbox());
 
             studentGradingRepository.save(existingGrade);
-            System.out.println("Free Form: " + freeformComment);
             // Update or set freeform comment for the student
             student.setFreeformComment(freeformComment);
             studentRepository.save(student);

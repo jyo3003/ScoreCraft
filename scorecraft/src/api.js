@@ -8,6 +8,17 @@ const api = axios.create({
     baseURL: API_URL,
 });
 
+export const downloadExcelFile = async () => {
+    try {
+        const response = await api.get("/export/excel", {
+            responseType: 'blob', // Important: This tells Axios to handle the response as a Blob
+        });
+        return response.data; // This will be the blob representing your Excel file
+    } catch (error) {
+        throw new Error("Failed to download Excel file");
+    }
+};
+
 //Adding new criteria
 export const addGradingCriteria = async (criteriaData) => {
     try {

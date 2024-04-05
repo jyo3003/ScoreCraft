@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../css/MainPageIndividual.css";
-import { getStudents } from "../api";
+import { getStudents, downloadExcelFile } from "../api";
 import Header from "./Header";
 import {
     Paper,
@@ -75,12 +75,20 @@ export default function MainPageIndividual() {
         navigate("/GradingPage", { state: { selectedStudent, from: "/MainPageIndividual" } });
     };
 
-    // Function to export student data to Excel
-    const exportToExcel = () => {
-        const ws = XLSX.utils.json_to_sheet(filteredStudents);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Students");
-        XLSX.writeFile(wb, "StudentData.xlsx");
+    // Add this function inside your MainPageGroup component
+    const handleDownloadExcel = async () => {
+        try {
+            const excelBlob = await downloadExcelFile();
+            const downloadUrl = window.URL.createObjectURL(excelBlob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.setAttribute('download', 'FinalGrades.xlsx'); // Specify the download file name
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+        } catch (error) {
+            console.error('Error downloading the Excel file:', error.message);
+        }
     };
 
     return (
@@ -112,7 +120,7 @@ export default function MainPageIndividual() {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={exportToExcel}
+                        onClick={handleDownloadExcel}
                         style={{ marginLeft: "8px" }}
                     >
                         Export

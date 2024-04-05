@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getStudentsByGroup } from "../api";
+import { getStudentsByGroup, downloadExcelFile } from "../api";
 import Header from "./Header";
 import {
     Box,
@@ -130,15 +130,21 @@ const MainPageGroup = () => {
         group.groupName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
 
-    const exportToExcel = () => {
-        const exportableData = groups.map((group) => ({
-            "Group Name": group.groupName,
-            "Student Names": group.students.map((s) => s.studentName).join(", "),
-        }));
-        const ws = XLSX.utils.json_to_sheet(exportableData);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Groups");
-        XLSX.writeFile(wb, "GroupData.xlsx");
+
+    // Add this function inside your MainPageGroup component
+    const handleDownloadExcel = async () => {
+        try {
+            const excelBlob = await downloadExcelFile();
+            const downloadUrl = window.URL.createObjectURL(excelBlob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.setAttribute('download', 'FinalGrades.xlsx'); // Specify the download file name
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+        } catch (error) {
+            console.error('Error downloading the Excel file:', error.message);
+        }
     };
 
 
@@ -168,7 +174,7 @@ const MainPageGroup = () => {
                             ),
                         }}
                     />
-                    <Button variant="contained" onClick={exportToExcel} sx={{ ml: 2, height: "55px" }}>
+                    <Button variant="contained" onClick={handleDownloadExcel} sx={{ ml: 2, height: "55px" }}>
                         Export
                     </Button>
                 </Box>

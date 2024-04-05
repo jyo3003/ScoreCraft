@@ -5,7 +5,7 @@ public class StudentGradeDTO {
     private Long criteriaId;
     private double score;
     private String comment;
-    private boolean checkbox;
+    private Boolean checkbox;
 
 
 
@@ -14,7 +14,7 @@ public class StudentGradeDTO {
     }
 
     // Full constructor
-    public StudentGradeDTO(Long studentId, Long criteriaId, double score, String comment, boolean checkbox) {
+    public StudentGradeDTO(Long studentId, Long criteriaId, double score, String comment, Boolean checkbox) {
         this.studentId = studentId;
         this.criteriaId = criteriaId;
         this.score = score;
@@ -55,11 +55,11 @@ public class StudentGradeDTO {
         this.comment = comment;
     }
 
-    public boolean getCheckbox() {
+    public Boolean getCheckbox() {
         return checkbox;
     }
 
-    public void setCheckbox(boolean checkbox) {
+    public void setCheckbox(Boolean checkbox) {
         this.checkbox = checkbox;
     }
 }

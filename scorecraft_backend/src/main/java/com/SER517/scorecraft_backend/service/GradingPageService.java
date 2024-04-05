@@ -40,7 +40,6 @@ public class GradingPageService {
     public void saveOrUpdateGradesForStudent(StudentGradeFreeComment studentGradeFreeComment) {
     	List<StudentGradeDTO> gradesDTO = studentGradeFreeComment.getStudentGrades();
         String freeformComment = studentGradeFreeComment.getFreeFormComment();
-
         for (StudentGradeDTO dto : gradesDTO) {
             Student student = studentRepository.findById(dto.getStudentId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + dto.getStudentId()));
@@ -55,15 +54,19 @@ public class GradingPageService {
                     .orElseThrow(() -> new IllegalArgumentException("Invalid criteria ID: " + dto.getCriteriaId())));
             existingGrade.setScore(dto.getScore());
             existingGrade.setComment(dto.getComment());
-            existingGrade.setCheckbox(dto.getCheckbox());
-
+            if(dto.getCheckbox()!=null){
+                existingGrade.setCheckbox(dto.getCheckbox());
+            }
+            else{
+                existingGrade.setCheckbox(null);
+            }
             studentGradingRepository.save(existingGrade);
             // Update or set freeform comment for the student
             student.setFreeformComment(freeformComment);
             studentRepository.save(student);
 
             // If the checkbox is true, set the same score and comment for all group members
-            if (dto.getCheckbox()) {
+            if (dto.getCheckbox() != null && dto.getCheckbox()) {
                 // Retrieve the group members of the student
                 List<Student> groupMembers = studentRepository.findGroupMembersByStudentId(dto.getStudentId());
 

@@ -23,7 +23,7 @@ public class StudentGrading {
     @Column(name = "comment", length = 512)
     private String comment;
 
-    @Column(name = "checkbox")
+    @Column(name = "checkbox", nullable = true)
     private Boolean checkbox;
 
     // Default constructor

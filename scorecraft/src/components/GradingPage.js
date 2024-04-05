@@ -52,7 +52,7 @@ function GradingPage() {
                     console.log(formattedData);
                     setGradingGroups(data);
                     setRowData(formattedData);
-                    setFreeFormComment(data?.freeFormComment);
+                    setFreeFormComment(data?.freeFormComment ? data.freeFormComment : "");
                 } else if (selectedStudent) {
                     data = await gradingAPI.getAllGradingGroups(selectedStudent.id);
                     setGradingGroups(data);
@@ -73,7 +73,7 @@ function GradingPage() {
             score: criteria?.gradedScore,
             comment: criteria?.comment || "",
             criteriaId: criteria?.id,
-            checkbox: criteria?.checkbox || null,
+            checkbox: criteria?.checkbox,
         }));
 
         console.log("Submitting grades:", { studentGrades, freeFormComment });

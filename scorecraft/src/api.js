@@ -11,7 +11,7 @@ const api = axios.create({
 export const downloadExcelFile = async () => {
     try {
         const response = await api.get("/export/excel", {
-            responseType: 'blob', // Important: This tells Axios to handle the response as a Blob
+            responseType: "blob", // Important: This tells Axios to handle the response as a Blob
         });
         return response.data; // This will be the blob representing your Excel file
     } catch (error) {
@@ -27,6 +27,32 @@ export const addGradingCriteria = async (criteriaData) => {
     } catch (error) {
         if (error.response) {
             throw new Error(error.response.data.message || "Error adding grading criteria");
+        } else {
+            throw new Error("Network error or no response from server");
+        }
+    }
+};
+
+export const updateGradingCriteria = async (criteriaId, updatedCriteriaData) => {
+    try {
+        const response = await api.put(`/gradingPage/gradingCriteria/${criteriaId}`, updatedCriteriaData);
+        return response.data; // Assuming the endpoint returns some confirmation or the updated entity
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.message || "Error updating grading criteria");
+        } else {
+            throw new Error("Network error or no response from server");
+        }
+    }
+};
+
+export const deleteGradingCriteria = async (criteriaId) => {
+    try {
+        const response = await api.delete(`/gradingPage/gradingCriteria/${criteriaId}`);
+        return response.data; // Assuming the endpoint returns some confirmation message
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.message || "Error deleting grading criteria");
         } else {
             throw new Error("Network error or no response from server");
         }

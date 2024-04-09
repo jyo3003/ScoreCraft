@@ -14,4 +14,8 @@ public interface StudentGradingRepository extends JpaRepository<StudentGrading, 
 	 
 	// Define a method to find all grading records by student ID
 	 List<StudentGrading> findByStudentId(Long studentId);
+
+	 void deleteByGradingCriteriaId(Long criteriaId);
+
+    List<StudentGrading> findByGradingCriteriaId(Long criteriaId);
 }

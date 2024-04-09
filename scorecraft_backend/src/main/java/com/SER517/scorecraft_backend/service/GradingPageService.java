@@ -176,6 +176,45 @@ public class GradingPageService {
         gradingCriteriaRepository.save(gradingCriteria);
     }
 
+    @Transactional
+    public void updateGradingCriteria(Long criteriaId, GradingCriteriaDTO updatedCriteriaDTO) {
+        // Fetch the grading criteria from the repository
+        GradingCriteria gradingCriteria = gradingCriteriaRepository.findById(criteriaId)
+                .orElseThrow(() -> new EntityNotFoundException("Grading criteria not found with ID: " + criteriaId));
 
+        // Update the grading criteria with the data from the DTO
+        gradingCriteria.setCriteriaName(updatedCriteriaDTO.getCriteriaName());
+        gradingCriteria.setScore(updatedCriteriaDTO.getCriteriaScore());
+        gradingCriteria.setTypeOfCriteria(updatedCriteriaDTO.getTypeOfCriteria());
+        gradingCriteria.setGradingCriteriaGroupName(updatedCriteriaDTO.getGradingCriteriaGroupName());
+        gradingCriteria.setComments(updatedCriteriaDTO.getPredefinedComments());
+
+        // Check if the type of criteria is changed to "I"
+        if ("I".equals(updatedCriteriaDTO.getTypeOfCriteria())) {
+            // Update checkbox value to null for all entries in StudentGrading table with this criteria ID
+            List<StudentGrading> studentGradings = studentGradingRepository.findByGradingCriteriaId(criteriaId);
+            for (StudentGrading studentGrading : studentGradings) {
+                studentGrading.setCheckbox(null);
+            }
+            // Save the updated StudentGrading entities
+            studentGradingRepository.saveAll(studentGradings);
+        }
+
+        // Save the updated grading criteria back to the repository
+        gradingCriteriaRepository.save(gradingCriteria);
+    }
+
+    @Transactional
+    public void deleteGradingCriteria(Long criteriaId) {
+        // Delete all records in StudentGrading table with the given criteriaId
+        studentGradingRepository.deleteByGradingCriteriaId(criteriaId);
+    
+        // Check if the grading criteria exists
+        GradingCriteria gradingCriteria = gradingCriteriaRepository.findById(criteriaId)
+                .orElseThrow(() -> new EntityNotFoundException("Grading criteria not found with ID: " + criteriaId));
+    
+        // Delete the grading criteria
+        gradingCriteriaRepository.delete(gradingCriteria);
+    }
 
 }

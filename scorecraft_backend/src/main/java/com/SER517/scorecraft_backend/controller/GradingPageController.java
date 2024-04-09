@@ -49,6 +49,30 @@ public class GradingPageController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error adding criteria");
         }
     }
+    
+    @PutMapping("/gradingCriteria/{criteriaId}")
+    public ResponseEntity<String> updateGradingCriteria(
+        @PathVariable Long criteriaId,
+        @RequestBody GradingCriteriaDTO updatedCriteriaDTO
+    ) {
+        try {
+            gradingPageService.updateGradingCriteria(criteriaId, updatedCriteriaDTO);
+            return ResponseEntity.ok("Criteria updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error updating criteria");
+        }
+    }
+
+    @DeleteMapping("/gradingCriteria/{criteriaId}")
+    public ResponseEntity<String> deleteGradingCriteria(@PathVariable Long criteriaId) {
+        try {
+            gradingPageService.deleteGradingCriteria(criteriaId);
+            return ResponseEntity.ok("Criteria deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error deleting criteria");
+        }
+}
+
 
 
 

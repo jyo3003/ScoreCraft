@@ -4,9 +4,11 @@ import "../css/GradingPage.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import Header from "./Header";
-import { gradingAPI } from "../api";
+import { gradingAPI, deleteGradingCriteria } from "../api";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, IconButton, Checkbox } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import NewCriteriaModal from "./NewCriteriaModal";
 
 function GradingPage() {
@@ -21,6 +23,8 @@ function GradingPage() {
     const [openModal, setOpenModal] = useState(false);
     const [totalScore, setTotalScore] = useState(0);
     const [freeFormComment, setFreeFormComment] = useState("");
+    const [modalData, setModalData] = useState({});
+
     useEffect(() => {
         if (rowData) {
             const sum = rowData.reduce((acc, criteria) => {
@@ -156,8 +160,8 @@ function GradingPage() {
         const criteriaRow = params.node.data;
         if (criteriaRow.hasOwnProperty("checkbox") && criteriaRow.checkbox !== null) {
             return (
-                <input
-                    type="checkbox"
+                <Checkbox
+                    size="medium"
                     checked={criteriaRow?.checkbox}
                     onChange={(e) => {
                         const criteriaId = criteriaRow.id;
@@ -173,84 +177,97 @@ function GradingPage() {
             return null; // Return null if the field doesn't exist
         }
     };
-    const [colDefs, setColDefs] = useState(() => {
-        if (selectedStudent) {
-            return [
-                { field: "id", rowDrag: true, flex: 1 },
-                { field: "criteriaName", flex: 3 },
-                { field: "criteriaScore", flex: 1 },
-                { field: "typeOfCriteria", flex: 1 },
-                {
-                    field: "gradingCriteriaGroupName",
-                    flex: 2,
-                    cellStyle: (params) => {
-                        const backgroundColor = groupColors[params.value];
-                        return { backgroundColor }; // Return an object with the backgroundColor property
-                    },
-                },
-                {
-                    field: "gradedScore",
-                    editable: true,
-                    flex: 1,
-                    cellClassRules: cellClassRules,
-                    cellRenderer: scoreCellRenderer, // Use custom renderer here
-                },
-                {
-                    field: "comment",
-                    editable: true,
-                    flex: 3,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: (params) => {
-                        const rowData = params.node.data;
-                        return {
-                            values: rowData.predefinedComments || [],
-                            valueListGap: 10,
-                        };
-                    },
-                },
-            ];
-        } else {
-            return [
-                { field: "id", rowDrag: true, flex: 1 },
-                { field: "criteriaName", flex: 3 },
-                { field: "criteriaScore", flex: 1 },
-                { field: "typeOfCriteria", flex: 1 },
-                {
-                    field: "gradingCriteriaGroupName",
-                    flex: 2,
-                    cellStyle: (params) => {
-                        const backgroundColor = groupColors[params.value];
-                        return { backgroundColor }; // Return an object with the backgroundColor property
-                    },
-                },
-                {
-                    field: "gradedScore",
-                    editable: true,
-                    flex: 1,
-                    cellClassRules: cellClassRules,
-                    cellRenderer: scoreCellRenderer, // Use custom renderer here
-                },
-                {
-                    field: "comment",
-                    editable: true,
-                    flex: 3,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: (params) => {
-                        const rowData = params.node.data;
-                        return {
-                            values: rowData.predefinedComments || [],
-                            valueListGap: 10,
-                        };
-                    },
-                },
-                {
-                    field: "checkbox",
-                    flex: 1,
-                    cellRenderer: checkboxCellRenderer,
-                },
-            ];
+
+    const handleEditCriteria = (params) => {
+        const criteriaRow = params.node.data;
+        setModalData(criteriaRow);
+        setOpenModal(true);
+    };
+    const handleDeleteCriteria = async (criteriaId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this criteria?");
+        if (confirmDelete) {
+            try {
+                // Call the API to delete the criteria
+                const response = await deleteGradingCriteria(criteriaId);
+                alert("criteria deleted successfully"); // Display the response message
+                // If successful, remove the deleted criteria from the rowData
+                setRowData((prevRowData) => prevRowData.filter((criteria) => criteria.id !== criteriaId));
+            } catch (error) {
+                console.error("Failed to delete criteria:", error.message);
+                alert("Failed to delete criteria.");
+            }
         }
-    });
+    };
+
+    const actionButtonsCellRenderer = (params) => {
+        return (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <>
+                    <IconButton aria-label="edit" onClick={() => handleEditCriteria(params)}>
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton
+                        aria-label="delete"
+                        onClick={() => handleDeleteCriteria(params.node.data.id)} // Pass the criteria ID to the delete function
+                        style={{ marginRight: "20px" }}
+                    >
+                        <DeleteIcon color="error" />
+                    </IconButton>
+                </>
+            </div>
+        );
+    };
+
+    const commonColDefs = [
+        { field: "criteriaName", flex: 3 },
+        { field: "criteriaScore", flex: 1 },
+        { field: "typeOfCriteria", flex: 1 },
+        {
+            field: "gradingCriteriaGroupName",
+            flex: 2,
+            cellStyle: (params) => {
+                const backgroundColor = groupColors[params.value];
+                return { backgroundColor };
+            },
+        },
+        {
+            field: "gradedScore",
+            editable: true,
+            flex: 1,
+            cellClassRules: cellClassRules,
+            cellRenderer: scoreCellRenderer,
+        },
+        {
+            field: "comment",
+            editable: true,
+            flex: 3,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: (params) => {
+                const rowData = params.node.data;
+                return {
+                    values: rowData.predefinedComments || [],
+                    valueListGap: 10,
+                };
+            },
+        },
+        {
+            field: "Actions",
+            flex: 1,
+            cellRenderer: actionButtonsCellRenderer,
+        },
+    ];
+
+    const additionalColDefs = selectedStudent
+        ? []
+        : [
+              {
+                  field: "checkbox",
+                  flex: 1,
+                  cellRenderer: checkboxCellRenderer,
+              },
+          ];
+
+    const [colDefs, setColDefs] = useState([...commonColDefs, ...additionalColDefs]);
 
     return (
         <>
@@ -323,11 +340,18 @@ function GradingPage() {
                         marginRight: "20px",
                         marginLeft: "auto",
                     }}
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => {
+                        setOpenModal(true);
+                    }}
                 >
                     Add Criteria
                 </Button>
-                <NewCriteriaModal openModal={openModal} setOpenModal={setOpenModal} />
+                <NewCriteriaModal
+                    openModal={openModal}
+                    setOpenModal={setOpenModal}
+                    modalData={modalData}
+                    setModalData={setModalData}
+                />
                 <Button
                     variant="contained"
                     style={{

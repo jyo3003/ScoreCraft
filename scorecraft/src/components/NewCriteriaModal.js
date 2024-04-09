@@ -1,16 +1,55 @@
 import React, { useState, useEffect } from "react";
-import { addGradingCriteria } from "../api";
-import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import { addGradingCriteria, updateGradingCriteria } from "../api";
+import {
+    Box,
+    Button,
+    Modal,
+    TextField,
+    Typography,
+    IconButton,
+    MenuItem,
+    FormControl,
+    InputLabel,
+    Select,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
-function NewCriteriaModal({ openModal, setOpenModal }) {
+function NewCriteriaModal({ openModal, setOpenModal, modalData, setModalData }) {
+    const specialCharacter = ";";
     const [newCriteria, setNewCriteria] = useState({
         criteriaName: "",
         criteriaScore: "",
         typeOfCriteria: "",
         gradingCriteriaGroupName: "",
         gradedScore: "",
-        comments: "",
+        predefinedComments: "",
     });
+    const [predefinedComments, setPredefinedComments] = useState("");
+    const [validationErrors, setValidationErrors] = useState({
+        totalScore: "",
+        emptyFields: "",
+        typeOfCriteria: "",
+        commentFormat: "",
+    });
+
+    useEffect(() => {
+        if (modalData && Object.keys(modalData).length > 0) {
+            console.log(modalData);
+            setNewCriteria(modalData);
+            setPredefinedComments(modalData?.predefinedComments.join(specialCharacter));
+        } else {
+            setNewCriteria({
+                criteriaName: "",
+                criteriaScore: "",
+                typeOfCriteria: "",
+                gradingCriteriaGroupName: "",
+                gradedScore: "",
+                predefinedComments: "",
+            });
+            setPredefinedComments("");
+        }
+    }, [modalData]);
+
     // Function to handle form input changes
     const handleCriteriaChange = (event) => {
         setNewCriteria({
@@ -19,18 +58,40 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
         });
     };
 
-    function breakString(inputString, specialCharacter) {
-        // Split the input string based on the special character
-        const substrings = inputString.split(specialCharacter);
-        return substrings;
-    }
-
     const handleSubmitCriteria = async (event) => {
         event.preventDefault(); // Prevent default form submission which refreshes the page
 
-        const inputString = newCriteria.comments;
-        const specialCharacter = ";";
-        const resultingPredefinedCommentsList = breakString(inputString, specialCharacter);
+        // Perform validations
+        const errors = {};
+        if (!Number.isInteger(Number(newCriteria.criteriaScore)) || newCriteria.criteriaScore <= 0) {
+            errors.totalScore = "Total score must be a positive integer.";
+        }
+        if (newCriteria.typeOfCriteria !== "I" && newCriteria.typeOfCriteria !== "G") {
+            errors.typeOfCriteria = "Type of criteria must be 'I' or 'G'.";
+        }
+        if (newCriteria.criteriaName.trim() === "") {
+            errors.criteriaName = "Criteria name cannot be empty.";
+        }
+        if (newCriteria.gradingCriteriaGroupName.trim() === "") {
+            errors.gradingCriteriaGroupName = "Grading criteria group name cannot be empty.";
+        }
+        const comments = predefinedComments.split(";").map((comment) => comment.trim());
+        const regex = /\(\d+(\.\d+)?\)/;
+        for (let comment of comments) {
+            if (!regex.test(comment)) {
+                errors.commentFormat = "Comments must be in format '(points) comment'.";
+                break;
+            }
+            const points = parseFloat(comment.match(/\((\d+(\.\d+)?)\)/)[1]);
+            if (points < 0 || points > parseFloat(newCriteria.criteriaScore)) {
+                errors.commentFormat = "Points must be between 0 and the total score.";
+                break;
+            }
+        }
+        if (Object.keys(errors).length > 0) {
+            setValidationErrors(errors);
+            return;
+        }
 
         const formData = {
             criteriaName: newCriteria.criteriaName,
@@ -38,16 +99,21 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
             typeOfCriteria: newCriteria.typeOfCriteria,
             gradingCriteriaGroupName: newCriteria.gradingCriteriaGroupName,
             gradedScore: newCriteria.gradedScore,
-            predefinedComments: resultingPredefinedCommentsList,
+            predefinedComments: comments,
         };
 
         try {
-            await addGradingCriteria(formData);
-            alert("Criteria added successfully!");
+            if (!newCriteria.id) {
+                await addGradingCriteria(formData);
+                alert("Criteria added successfully!");
+            } else {
+                await updateGradingCriteria(newCriteria.id, formData);
+                alert("Criteria updated successfully!");
+            }
             setOpenModal(false);
         } catch (error) {
-            console.error("Error adding criteria:", error);
-            alert("Failed to add criteria: " + error.message);
+            console.error("Error adding/updating criteria:", error);
+            alert("Failed to add/update criteria: " + error.message);
         }
     };
 
@@ -63,18 +129,30 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
         boxShadow: 24,
         p: 4,
     };
+
+    const handleModalClose = () => {
+        setOpenModal(false);
+        setModalData({});
+    };
+
     return (
         <div>
             <Modal
                 open={openModal}
-                onClose={() => setOpenModal(false)}
+                onClose={handleModalClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={modalStyle}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Add New Criteria
-                    </Typography>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            {modalData && Object.keys(modalData).length > 0 ? "Update Criteria" : "Add New Criteria"}
+                        </Typography>
+                        <IconButton aria-label="close" onClick={handleModalClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </div>
+
                     <Box component="form" noValidate autoComplete="off" sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
@@ -86,6 +164,8 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
                             autoFocus
                             value={newCriteria.criteriaName}
                             onChange={handleCriteriaChange}
+                            error={!!validationErrors.criteriaName}
+                            helperText={validationErrors.criteriaName}
                         />
                         <TextField
                             margin="normal"
@@ -97,17 +177,22 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
                             id="criteriaScore"
                             value={newCriteria.criteriaScore}
                             onChange={handleCriteriaChange}
+                            error={!!validationErrors.totalScore}
+                            helperText={validationErrors.totalScore}
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="typeOfCriteria"
-                            label="Type Of Criteria"
-                            id="typeOfCriteria"
-                            value={newCriteria.typeOfCriteria}
-                            onChange={handleCriteriaChange}
-                        />
+                        <FormControl fullWidth required error={!!validationErrors.typeOfCriteria} sx={{ mt: 1 }}>
+                            <InputLabel id="typeOfCriteria-label">Type Of Criteria</InputLabel>
+                            <Select
+                                labelId="typeOfCriteria-label"
+                                id="typeOfCriteria"
+                                value={newCriteria.typeOfCriteria}
+                                onChange={handleCriteriaChange}
+                                name="typeOfCriteria"
+                            >
+                                <MenuItem value="I">I</MenuItem>
+                                <MenuItem value="G">G</MenuItem>
+                            </Select>
+                        </FormControl>
                         <TextField
                             margin="normal"
                             required
@@ -116,6 +201,8 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
                             label="Grading Criteria Group Name"
                             id="gradingCriteriaGroupName"
                             value={newCriteria.gradingCriteriaGroupName}
+                            error={!!validationErrors.gradingCriteriaGroupName}
+                            helperText={validationErrors.gradingCriteriaGroupName}
                             onChange={handleCriteriaChange}
                         />
                         <TextField
@@ -126,8 +213,12 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
                             id="comments"
                             multiline
                             rows={4}
-                            value={newCriteria.comments}
-                            onChange={handleCriteriaChange}
+                            value={predefinedComments}
+                            onChange={(e) => {
+                                setPredefinedComments(e.target.value);
+                            }}
+                            error={!!validationErrors.commentFormat}
+                            helperText={validationErrors.commentFormat}
                         />
                         <Button
                             type="submit"
@@ -136,7 +227,7 @@ function NewCriteriaModal({ openModal, setOpenModal }) {
                             sx={{ mt: 3, mb: 2 }}
                             onClick={handleSubmitCriteria}
                         >
-                            Submit
+                            {modalData && Object.keys(modalData).length > 0 ? "Update" : "Add Criteria"}
                         </Button>
                     </Box>
                 </Box>

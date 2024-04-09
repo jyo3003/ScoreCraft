@@ -37,6 +37,36 @@ body {
         font-family: "book antiqua", sans-serif;
     }
 }
+/* Additional styling for main content */
+.main-content {
+    margin-top: 100px; /* Ensure content is below the fixed header */
+    padding: 20px; /* Add padding for content */
+}
+
+.main-content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.main-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.main-content button {
+    background-color: #007bff; /* Blue color for buttons */
+    color: #fff; /* White text color */
+    padding: 10px 20px; /* Padding for buttons */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add border radius */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.main-content button:hover {
+    background-color: #0056b3; /* Darker blue color on hover */
+}
 /* GradingPage.css or another relevant CSS file */
 .table-sticky-header {
     position: relative;

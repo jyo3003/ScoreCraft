@@ -119,3 +119,26 @@ body {
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+/* 3D effect on hover */
+.home-button:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+    transform: translateY(-3px); /* Move button slightly up on hover */
+}
+
+/* Pseudo-element for creating 3D effect */
+.home-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+/* 3D effect animation */
+.home-button:hover::before {
+    transform: scaleY(1);
+}

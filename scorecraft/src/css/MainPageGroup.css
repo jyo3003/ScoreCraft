@@ -106,6 +106,9 @@ body {
     border-radius: 4px;
     cursor: pointer;
 }
+    box-shadow: 0px 3px 0px 0px #222222;
+    transition: all 0.3s ease;
+}
 .group-home-button:hover {
     transform: translateY(3px);
     box-shadow: 0px 0px 0px 0px #222222;

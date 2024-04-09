@@ -10,6 +10,7 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Icon
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import NewCriteriaModal from "./NewCriteriaModal";
+import shadows from "@mui/material/styles/shadows";
 
 function GradingPage() {
     const location = useLocation();
@@ -321,14 +322,18 @@ function GradingPage() {
                     <Box
                         style={{
                             padding: "10px",
-                            border: "1px solid #ccc",
+                            border: "2px solid lightgrey",
                             borderRadius: "4px",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                             minWidth: "50px",
+                            boxShadow: "0px 0px 10px lightseagreen",
+                            height: "30px"
+                            
                         }}
                     >
+                        
                         {totalScore}
                     </Box>
                 </Box>

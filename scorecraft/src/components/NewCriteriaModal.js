@@ -184,6 +184,7 @@ function NewCriteriaModal({ openModal, setOpenModal, modalData, setModalData }) 
                             <InputLabel id="typeOfCriteria-label">Type Of Criteria</InputLabel>
                             <Select
                                 labelId="typeOfCriteria-label"
+                                label="Type Of Criteria"
                                 id="typeOfCriteria"
                                 value={newCriteria.typeOfCriteria}
                                 onChange={handleCriteriaChange}

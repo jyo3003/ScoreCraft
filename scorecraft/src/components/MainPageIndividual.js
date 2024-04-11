@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../css/MainPageIndividual.css";
-import { getStudents, downloadExcelFile } from "../api";
+import { getStudents, downloadExcelFile , downloadExcelTwoFile} from "../api";
 import Header from "./Header";
 import {
     Paper,
@@ -91,6 +91,21 @@ export default function MainPageIndividual() {
         }
     };
 
+    const handleDownloadExcelTwo = async () => {
+        try {
+            const excelBlob = await downloadExcelTwoFile();
+            const downloadUrl = window.URL.createObjectURL(excelBlob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.setAttribute('download', 'DetailedGrades.xlsx'); // Specify the download file name
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+        } catch (error) {
+            console.error('Error downloading the Excel file:', error.message);
+        }
+    };
+
     return (
         <>
             <Header />
@@ -121,10 +136,27 @@ export default function MainPageIndividual() {
                         variant="contained"
                         color="primary"
                         onClick={handleDownloadExcel}
-                        style={{ marginLeft: "8px" }}
+                        style={{
+                            marginLeft: "8px",
+                            marginRight: "4px", // Add space between buttons
+                            minWidth: "200px", // Ensure enough width for the text
+                        }}
                     >
-                        Export
+                        Final Grades
                     </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleDownloadExcelTwo}
+                        style={{
+                            minWidth: "200px", // Ensure enough width for the text
+                        }}
+                    >
+                        Detailed Grades
+                    </Button>
+
+
+
                 </div>
                 <TableContainer
                     component={Paper}

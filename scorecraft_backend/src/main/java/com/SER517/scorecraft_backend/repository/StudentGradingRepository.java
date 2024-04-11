@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.SER517.scorecraft_backend.model.GradingCriteria;
 import com.SER517.scorecraft_backend.model.StudentGrading;
 
 @Repository
@@ -18,4 +19,7 @@ public interface StudentGradingRepository extends JpaRepository<StudentGrading, 
 	 void deleteByGradingCriteriaId(Long criteriaId);
 
     List<StudentGrading> findByGradingCriteriaId(Long criteriaId);
+    
+    List<StudentGrading> findByStudentIdAndGradingCriteriaIdIn(Long studentId, List<Long> criteriaIds);
+    
 }

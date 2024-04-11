@@ -110,72 +110,73 @@ export default function MainPageIndividual() {
         <>
             <Header />
             <div className="main-page-individual">
-                <div className="individual-search-bar" style={{ width: "40%" }}>
-                    <TextField
-                        fullWidth
-                        type="text"
-                        placeholder="Search Students"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        variant="outlined"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon />
-                                </InputAdornment>
-                            ),
-                            endAdornment: (
-                                <IconButton onClick={() => setSearchTerm("")}>
-                                    <ClearIcon />
-                                </IconButton>
-                            ),
-                        }}
-                        sx={{ width: "100%" }} // Adjust the width of the search bar
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleDownloadExcel}
-                        style={{
-                            marginLeft: "8px",
-                            marginRight: "4px", // Add space between buttons
-                            minWidth: "200px", // Ensure enough width for the text
-                        }}
-                    >
-                        Final Grades
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleDownloadExcelTwo}
-                        style={{
-                            minWidth: "200px", // Ensure enough width for the text
-                        }}
-                    >
-                        Detailed Grades
-                    </Button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                        <div className="individual-search-bar" style={{ width: "40%" }}>
+                            <TextField
+                                fullWidth
+                                type="text"
+                                placeholder="Search Students"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                variant="outlined"
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SearchIcon />
+                                        </InputAdornment>
+                                    ),
+                                    endAdornment: (
+                                        <IconButton onClick={() => setSearchTerm("")}>
+                                            <ClearIcon />
+                                        </IconButton>
+                                    ),
+                                }}
+                            />
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleDownloadExcel}
+                                style={{
+                                    marginLeft: "8px",
+                                    marginRight: "4px", 
+                                    minWidth: "150px",
+                                }}
+                            >
+                                Final Grades
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleDownloadExcelTwo}
+                                style={{
+                                    minWidth: "120px",
+                                }}
+                            >
+                                Detailed Report
+                            </Button>
+                        </div>
+                    </div>
 
-
-
-                </div>
                 <TableContainer
                     component={Paper}
                     sx={{
                         maxHeight: 440,
                         marginTop: "16px",
-                        backgroundColor: "transparent",
-                        boxShadow: "none",
-                        border: "1px solid #000",
+                        backgroundColor: "white",
+                        boxShadow: "0px 4px 8px rgba(255, 0, 0, 0.5)",
+                        border: "1px solid red",
                         borderRadius: "4px",
                         marginLeft: "-40px", // Move the table to the left
                     }}
                 >
-                    <Table stickyHeader aria-label="sticky table">
+                    <Table stickyHeader aria-label="sticky table" >
                         <TableHead>
                             <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>ASURite ID</TableCell>
-                                <TableCell>Graded</TableCell>
+                                <TableCell style={{ fontWeight: 'bold' }}>Name</TableCell>
+                                <TableCell style={{ fontWeight: 'bold' }}>ASURite ID</TableCell>
+                                <TableCell style={{ fontWeight: 'bold' }}>Graded</TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
                         </TableHead>

@@ -175,7 +175,7 @@ const MainPageGroup = () => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         fullWidth
-                        sx={{ width: "40%", marginLeft: "80px" }}
+                        style={{ flexGrow: 1, marginRight: "8px", maxWidth: "40%" }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -189,14 +189,18 @@ const MainPageGroup = () => {
                             ),
                         }}
                     />
+                        <div style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                }}>
                     <Button
                         variant="contained"
                         color="primary"
                         onClick={handleDownloadExcel}
                         style={{
                             marginLeft: "8px",
-                            marginRight: "4px", // Add space between buttons
-                            minWidth: "200px", // Ensure enough width for the text
+                            marginRight: "4px", 
+                            minWidth: "80px",
                         }}
                     >
                         Final Grades
@@ -206,65 +210,67 @@ const MainPageGroup = () => {
                         color="primary"
                         onClick={handleDownloadExcelTwo}
                         style={{
-                            minWidth: "200px", // Ensure enough width for the text
+                            minWidth: "80px",
                         }}
                     >
-                        Detailed Grades
+                        Detailed Report
                     </Button>
-                </Box>
-                <TableContainer
-                    component={Paper}
-                    sx={{
-                        mt: 2,
-                        maxWidth: 1240,
-                        marginLeft: 12,
-                        border: "1px solid #000",
-                        borderRadius: "4px",
-                        background: "transparent",
-                    }}
-                >
-                    <Table aria-label="collapsible table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell />
-                                <TableCell
-                                    style={{
-                                        fontFamily: "Arial",
-                                        fontWeight: "bold",
-                                        fontSize: "20px",
-                                    }}
-                                >
-                                    Group Name
-                                </TableCell>
-                                <TableCell
-                                    style={{
-                                        fontFamily: "Arial",
-                                        fontWeight: "bold",
-                                        fontSize: "20px",
-                                    }}
-                                >
-                                    Graded
-                                </TableCell>
-                                <TableCell
-                                    style={{
-                                        fontFamily: "Arial",
-                                        fontWeight: "bold",
-                                        fontSize: "20px",
-                                    }}
-                                >
-                                    Go to Grading
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {filteredGroups.map((group, index) => (
-                                <GroupRow key={index} group={group} onSelectGroup={handleSelectGroup} />
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                </div>
+                    </Box>
+                    <TableContainer
+                        component={Paper}
+                        sx={{
+                            mt: 2,
+                            maxWidth: 1240,
+                            marginLeft: 12,
+                            border: "1px solid red", // Changed border color to red
+                            borderRadius: "4px",
+                            background: "white",
+                            boxShadow: "0px 4px 8px rgba(255, 0, 0, 0.5)"
+                        }}
+                    >
+                        <Table aria-label="collapsible table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell />
+                                    <TableCell
+                                        style={{
+                                            fontFamily: "Arial",
+                                            fontWeight: "bold",
+                                            fontSize: "20px",
+                                        }}
+                                    >
+                                        Group Name
+                                    </TableCell>
+                                    <TableCell
+                                        style={{
+                                            fontFamily: "Arial",
+                                            fontWeight: "bold",
+                                            fontSize: "20px",
+                                        }}
+                                    >
+                                        Graded
+                                    </TableCell>
+                                    <TableCell
+                                        style={{
+                                            fontFamily: "Arial",
+                                            fontWeight: "bold",
+                                            fontSize: "20px",
+                                        }}
+                                    >
+                                        Go to Grading
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {filteredGroups.map((group, index) => (
+                                    <GroupRow key={index} group={group} onSelectGroup={handleSelectGroup} />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
             </div>
-        </div>
-    );
-};
-export default MainPageGroup;
+        );
+    };
+    export default MainPageGroup;

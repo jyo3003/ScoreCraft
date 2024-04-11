@@ -1,11 +1,13 @@
 package com.SER517.scorecraft_backend.service;
 
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import com.SER517.scorecraft_backend.model.GradingCriteria;
 import com.SER517.scorecraft_backend.model.Student;
 import com.SER517.scorecraft_backend.model.StudentGrading;
@@ -100,63 +102,90 @@ public class ExportService {
 
 	public byte[] generateDetailedExcelReport() {
 		try (XSSFWorkbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            XSSFSheet sheet = workbook.createSheet("Grading Report");
+			// Initialize the workbook and sheet
+			XSSFSheet sheet = workbook.createSheet("Detailed Grades");
+			
+			// Create a cell style for wrapping text
+			CellStyle wrapStyle = workbook.createCellStyle();
+			wrapStyle.setWrapText(true);
 
-            // Fetch unique group names and their associated criteria
-            List<String> groupNames = fetchUniqueGradingCriteriaGroupNames();
-            Map<String, List<GradingCriteria>> criteriaByGroup = groupNames.stream()
-                    .collect(Collectors.toMap(groupName -> groupName, this::fetchGradingCriteriaByGroupName, (a, b) -> b, LinkedHashMap::new));
+			// Fetch all the data needed for the report
+			List<String> groupNames = fetchUniqueGradingCriteriaGroupNames(); // Implement this method
+			List<Student> students = studentRepository.findAll(); // Assuming there is a method in your repository
 
-            // Create the header row
-            Row headerRow = sheet.createRow(0);
-            int cellIndex = 0;
-            for (String groupName : groupNames) {
-                List<GradingCriteria> criteriaList = criteriaByGroup.get(groupName);
-                for (GradingCriteria criteria : criteriaList) {
-                    headerRow.createCell(cellIndex++).setCellValue(criteria.getCriteriaName());
-                    headerRow.createCell(cellIndex++).setCellValue("points");
-                    headerRow.createCell(cellIndex++).setCellValue("comment");
-                }
-            }
+			// Create the header row with group names
+			Row groupHeaderRow = sheet.createRow(0);
+			int groupCellIndex = 1; // Start from the second column
+			
 
-            // Fetch the students
-            List<Student> students = studentRepository.findAll();
+			Cell asuriteHeaderCell = groupHeaderRow.createCell(0);
+			asuriteHeaderCell.setCellValue("ASURite IDs");
+			
+			
+			// Create the second row with criteria names
+			Row criteriaHeaderRow = sheet.createRow(1);
+			int criteriaCellIndex = 1; // Start from the second column
+			for (String groupName : groupNames) {
+			    List<GradingCriteria> criteria = fetchGradingCriteriaByGroupName(groupName);
+			    for (GradingCriteria criterion : criteria) {
+			        // Set the criteria name
+			    	Cell groupCell = groupHeaderRow.createCell(criteriaCellIndex);
+			    	groupCell.setCellValue(groupName);
+			    	groupCell.setCellStyle(wrapStyle);
+			    	
+			        Cell criteriaNameCell = criteriaHeaderRow.createCell(criteriaCellIndex);
+			        criteriaNameCell.setCellValue(criterion.getCriteriaName());
 
-            // Populate the data rows for each student
-            int rowIndex = 1;
-            for (Student student : students) {
-                Row row = sheet.createRow(rowIndex++);
-                cellIndex = 0;
-                for (String groupName : groupNames) {
-                    List<GradingCriteria> criteriaList = criteriaByGroup.get(groupName);
-                    // Extract the criteria IDs from the criteriaList
-                    List<Long> criteriaIds = criteriaList.stream()
-                            .map(GradingCriteria::getId)
-                            .collect(Collectors.toList());
+			        criteriaNameCell.setCellStyle(wrapStyle);
 
-                    // Fetch StudentGrading entities based on the student ID and the criteria IDs
-                    List<StudentGrading> gradings = studentGradingRepository.findByStudentIdAndGradingCriteriaIdIn(student.getId(), criteriaIds);
-                    for (GradingCriteria criteria : criteriaList) {
-                        // Find the specific grading for the current criteria
-                        StudentGrading grading = gradings.stream()
-                                .filter(g -> g.getGradingCriteria().getId().equals(criteria.getId()))
-                                .findFirst()
-                                .orElse(new StudentGrading()); // Or handle the absence of grading differently
+			        // Skip the next cell for points (it will be empty, but space is reserved for the data row)
+			        criteriaCellIndex += 2; // Increment by 2 to account for the points and comments columns
+			    }
+			}
 
-                        row.createCell(cellIndex++).setCellValue(grading.getScore());
-                        row.createCell(cellIndex++).setCellValue(grading.getComment());
-                    }
-                }
-            }
+			// Fill in student data starting from the third row
+			for (int i = 0; i < students.size(); i++) {
+			    Student student = students.get(i);
+			    Row studentRow = sheet.createRow(i + 2); // Offset by 2 to account for header rows
 
-            // Resize all columns to fit the content size
-            for (int i = 0; i < cellIndex; i++) {
-                sheet.autoSizeColumn(i);
-            }
+			    // Set the ASURite ID in the first column
+			    Cell asuriteCell = studentRow.createCell(0);
+			    asuriteCell.setCellValue(student.getAsurite());
 
-            // Write the output to a byte array
-            workbook.write(out);
-            return out.toByteArray();
+			    // Fill in points and comments for each student, under each criterion
+			    int studentDataCellIndex = 1; // Start from the second column
+			    for (String groupName : groupNames) {
+			        List<GradingCriteria> criteria = fetchGradingCriteriaByGroupName(groupName);
+			        for (GradingCriteria criterion : criteria) {
+			            // Fetch the corresponding StudentGrading object
+			            StudentGrading grading = studentGradingRepository.findByStudentIdAndGradingCriteriaId(student.getId(), criterion.getId())
+			                                        .orElse(new StudentGrading()); // Use a default empty object if not found
+
+			            // Set points and comments in consecutive cells
+			            studentRow.createCell(studentDataCellIndex++).setCellValue(grading.getScore());
+			            studentRow.createCell(studentDataCellIndex++).setCellValue(grading.getComment());
+			        }
+			    }
+			}
+
+			// Auto-size columns based on the content
+			for (int i = 0; i < groupCellIndex; i++) {
+			    sheet.autoSizeColumn(i);
+			}
+			
+			// Auto-size columns based on the content
+						for (int i = 0; i < criteriaCellIndex; i++) {
+						    sheet.autoSizeColumn(i);
+						}
+
+			// Write the workbook to an output stream
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			workbook.write(outputStream);
+			workbook.close();
+
+			// Return the byte array of the output stream
+			return outputStream.toByteArray();
+
         } catch (Exception e) {
             throw new RuntimeException("Failed to generate the grading Excel report", e);
         }

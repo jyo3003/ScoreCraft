@@ -86,12 +86,13 @@ public class ExportService {
         for (StudentGrading grading : gradings) {
             String criteriaName = grading.getGradingCriteria().getCriteriaName();
             double score = grading.getScore();
+            String comment = grading.getComment();
             double maxScore = grading.getGradingCriteria().getScore();
-            comments.append(String.format("%s: %.2f/%.2f\n", criteriaName, score, maxScore));
+            comments.append(String.format("%s: %s/%.2f\n\n", criteriaName, comment, maxScore));
         }
         // Assuming the freeform comment is appended last
         if (!gradings.isEmpty() && gradings.get(0).getStudent().getFreeformComment() != null) {
-            comments.append("Add on comment: ").append(gradings.get(0).getStudent().getFreeformComment());
+            comments.append("\nAdd on comment: ").append(gradings.get(0).getStudent().getFreeformComment());
         }
         // Set final comments
         String finalComments = comments.toString();
@@ -137,6 +138,8 @@ public class ExportService {
 			        criteriaNameCell.setCellValue(criterion.getCriteriaName());
 
 			        criteriaNameCell.setCellStyle(wrapStyle);
+			        
+			     
 
 			        // Skip the next cell for points (it will be empty, but space is reserved for the data row)
 			        criteriaCellIndex += 2; // Increment by 2 to account for the points and comments columns

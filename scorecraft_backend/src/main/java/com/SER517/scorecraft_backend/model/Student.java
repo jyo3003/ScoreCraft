@@ -17,7 +17,7 @@ public class Student {
     @Column(name = "asurite")
     private double asurite;
 
-    @Column(name = "final_comment",  length = 2048)
+    @Column(name = "final_comment",  length = 10240)
     private String finalComment;
 
     @Column(name = "final_score")

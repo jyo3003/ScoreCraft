@@ -104,11 +104,11 @@ Educators and grading staff seeking an efficient, transparent grading system ben
 
 ## Team Members
 
-Harshavardhan Bodepudi
-Jyothirmai Kantipudi
-Mohana Deepthi Karumanchi
-Sai Viswas Nirukonda
-Sri Shashank Mandava
-Manideep Nalluri
+-   Harshavardhan Bodepudi
+-   Jyothirmai Kantipudi
+-   Mohana Deepthi Karumanchi
+-   Sai Viswas Nirukonda
+-   Sri Shashank Mandava
+-   Manideep Nalluri
 
 We believe that ScoreCraft will significantly improve the efficiency and transparency of the project evaluation process.

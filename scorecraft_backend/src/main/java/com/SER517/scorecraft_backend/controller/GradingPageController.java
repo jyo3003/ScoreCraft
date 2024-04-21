@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -29,6 +31,21 @@ public class GradingPageController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/studentGrades")
+    public ResponseEntity<List<StudentWithGradesDTO>> getStudentGrades(@RequestParam List<Long> studentIds) {
+        try {
+            List<StudentWithGradesDTO> studentGradesList = new ArrayList<>();
+            for (Long studentId : studentIds) {
+                StudentWithGradesDTO studentGrades = gradingPageService.getStudentWithGrades(studentId);
+                studentGradesList.add(studentGrades);
+            }
+            return ResponseEntity.ok(studentGradesList);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
    
     

@@ -111,6 +111,7 @@ function NewCriteriaModal({ openModal, setOpenModal, modalData, setModalData }) 
                 alert("Criteria updated successfully!");
             }
             setOpenModal(false);
+            setValidationErrors({});
         } catch (error) {
             console.error("Error adding/updating criteria:", error);
             alert("Failed to add/update criteria: " + error.message);

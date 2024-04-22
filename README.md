@@ -42,9 +42,9 @@ ScoreCraft's backend is built using Spring Boot, a Java-based framework for buil
 
 #### Installation Steps:
 
-1. Install Java: Visit the [Java SE Downloads](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) page and download the appropriate JDK installer for your operating system. Follow the installation instructions.
+If you have Java already installed on your device you can skip this step
 
-2. Install Spring Boot: Spring Boot can be added as a dependency to your project using tools like Maven or Gradle. Alternatively, you can set up a new Spring Boot project using [Spring Initializr](https://start.spring.io/) and import it into your development environment.
+1. Install Java: Visit the [Java SE Downloads](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) page and download the appropriate JDK installer for your operating system. Follow the installation instructions.
 
 ### 3. MySQL (Database)
 

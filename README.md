@@ -32,10 +32,6 @@ ScoreCraft's frontend is built using React, a JavaScript library for building us
 
     npm -v # should print `10.5.0`
 
-2. Install React: Once Node.js is installed, open a terminal and run the following command to install React globally:
-
-    npm i -g react
-
 ### 2. Java and Spring Boot (Backend)
 
 ScoreCraft's backend is built using Spring Boot, a Java-based framework for building web applications.

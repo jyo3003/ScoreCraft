@@ -22,15 +22,19 @@ ScoreCraft's frontend is built using React, a JavaScript library for building us
 
 1. Install Node.js: Visit the [Node.js website](https://nodejs.org/en/download) and download the appropriate installer for your operating system. Follow the installation instructions.
 
-    Open the terminal and run the following
+Open the terminal and run the following
 
-    verifies the right Node.js version is in the environment
+verifies the right Node.js version is in the environment
 
-    node -v # should print `v20.12.2`
+    node -v
+   
+should print `v20.12.2`
 
-    verifies the right NPM version is in the environment
+verifies the right NPM version is in the environment
 
-    npm -v # should print `10.5.0`
+    npm -v
+    
+should print `10.5.0`
 
 ### 2. Java and Spring Boot (Backend)
 

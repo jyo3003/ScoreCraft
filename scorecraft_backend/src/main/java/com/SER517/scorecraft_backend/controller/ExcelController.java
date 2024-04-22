@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
-
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "", allowedHeaders = "")
 @RestController
 @RequestMapping("/api/excel")
 public class ExcelController {
@@ -39,5 +38,5 @@ public class ExcelController {
         return new ResponseEntity<>("File data saved successfully.", HttpStatus.OK);
     }
 
-    
+   
 }

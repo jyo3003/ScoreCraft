@@ -10,6 +10,66 @@ ScoreCraft is an innovative grading application designed to streamline the asses
 -   _Backend:_ Spring Boot
 -   _Database:_ MySQL
 
+## Installation of Required Software
+
+To run ScoreCraft on your local machine, you'll need to install the following software:
+
+### 1. Node.js and React (Frontend)
+
+ScoreCraft's frontend is built using React, a JavaScript library for building user interfaces.
+
+#### Installation Steps:
+
+1. Install Node.js: Visit the [Node.js website](https://nodejs.org/) and download the appropriate installer for your operating system. Follow the installation instructions.
+
+2. Install React: Once Node.js is installed, open a terminal and run the following command to install React globally:
+
+    npm install -g create-react-app
+
+### 2. Java and Spring Boot (Backend)
+
+ScoreCraft's backend is built using Spring Boot, a Java-based framework for building web applications.
+
+#### Installation Steps:
+
+1. Install Java: Visit the [Java SE Downloads](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) page and download the appropriate JDK installer for your operating system. Follow the installation instructions.
+
+2. Install Spring Boot: Spring Boot can be added as a dependency to your project using tools like Maven or Gradle. Alternatively, you can set up a new Spring Boot project using [Spring Initializr](https://start.spring.io/) and import it into your development environment.
+
+### 3. MySQL (Database)
+
+ScoreCraft uses MySQL as its database management system.
+
+#### Installation Steps:
+
+1. Install MySQL: Visit the [MySQL Downloads](https://dev.mysql.com/downloads/mysql/) page and download the appropriate installer for your operating system. Follow the installation instructions.
+
+2. Set up MySQL: After installation, start the MySQL server and open a terminal or command prompt. Run the following commands to create a new database named "capstone" and obtain the JDBC URL:
+
+    mysql -u root -p
+
+Enter your MySQL root password when prompted.
+
+CREATE DATABASE capstone;
+
+This command creates a new database named "capstone".
+
+SHOW VARIABLES LIKE 'port';
+
+This command will show the port number on which MySQL server is running. Note down the port number.
+
+SHOW VARIABLES LIKE 'hostname';
+
+This command will show the hostname of MySQL server. Note down the hostname.
+
+3. Obtain JDBC URL: Use the following format to construct the JDBC URL for connecting to the "capstone" database:
+
+    jdbc:mysql://<hostname>:<port>/capstone
+
+Replace `<hostname>` with the hostname obtained from the previous step and `<port>` with the port number.
+
+Once you have installed the required software and set up the MySQL database, you can follow the setup instructions provided in the [Setup Instructions](#setup-instructions) section to clone the repository and run ScoreCraft on your local machine.
+
 ## Setup Instructions
 
 1. _Clone the Repository:_
@@ -19,6 +79,16 @@ ScoreCraft is an innovative grading application designed to streamline the asses
     Switch to the Development Branch:
 
     git checkout DevBranch
+
+    Open applicaton.properties file and update the JDBC URL and password
+
+    In the end it should look something like this:
+
+    # Database properties
+
+    spring.datasource.url=jdbc:mysql://127.0.0.1:3306/capstone
+    spring.datasource.username=root
+    spring.datasource.password=Scooby@123
 
 2. _Run the Application:_
 

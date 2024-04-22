@@ -52,9 +52,32 @@ ScoreCraft uses MySQL as its database management system.
 
 2. Set up MySQL: After installation, start the MySQL server and open a terminal or command prompt. Run the following commands to create a new database named "capstone" and obtain the JDBC URL:
 
+On Mac it usually gets installed at /usr/local/mysql or something similar
+
+You can verify if MySQL was installed successfully by running the following command
+
+mysql --version
+
+If you face the following error
+zsh: command not found: mysql
+
+It means that you have to add mysql to your system's path
+
+On mac you can do that by running the following command
+
+export PATH="/usr/local/mysql/bin:$PATH"
+
+Now to try to run the following command again
+
+mysql --version
+
+If you get a response with the version information then mysql is installed successfully
+
+Now you can go ahead and set a password for your mysql server
+
     mysql -u root -p
 
-Enter your MySQL root password when prompted.
+Enter your MySQL root password when prompted. Set a new password for your server and remember that password.
 
 CREATE DATABASE capstone;
 

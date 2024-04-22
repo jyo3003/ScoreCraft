@@ -24,11 +24,11 @@ ScoreCraft's frontend is built using React, a JavaScript library for building us
 
     Open the terminal and run the following
 
-    # verifies the right Node.js version is in the environment
+    verifies the right Node.js version is in the environment
 
     node -v # should print `v20.12.2`
 
-    # verifies the right NPM version is in the environment
+    verifies the right NPM version is in the environment
 
     npm -v # should print `10.5.0`
 

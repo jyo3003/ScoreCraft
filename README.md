@@ -74,7 +74,7 @@ This command will show the hostname of MySQL server. Note down the hostname.
 
 3. Obtain JDBC URL: Use the following format to construct the JDBC URL for connecting to the "capstone" database:
 
-    jdbc:mysql://<hostname>:<port>/capstone
+    jdbc:mysql://hostname:port/capstone
 
 You will use the above JDBC URL later to connect to the "capstone" database
 

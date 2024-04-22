@@ -17,7 +17,7 @@ public class Student {
     @Column(name = "asurite")
     private double asurite;
 
-    @Column(name = "final_comment")
+    @Column(name = "final_comment",  length = 10240)
     private String finalComment;
 
     @Column(name = "final_score")
@@ -26,8 +26,32 @@ public class Student {
     @Column(name = "student_name")
     private String studentName;
 
+    @Column(name = "grading status")
+    private boolean gradingStatus;
+
 //    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<GradingCriteria> gradingCriteria;
+    
+ // Add a new field for the freeform comment
+    @Column(name = "freeform_comment", length = 1024) // Adjust length as needed
+    private String freeformComment;
+
+    // Getters and setters for the new field
+    public String getFreeformComment() {
+        return freeformComment;
+    }
+
+    public void setFreeformComment(String freeformComment) {
+        this.freeformComment = freeformComment;
+    }
+
+    public boolean getGradingStatus() {
+        return gradingStatus;
+    }
+
+    public void setGradingStatus(boolean gradingStatus) {
+        this.gradingStatus = gradingStatus;
+    }
 
     // Constructors
     public Student() {

@@ -1,77 +1,174 @@
-import axios from 'axios';
-import { Buffer } from 'buffer';
+import axios from "axios";
 
-// Adjust the API URL to match your backend endpoint
-const API_URL = 'http://localhost:8080/api';
+// Base API URL to match your backend endpoint
+const API_URL = "http://localhost:8080/api";
 
-export const uploadFile = async (file, resourceId) => {
-  try {
-    const formData = new FormData();
-    formData.append('file', file); // Adjust 'file' if your backend expects a different key
+// Axios instance for all API calls
+const api = axios.create({
+    baseURL: API_URL,
+});
 
-    // Include the resource ID in the URL if your backend requires it
-    const url = `${API_URL}/excel/upload`;
-    // const username = 'user';
-    // const password = '6e1b4648-724d-4a03-9ad8-0ac9fd6baf17';
-
-    // // Encode the username and password
-    // const credentials = Buffer.from(`${username}:${password}`).toString('base64');
-
-    const response = await axios.put(url, formData, {
-      headers: {
-        // Authorization: `Basic ${credentials}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    return response.data; // Assuming the backend sends back JSON data
-  } catch (error) {
-    if (error.response) {
-      throw new Error(error.response.data.message || "Error uploading file");
-    } else {
-      throw new Error("Network error or no response from server");
+export const downloadExcelTwoFile = async () => {
+    try {
+        const response = await api.get("/export/excel2", {
+            responseType: "blob", // Important: This tells Axios to handle the response as a Blob
+        });
+        return response.data; // This will be the blob representing your Excel file
+    } catch (error) {
+        throw new Error("Failed to download Detailed Excel file");
     }
-  }
 };
 
-export const fetchData = async () => {
-  try {
-    // Define the URL with parameters
-    const url = 'http://localhost:8080/api/excel/test2';
-
-    const formData = new FormData();
-    formData.append('data',{
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com"
+export const downloadExcelFile = async () => {
+    try {
+        const response = await api.get("/export/excel", {
+            responseType: "blob", // Important: This tells Axios to handle the response as a Blob
+        });
+        return response.data; // This will be the blob representing your Excel file
+    } catch (error) {
+        throw new Error("Failed to download Excel file");
     }
-    );
+};
 
-    // Define the username and password
-    // const username = 'user';
-    // const password = 'd2c9d3a0-7c37-4d97-9ca5-de72a5756196';
+//Adding new criteria
+export const addGradingCriteria = async (criteriaData) => {
+    try {
+        const response = await api.post("/gradingPage/gradingCriteria", criteriaData);
+        return response.data; // Assuming the endpoint returns some confirmation or the added entity
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.message || "Error adding grading criteria");
+        } else {
+            throw new Error("Network error or no response from server");
+        }
+    }
+};
 
-    // // Encode the username and password
-    // const credentials = Buffer.from(`${username}:${password}`).toString('base64');
+export const updateGradingCriteria = async (criteriaId, updatedCriteriaData) => {
+    try {
+        const response = await api.put(`/gradingPage/gradingCriteria/${criteriaId}`, updatedCriteriaData);
+        return response.data; // Assuming the endpoint returns some confirmation or the updated entity
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.message || "Error updating grading criteria");
+        } else {
+            throw new Error("Network error or no response from server");
+        }
+    }
+};
 
-    // // Configure the Axios request with the Authorization header
-    // const config = {
-    //   headers: {
-    //     Authorization: `Basic ${credentials}`,
-    //     // You can add other headers here if needed
-    //   },
-    // };
+export const deleteGradingCriteria = async (criteriaId) => {
+    try {
+        const response = await api.delete(`/gradingPage/gradingCriteria/${criteriaId}`);
+        return response.data; // Assuming the endpoint returns some confirmation message
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.message || "Error deleting grading criteria");
+        } else {
+            throw new Error("Network error or no response from server");
+        }
+    }
+};
 
-    // Send the GET request with the configured headers
-    const response = await axios.post(url, {
-      name: 'user',
-      password: '<PASSWORD>',
-    });
+// New API call for checking if data exists
+export const checkDataExists = async () => {
+    try {
+        const response = await api.get("/excel/checkDataExists");
+        return response.data; // Assuming the endpoint returns a boolean directly
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.message || "Error checking data existence");
+        } else {
+            throw new Error("Network error or no response from server");
+        }
+    }
+};
 
-    // Handle the response
-    console.log('Response:', response.data);
-  } catch (error) {
-    // Handle errors
-    console.error('Error:', error);
-  }
+//To get if it's group or individual assessment
+export const getAssessmentType = async () => {
+    try {
+        const response = await api.get("/excel/assessmentType"); // Use api instance that includes baseURL
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Grading Page API Calls
+export const gradingAPI = {
+    getAllGradingGroups: async (studentId) => {
+        try {
+            const response = await api.get(`/gradingPage/studentGrades/${studentId}`);
+            return response.data;
+        } catch (error) {
+            if (error.response) {
+                throw new Error(error.response.data.message || "Error fetching grading groups");
+            } else {
+                throw new Error("Network error or no response from server");
+            }
+        }
+    },
+    submitGrades: async (grades) => {
+        try {
+            const response = await api.post("/gradingPage/submitGrades", grades);
+            return response.data;
+        } catch (error) {
+            if (error.response) {
+                throw new Error(error.response.data.message || "Error submitting grades");
+            } else {
+                throw new Error("Network error or no response from server");
+            }
+        }
+    },
+};
+
+// API calls for uploading files
+export const uploadFile = async (file, resourceId) => {
+    try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const url = `${API_URL}/excel/upload`;
+        const response = await api.put(url, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.message || "Error uploading file");
+        } else {
+            throw new Error("Network error or no response from server");
+        }
+    }
+};
+
+// API calls for fetching students
+export const getStudents = async () => {
+    try {
+        const response = await api.get(`${API_URL}/main/students`);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.message || "Error fetching students");
+        } else {
+            throw new Error("Network error or no response from server");
+        }
+    }
+};
+
+// API calls for fetching students by group
+export const getStudentsByGroup = async () => {
+    try {
+        const response = await api.get(`${API_URL}/main/groups`);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.message || "Error fetching students by group");
+        } else {
+            throw new Error("Network error or no response from server");
+        }
+    }
 };

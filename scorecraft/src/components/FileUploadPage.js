@@ -1,90 +1,136 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../css/FileUploadPage.css';
-import grade from '../images/Grade.png';
-import home from '../images/home.png';
-import { uploadFile, fetchData as fetchDataAPI } from '../api';
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import "../css/FileUploadPage.css";
+import { uploadFile, checkDataExists, getAssessmentType } from "../api";
+import Header from "./Header";
 
 function FileUploadPage() {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadStatus, setUploadStatus] = useState('');
-  const [assessmentType, setAssessmentType] = useState('');
-  const [data, setData] = useState(null); // State to hold fetched data
-  const navigate = useNavigate();
-  const uploadSectionRef = useRef(null);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [uploadStatus, setUploadStatus] = useState("");
+    const [assessmentType, setAssessmentType] = useState("");
+    const [dataExists, setDataExists] = useState(null);
+    const navigate = useNavigate();
+    const uploadSectionRef = useRef(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedData = await fetchDataAPI();
-        setData(fetchedData); // Save the fetched data to state
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-      }
+    useEffect(() => {
+        const fetchDataExists = async () => {
+            try {
+                const exists = await checkDataExists();
+                setDataExists(exists);
+            } catch (error) {
+                console.error("Error checking data existence:", error);
+                setDataExists(false);
+            }
+        };
+        fetchDataExists();
+    }, []);
+
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
+        setUploadStatus(""); // Clear any previous upload status.
     };
 
-    fetchData();
-  }, []); // Empty dependency array means this runs once on component mount
+    const handleAssessmentTypeSelection = (type) => {
+        setAssessmentType(type);
+        setTimeout(() => {
+            uploadSectionRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }, 100);
+    };
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
+    const handleUpload = async () => {
+        if (!selectedFile) {
+            setUploadStatus("Please select a file to upload.");
+            return;
+        }
 
-  const handleAssessmentTypeSelection = (type) => {
-    setAssessmentType(type);
-    setTimeout(() => { // Adding a timeout to ensure the section is visible for scrolling
-      uploadSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-  };
+        try {
+            await uploadFile(selectedFile, "exampleResourceId");
+            setUploadStatus("File uploaded successfully.");
+            setSelectedFile(null); // Clear the file input after successful upload
+            navigate(`/${assessmentType}`);
+        } catch (error) {
+            let errorMessage = "An error occurred. Please try again.";
+            if (error.response) {
+                errorMessage = error.response.data.message || "Error connecting to the server.";
+            } else if (error.request) {
+                errorMessage = "The server did not respond. Please check your internet connection and try again.";
+            } else {
+                errorMessage = error.message;
+            }
+            console.error("Error uploading file:", errorMessage);
 
-  const handleUpload = async () => {
-    if (!selectedFile) {
-      setUploadStatus('Please select a file.');
-      return;
-    }
+            // Show alert with error message, then clear the message to allow for a new attempt.
+            alert(errorMessage); // Display the error to the user
+            setUploadStatus(""); // Clear the status to reset the state
+        }
+    };
 
-    try {
-      const resourceId = 'exampleResourceId'; // Placeholder, replace with actual logic
-      await uploadFile(selectedFile, resourceId);
-      setUploadStatus('File Upload Successful');
-      setSelectedFile(null);
-      navigate(`/${assessmentType}`);
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      setUploadStatus(error.message || 'Error uploading file');
-    }
-  };
+    const determineAssessmentTypeAndNavigate = async () => {
+        try {
+            const isGroup = await getAssessmentType();
+            if (isGroup) {
+                navigate("/MainPageGroup");
+            } else {
+                navigate("/MainPageIndividual");
+            }
+        } catch (error) {
+            console.error("Error determining assessment type:", error);
+            setUploadStatus("Failed to determine assessment type. Please try again.");
+        }
+    };
 
-  return (
-    <div>
-      <header className="header">
-        <img src={grade} alt="ScoreCraft Logo" className="pencil-logo" />
-        <h1>ScoreCraft</h1>
-        <button onClick={() => navigate('/')} className="home-button">
-          <img src={home} alt="Home Icon" />
-        </button>
-      </header>
-
-      <div className="container">
-        {!assessmentType ? (
-          <div className="grading-criteria">
-            <p className="grading-question">Is this grading criteria for a group or an individual assessment?</p>
-            <button type="button" onClick={() => handleAssessmentTypeSelection('MainPageGroup')}>Group</button>
-            <button type="button" onClick={() => handleAssessmentTypeSelection('MainPageIndividual')}>Individual</button>
-          </div>
-    
-        ) : null}
-        
-        <div ref={uploadSectionRef} className={`file-upload-section ${assessmentType ? 'active' : ''}`}>
-          <h2>File Upload</h2>
-          <input type="file" onChange={handleFileChange} accept=".xls,.xlsx" />
-          <button type="button" onClick={handleUpload} className="upload-button">Upload File</button>
-          {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
+    return (
+        <div>
+            <Header />
+            <div className="container">
+                {dataExists === null ? (
+                    <p>Checking for existing data...</p>
+                ) : dataExists ? (
+                    <div className="data-exists-question">
+                        <p className="data" style={{ color: "#000" }}>
+                            Do you want to use the existing data?
+                        </p>
+                        <button type="button" onClick={determineAssessmentTypeAndNavigate}>
+                            Yes
+                        </button>
+                        <button type="button" onClick={() => setDataExists(false)}>
+                            No
+                        </button>
+                    </div>
+                ) : (
+                    <>
+                        <div className="grading-criteria">
+                            <p className="grading-question" style={{ color: "#000" }}>
+                                Is this grading criteria for a group or an individual assessment?
+                            </p>
+                            <button type="button" onClick={() => handleAssessmentTypeSelection("MainPageGroup")}>
+                                Group
+                            </button>
+                            <button type="button" onClick={() => handleAssessmentTypeSelection("MainPageIndividual")}>
+                                Individual
+                            </button>
+                        </div>
+                        <div ref={uploadSectionRef} className={`file-upload-section ${assessmentType ? "active" : ""}`}>
+                            <h2 style={{ color: "#000" }}>File Upload</h2>
+                            <input
+                                type="file"
+                                style={{ color: "#000" }}
+                                onChange={handleFileChange}
+                                accept=".xls,.xlsx"
+                            />
+                            <button type="button" onClick={handleUpload} className="upload-button">
+                                Upload File
+                            </button>
+                            {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
+                        </div>
+                    </>
+                )}
+            </div>
         </div>
-      </div>
-    </div>
-    
-  );
+    );
 }
 
 export default FileUploadPage;

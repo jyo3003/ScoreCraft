@@ -1,5 +1,7 @@
 package com.SER517.scorecraft_backend.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,14 +18,35 @@ public class GradingCriteria {
 
     @Column(name = "score")
     private double score;
+    
+    
 
-    @Column(name = "type_of_criteria", length = 50)
+
+	@Column(name = "type_of_criteria", length = 50)
     private String typeOfCriteria;
 
     @Column(name = "grading_criteria_group_name", length = 100)
     private String gradingCriteriaGroupName;
+    
+    @ElementCollection
+    @CollectionTable(name = "grading_criteria_comments", joinColumns = @JoinColumn(name = "grading_criteria_id"))
+    @Column(name = "comment")
+    private List<String> comments; // Using @ElementCollection to store multiple comments
 
-    // Getters and setters
+    // Getters and Setters
+
+    public List<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<String> comments) {
+        this.comments = comments;
+    }
+    
+
+    
+
+	// Getters and setters
     public Long getId() {
         return id;
     }
@@ -63,4 +86,6 @@ public class GradingCriteria {
     public void setGradingCriteriaGroupName(String gradingCriteriaGroupName) {
         this.gradingCriteriaGroupName = gradingCriteriaGroupName;
     }
+    
+    
 }

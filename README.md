@@ -84,10 +84,12 @@ CREATE DATABASE capstone;
 This command creates a new database named "capstone".
 
 SHOW VARIABLES LIKE 'port';
+default port for MySQL is 3306
 
 This command will show the port number on which MySQL server is running. Note down the port number.
 
 SHOW VARIABLES LIKE 'hostname';
+default hostname for MySQL is localhost
 
 This command will show the hostname of MySQL server. Note down the hostname.
 

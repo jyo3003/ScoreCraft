@@ -113,19 +113,25 @@ Once you have installed the required software and set up the MySQL database, you
 
 1. _Clone the Repository:_
 
-    git clone https://github.com/jyo3003/SER517_Team16.git
+       git clone https://github.com/jyo3003/SER517_Team16.git
 
-    Switch to the Development Branch:
+Switch to the Development Branch:
 
     git checkout DevBranch
 
-    Open applicaton.properties file and update the JDBC URL and password
+Open applicaton.properties file and update the JDBC URL and password
 
-    In the end it should look something like this:
+In the end it should look something like this:
 
-    Example:
+Example:
 
     # Database properties
+
+    spring.datasource.url=jdbc:mysql://localhost:3306/capstone
+    spring.datasource.username=root
+    spring.datasource.password=Scooby@123
+
+    OR 
 
     spring.datasource.url=jdbc:mysql://127.0.0.1:3306/capstone
     spring.datasource.username=root
@@ -133,11 +139,11 @@ Once you have installed the required software and set up the MySQL database, you
 
 2. _Run the Application:_
 
-    open the terminal
+open the terminal
 
-    make sure you are in the right directory (i.e SER517_TEAM16)
+make sure you are in the right directory (i.e SER517_TEAM16)
 
-    run the following two commands:
+run the following two commands:
 
     chmod +x start.sh
 

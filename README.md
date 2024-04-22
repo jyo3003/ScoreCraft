@@ -20,11 +20,21 @@ ScoreCraft's frontend is built using React, a JavaScript library for building us
 
 #### Installation Steps:
 
-1. Install Node.js: Visit the [Node.js website](https://nodejs.org/) and download the appropriate installer for your operating system. Follow the installation instructions.
+1. Install Node.js: Visit the [Node.js website](https://nodejs.org/en/download) and download the appropriate installer for your operating system. Follow the installation instructions.
+
+    Open the terminal and run the following
+
+    # verifies the right Node.js version is in the environment
+
+    node -v # should print `v20.12.2`
+
+    # verifies the right NPM version is in the environment
+
+    npm -v # should print `10.5.0`
 
 2. Install React: Once Node.js is installed, open a terminal and run the following command to install React globally:
 
-    npm install -g create-react-app
+    npm i -g react
 
 ### 2. Java and Spring Boot (Backend)
 
@@ -66,6 +76,8 @@ This command will show the hostname of MySQL server. Note down the hostname.
 
     jdbc:mysql://<hostname>:<port>/capstone
 
+You will use the above JDBC URL later to connect to the "capstone" database
+
 Replace `<hostname>` with the hostname obtained from the previous step and `<port>` with the port number.
 
 Once you have installed the required software and set up the MySQL database, you can follow the setup instructions provided in the [Setup Instructions](#setup-instructions) section to clone the repository and run ScoreCraft on your local machine.
@@ -83,6 +95,8 @@ Once you have installed the required software and set up the MySQL database, you
     Open applicaton.properties file and update the JDBC URL and password
 
     In the end it should look something like this:
+
+    Example:
 
     # Database properties
 

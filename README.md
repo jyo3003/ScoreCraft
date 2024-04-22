@@ -56,20 +56,20 @@ On Mac it usually gets installed at /usr/local/mysql or something similar
 
 You can verify if MySQL was installed successfully by running the following command
 
-mysql --version
+    mysql --version
 
 If you face the following error
-zsh: command not found: mysql
+    zsh: command not found: mysql
 
 It means that you have to add mysql to your system's path
 
 On mac you can do that by running the following command
 
-export PATH="/usr/local/mysql/bin:$PATH"
+    export PATH="/usr/local/mysql/bin:$PATH"
 
 Now to try to run the following command again
 
-mysql --version
+    mysql --version
 
 If you get a response with the version information then mysql is installed successfully
 
@@ -79,16 +79,18 @@ Now you can go ahead and set a password for your mysql server
 
 Enter your MySQL root password when prompted. Set a new password for your server and remember that password.
 
-CREATE DATABASE capstone;
+    CREATE DATABASE capstone;
 
 This command creates a new database named "capstone".
 
-SHOW VARIABLES LIKE 'port';
+    SHOW VARIABLES LIKE 'port';
+
 default port for MySQL is 3306
 
 This command will show the port number on which MySQL server is running. Note down the port number.
 
-SHOW VARIABLES LIKE 'hostname';
+    SHOW VARIABLES LIKE 'hostname';
+
 default hostname for MySQL is localhost
 
 This command will show the hostname of MySQL server. Note down the hostname.

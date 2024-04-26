@@ -42,6 +42,10 @@ public class ExcelService {
 	    // Logic to determine the assessment type based on existing data
 		 // Check if group names exist in the Student table
         boolean groupNamesExist = studentRepository.existsByGroupNameNotNull();
+		if (studentRepository.existsByGroupNameNullOrEmpty()) {
+			groupNamesExist = false;
+		}
+		System.out.println(groupNamesExist);
         return groupNamesExist;
 	}
 

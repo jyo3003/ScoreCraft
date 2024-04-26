@@ -21,7 +21,6 @@ function NewCriteriaModal({ openModal, setOpenModal, modalData, setModalData }) 
         criteriaScore: "",
         typeOfCriteria: "",
         gradingCriteriaGroupName: "",
-        gradedScore: "",
         predefinedComments: "",
     });
     const [predefinedComments, setPredefinedComments] = useState("");
@@ -43,7 +42,6 @@ function NewCriteriaModal({ openModal, setOpenModal, modalData, setModalData }) 
                 criteriaScore: "",
                 typeOfCriteria: "",
                 gradingCriteriaGroupName: "",
-                gradedScore: "",
                 predefinedComments: "",
             });
             setPredefinedComments("");
@@ -98,7 +96,6 @@ function NewCriteriaModal({ openModal, setOpenModal, modalData, setModalData }) 
             criteriaScore: newCriteria.criteriaScore,
             typeOfCriteria: newCriteria.typeOfCriteria,
             gradingCriteriaGroupName: newCriteria.gradingCriteriaGroupName,
-            gradedScore: newCriteria.gradedScore,
             predefinedComments: comments,
         };
 

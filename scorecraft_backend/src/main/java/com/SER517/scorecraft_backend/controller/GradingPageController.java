@@ -1,5 +1,6 @@
 package com.SER517.scorecraft_backend.controller;
 
+import com.SER517.scorecraft_backend.dto.CriteriaDTO;
 import com.SER517.scorecraft_backend.dto.GradingCriteriaDTO;
 import com.SER517.scorecraft_backend.dto.StudentGradeDTO;
 import com.SER517.scorecraft_backend.dto.StudentGradeFreeComment;
@@ -58,7 +59,7 @@ public class GradingPageController {
 
     
     @PostMapping("/gradingCriteria")
-    public ResponseEntity<String> addGradingCriteria(@RequestBody GradingCriteriaDTO gradingCriteriaDTO) {
+    public ResponseEntity<String> addGradingCriteria(@RequestBody CriteriaDTO gradingCriteriaDTO) {
         try {
             gradingPageService.addGradingCriteria(gradingCriteriaDTO);
             return ResponseEntity.ok("Criteria added successfully");
@@ -70,12 +71,13 @@ public class GradingPageController {
     @PutMapping("/gradingCriteria/{criteriaId}")
     public ResponseEntity<String> updateGradingCriteria(
         @PathVariable Long criteriaId,
-        @RequestBody GradingCriteriaDTO updatedCriteriaDTO
+        @RequestBody CriteriaDTO updatedCriteriaDTO
     ) {
         try {
             gradingPageService.updateGradingCriteria(criteriaId, updatedCriteriaDTO);
             return ResponseEntity.ok("Criteria updated successfully");
         } catch (Exception e) {
+            System.out.println("Error updating criteria" + e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error updating criteria");
         }
     }

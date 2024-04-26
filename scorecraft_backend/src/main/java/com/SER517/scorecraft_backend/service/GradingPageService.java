@@ -7,8 +7,10 @@ import com.SER517.scorecraft_backend.repository.GradingCriteriaRepository;
 import com.SER517.scorecraft_backend.repository.StudentGradingRepository;
 import com.SER517.scorecraft_backend.repository.StudentRepository;
 
+import ch.qos.logback.core.boolex.Matcher;
 import jakarta.transaction.Transactional;
 
+import com.SER517.scorecraft_backend.dto.CriteriaDTO;
 import com.SER517.scorecraft_backend.dto.GradingCriteriaDTO;
 import com.SER517.scorecraft_backend.dto.StudentGradeDTO;
 import com.SER517.scorecraft_backend.dto.StudentGradeFreeComment;
@@ -24,6 +26,8 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.regex.Pattern;
 
 @Service
 public class GradingPageService {
@@ -160,7 +164,7 @@ public class GradingPageService {
     }
 
 
-    public void addGradingCriteria(GradingCriteriaDTO gradingCriteriaDTO) {
+    public void addGradingCriteria(CriteriaDTO gradingCriteriaDTO) {
         GradingCriteria gradingCriteria = new GradingCriteria();
         
         // Mapping DTO fields to GradingCriteria entity
@@ -177,10 +181,52 @@ public class GradingPageService {
     }
 
     @Transactional
-    public void updateGradingCriteria(Long criteriaId, GradingCriteriaDTO updatedCriteriaDTO) {
+    public void updateGradingCriteria(Long criteriaId, CriteriaDTO updatedCriteriaDTO) {
         // Fetch the grading criteria from the repository
         GradingCriteria gradingCriteria = gradingCriteriaRepository.findById(criteriaId)
                 .orElseThrow(() -> new EntityNotFoundException("Grading criteria not found with ID: " + criteriaId));
+
+        // Update comments for already graded students
+        List<StudentGrading> gradedStudents = studentGradingRepository.findByGradingCriteriaId(criteriaId);
+        for (StudentGrading studentGrading : gradedStudents) {
+            // Get the index of the old comment associated with the student grading
+            int commentIndex = gradingCriteria.getComments().indexOf(studentGrading.getComment());
+            if (commentIndex != -1) {
+                if(commentIndex >= updatedCriteriaDTO.getPredefinedComments().size()){
+                    studentGrading.setComment("");
+                    studentGrading.setScore(-100);
+                }
+                else{
+                    // Update the comment to the equivalent comment in the new list
+                    String newComment = updatedCriteriaDTO.getPredefinedComments().get(commentIndex);
+
+                    // Use regular expression to extract the score enclosed within parentheses
+                    Pattern pattern = Pattern.compile("\\((\\d+(\\.\\d+)?)\\)$");
+                    java.util.regex.Matcher matcher = pattern.matcher(newComment);
+
+                    // Check if the pattern matches
+                    if (matcher.find()) {
+                        // Extract the score from the matched group
+                        String scoreString = matcher.group(1);
+                        try {
+                            double newScore = Double.parseDouble(scoreString);
+                            studentGrading.setScore(newScore);
+                        } catch (NumberFormatException e) {
+                            // If parsing fails, log an error or handle it accordingly
+                            System.err.println("Invalid score format: " + scoreString);
+                        }
+                    } else {
+                        // If the pattern does not match, log an error or handle it accordingly
+                        System.err.println("Score not found in comment: " + newComment);
+                    }
+
+                    // Set the new comment
+                    studentGrading.setComment(newComment);
+                }
+            }
+        }
+        // Save the updated comments for already graded students
+        studentGradingRepository.saveAll(gradedStudents);
 
         // Update the grading criteria with the data from the DTO
         gradingCriteria.setCriteriaName(updatedCriteriaDTO.getCriteriaName());
@@ -202,6 +248,8 @@ public class GradingPageService {
 
         // Save the updated grading criteria back to the repository
         gradingCriteriaRepository.save(gradingCriteria);
+
+
     }
 
     @Transactional

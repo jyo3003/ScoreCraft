@@ -103,6 +103,15 @@ Replace `<hostname>` with the hostname obtained from the previous step and `<por
 
 Once you have installed the required software and set up the MySQL database, you can follow the setup instructions provided in the [Setup Instructions](#setup-instructions) section to clone the repository and run ScoreCraft on your local machine.
 
+4. Install mvn using homebrew(Mac).
+    Update Homebrew: Before installing Maven, it's a good idea to update Homebrew to ensure you have the latest formulae and package versions. You can do this by running:
+        brew update
+    Install Maven: Once Homebrew is updated, you can install Maven by running:
+        brew install maven
+    Verify Installation: After the installation is complete, you can verify that Maven is installed correctly by running:
+        mvn -v
+    This command should display the Maven version and other information if the installation was successful.
+
 ## Setup Instructions
 
 1. _Clone the Repository:_
@@ -139,6 +148,10 @@ Once you have installed the required software and set up the MySQL database, you
 
 3. _Access the Application:_
     - Open your browser and navigate to the specified URL (usually http://localhost:3000).
+    - Below are the Excel sheets for testing and format use.
+      Individual excel : https://docs.google.com/spreadsheets/d/1HWao1V-wiXRTab610YML7jGqH2Zz16Kw/edit?usp=sharing&ouid=103851536925407236815&rtpof=true&sd=true
+      Group excel : https://docs.google.com/spreadsheets/d/1oHj3lleeP27boleJ5wswW5jy0eCM_VWZ/edit?usp=sharing&ouid=103851536925407236815&rtpof=true&sd=true
+        
 
 ## Features
 
